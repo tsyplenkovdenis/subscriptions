@@ -23,7 +23,7 @@
     <meta name="apple-mobile-web-app-title" content="Подписки">
     <meta name="theme-color" content="#007aff">
     <style>
-        /* ----- iOS 26 Liquid Glass Theme ----- */
+        /* ----- iOS 26 Liquid Glass Theme (восстановленные стили) ----- */
         :root {
             --primary-blue: #007aff;
             --glass-bg-light: rgba(255, 255, 255, 0.45);
@@ -268,27 +268,43 @@
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.2);
             backdrop-filter: blur(20px);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
+            z-index:2000;
+            align-items:center;
+            justify-content:center;
         }
-        .modal.active { display: flex; }
+        .modal.active { display:flex; }
         .modal-content {
-            background: rgba(255,255,255,0.85);
+            background: rgba(255,255,255,0.75);
             backdrop-filter: blur(40px);
-            border-radius: 36px;
-            padding: 32px 28px;
-            width: 380px;
-            max-width: 92vw;
+            -webkit-backdrop-filter: blur(40px);
+            border-radius:36px;
+            padding:32px 28px;
+            width:380px;
+            max-width:92vw;
             box-shadow: var(--shadow-lg), inset 0 0 0 1px rgba(255,255,255,0.8);
+            border:0.5px solid rgba(255,255,255,0.5);
         }
         @media (prefers-color-scheme: dark) {
-            .modal-content { background: rgba(30,30,34,0.85); }
+            .modal-content {
+                background: rgba(30,30,34,0.75);
+                color:#fff;
+            }
         }
 
-        .form-group { margin-bottom: 22px; }
-        .form-group label { font-size: 14px; font-weight: 600; opacity: 0.8; }
-        .form-group input, .form-group select {
+        /* Восстановленные стили полей — прозрачные, светлые */
+        .form-group {
+            margin-bottom: 22px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 6px;
+            font-weight: 600;
+            opacity: 0.8;
+            letter-spacing: -0.01em;
+        }
+        .form-group input,
+        .form-group select {
             width: 100%;
             padding: 14px 16px;
             border: 1px solid rgba(120,120,128,0.2);
@@ -296,18 +312,64 @@
             font-size: 17px;
             background: rgba(255,255,255,0.5);
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #1c1c1e;
+            outline: none;
+            transition: border 0.15s;
         }
-        input[type="date"] { text-align: left; }
-        .period-quantity-row { display: flex; gap: 12px; }
-        .period-select { flex: 2; }
-        .quantity-input { flex: 1; }
-        .quantity-input input { text-align: center; }
+        @media (prefers-color-scheme: dark) {
+            .form-group input,
+            .form-group select {
+                background: rgba(20,20,24,0.5);
+                color: white;
+                border-color: rgba(255,255,255,0.1);
+            }
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #007aff;
+        }
 
-        .form-buttons { display: flex; gap: 14px; margin-top: 28px; }
-        .btn-save { background: #007aff; color: white; }
-        .btn-cancel { background: rgba(120,120,128,0.15); }
+        /* Исправление выравнивания даты */
+        input[type="date"] {
+            text-align: left;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        input[type="date"]::-webkit-date-and-time-value {
+            text-align: left;
+        }
 
-        /* Меню экспорта/импорта */
+        .period-quantity-row {
+            display: flex;
+            gap: 12px;
+        }
+        .period-select {
+            flex: 2;
+        }
+        .quantity-input {
+            flex: 1;
+        }
+        .quantity-input input {
+            text-align: center;
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 14px;
+            margin-top: 28px;
+        }
+        .btn-save {
+            background: #007aff;
+            color: white;
+            border: none;
+        }
+        .btn-cancel {
+            background: rgba(120,120,128,0.15);
+            color: #1c1c1e;
+        }
+
+        /* Меню */
         .menu-modal .modal-content {
             padding: 24px;
             width: 300px;
@@ -328,13 +390,18 @@
             color: #1c1c1e;
         }
         @media (prefers-color-scheme: dark) {
-            .menu-item { background: rgba(60,60,65,0.5); color: white; }
+            .menu-item {
+                background: rgba(60,60,65,0.5);
+                color: white;
+            }
         }
-        .menu-item:active { background: rgba(255,255,255,0.6); }
+        .menu-item:active {
+            background: rgba(255,255,255,0.6);
+        }
     </style>
 </head>
 <body>
-    <!-- Хедер с двумя кнопками -->
+    <!-- Хедер -->
     <header class="app-header">
         <div class="header-title">Мои подписки</div>
         <div class="header-actions">
@@ -357,7 +424,7 @@
         <div class="cards" id="cards"></div>
     </div>
 
-    <!-- Модалка добавления/редактирования -->
+    <!-- Модалка подписки -->
     <div class="modal" id="modal">
         <div class="modal-content">
             <h2 id="modal-title" style="margin-bottom:24px; font-weight:700;">Новая подписка</h2>
@@ -412,7 +479,6 @@
             let subscriptions = JSON.parse(localStorage.getItem('subscriptions')) || [];
             let editingId = null;
 
-            // ---------- Базовые функции ----------
             function saveToStorage() {
                 localStorage.setItem('subscriptions', JSON.stringify(subscriptions));
             }
@@ -513,8 +579,59 @@
                 updateSummary();
             }
 
-            // ---------- Экспорт / Импорт ----------
-            function convertToCSV() {
+            // ---------- УЛУЧШЕННЫЙ ИМПОРТ CSV (поддержка Excel) ----------
+            function parseCSV(text) {
+                // Убираем BOM
+                if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+                const lines = text.split(/\r?\n/).filter(line => line.trim());
+                if (lines.length < 2) return [];
+                
+                // Определяем разделитель: запятая или точка с запятой
+                const firstLine = lines[0];
+                const delimiter = firstLine.includes(';') ? ';' : ',';
+                
+                // Парсим заголовки
+                const headers = firstLine.split(delimiter).map(h => h.replace(/^"|"$/g, '').trim());
+                
+                const data = [];
+                for (let i = 1; i < lines.length; i++) {
+                    const line = lines[i];
+                    // Простой, но надёжный разбор с учётом кавычек
+                    const values = [];
+                    let current = '';
+                    let inQuotes = false;
+                    for (let j = 0; j < line.length; j++) {
+                        const char = line[j];
+                        if (char === '"') {
+                            inQuotes = !inQuotes;
+                        } else if (char === delimiter && !inQuotes) {
+                            values.push(current);
+                            current = '';
+                        } else {
+                            current += char;
+                        }
+                    }
+                    values.push(current);
+                    
+                    const cleanValues = values.map(v => v.replace(/^"|"$/g, '').trim());
+                    if (cleanValues.length !== headers.length) continue;
+                    
+                    const obj = {};
+                    headers.forEach((h, idx) => {
+                        obj[h] = cleanValues[idx];
+                    });
+                    
+                    // Приведение типов
+                    obj.amount = parseFloat(obj.amount) || 0;
+                    obj.periodCount = parseInt(obj.periodCount) || 1;
+                    // Если id нет — сгенерируем
+                    if (!obj.id) obj.id = Date.now().toString(36) + Math.random().toString(36).substr(2,6);
+                    data.push(obj);
+                }
+                return data;
+            }
+
+            window.exportData = function() {
                 const headers = ['id', 'name', 'amount', 'period', 'periodCount', 'nextPayment'];
                 const rows = subscriptions.map(sub => [
                     sub.id,
@@ -527,16 +644,11 @@
                 const csvContent = [headers, ...rows].map(row => 
                     row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')
                 ).join('\n');
-                return csvContent;
-            }
-
-            window.exportData = function() {
-                const csv = convertToCSV();
-                const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' }); // BOM для Excel
+                const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
                 const link = document.createElement('a');
                 const url = URL.createObjectURL(blob);
-                link.setAttribute('href', url);
-                link.setAttribute('download', `subscriptions_${new Date().toISOString().slice(0,10)}.csv`);
+                link.href = url;
+                link.download = `subscriptions_${new Date().toISOString().slice(0,10)}.csv`;
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
@@ -549,33 +661,6 @@
                 closeMenuModal();
             };
 
-            function parseCSV(text) {
-                const lines = text.split('\n').filter(line => line.trim());
-                if (lines.length < 2) return [];
-                const headers = lines[0].split(',').map(h => h.replace(/^"|"$/g, '').trim());
-                const data = [];
-                for (let i = 1; i < lines.length; i++) {
-                    const values = [];
-                    let inQuotes = false;
-                    let current = '';
-                    for (let char of lines[i]) {
-                        if (char === '"') inQuotes = !inQuotes;
-                        else if (char === ',' && !inQuotes) { values.push(current); current = ''; }
-                        else current += char;
-                    }
-                    values.push(current);
-                    const cleanValues = values.map(v => v.replace(/^"|"$/g, '').trim());
-                    if (cleanValues.length !== headers.length) continue;
-                    const obj = {};
-                    headers.forEach((h, idx) => { obj[h] = cleanValues[idx]; });
-                    // Преобразование типов
-                    obj.amount = parseFloat(obj.amount) || 0;
-                    obj.periodCount = parseInt(obj.periodCount) || 1;
-                    data.push(obj);
-                }
-                return data;
-            }
-
             document.getElementById('importFileInput').addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 if (!file) return;
@@ -583,14 +668,18 @@
                 reader.onload = (ev) => {
                     try {
                         const imported = parseCSV(ev.target.result);
-                        if (imported.length === 0) { alert('Файл пуст или неверный формат'); return; }
+                        if (imported.length === 0) {
+                            alert('Файл не содержит данных или имеет неверный формат.');
+                            return;
+                        }
                         if (confirm(`Заменить текущие подписки (${subscriptions.length}) на ${imported.length} из файла?`)) {
                             subscriptions = imported;
                             saveToStorage();
                             renderCards();
                         }
                     } catch (err) {
-                        alert('Ошибка чтения файла');
+                        alert('Ошибка при чтении файла.');
+                        console.error(err);
                     }
                     e.target.value = '';
                 };
@@ -636,11 +725,16 @@
                 const periodCount = parseInt(document.getElementById('period-count').value) || 1;
                 const nextPayment = document.getElementById('next-payment').value;
                 if (!name || amount <= 0) { alert('Введите название и стоимость'); return; }
-                const data = { id: editingId || Date.now().toString(36) + Math.random().toString(36).substr(2,6), name, amount, period, periodCount, nextPayment };
+                const data = {
+                    id: editingId || Date.now().toString(36) + Math.random().toString(36).substr(2,6),
+                    name, amount, period, periodCount, nextPayment
+                };
                 if (editingId) {
                     const idx = subscriptions.findIndex(s => s.id === editingId);
                     if (idx !== -1) subscriptions[idx] = data;
-                } else subscriptions.push(data);
+                } else {
+                    subscriptions.push(data);
+                }
                 saveToStorage();
                 closeModal();
                 renderCards();
@@ -655,9 +749,9 @@
                 }
             };
 
-            // SW
+            // Service Worker
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE='subs-v5';self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['./'])))});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)))});`;
+                const swCode = `const CACHE='subs-v6';self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['./'])))});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)))});`;
                 const blob = new Blob([swCode], {type:'application/javascript'});
                 navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
             }
