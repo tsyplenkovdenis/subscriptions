@@ -407,6 +407,33 @@
             border-color: #007aff;
         }
 
+        /* Исправление: выравнивание текста в поле даты по левому краю */
+        input[type="date"] {
+            text-align: left;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        /* Для iOS корректируем отображение */
+        input[type="date"]::-webkit-date-and-time-value {
+            text-align: left;
+        }
+
+        /* Стили для блока с выбором количества периодов */
+        .period-quantity-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .period-select {
+            flex: 2;
+        }
+        .quantity-input {
+            flex: 1;
+        }
+        .quantity-input input {
+            text-align: center;
+        }
+
         .form-buttons {
             display: flex;
             gap: 14px;
@@ -454,7 +481,7 @@
         <div class="cards" id="cards"></div>
     </div>
 
-    <!-- Модальное окно (без изменений) -->
+    <!-- Модальное окно -->
     <div class="modal" id="modal">
         <div class="modal-content">
             <h2 id="modal-title" style="margin-bottom:24px; font-weight:700;">Новая подписка</h2>
@@ -467,14 +494,23 @@
                     <label>Стоимость (₽)</label>
                     <input type="number" id="amount" min="0" step="0.01" required placeholder="299">
                 </div>
+                
+                <!-- Блок с выбором периода и количества -->
                 <div class="form-group">
                     <label>Периодичность</label>
-                    <select id="period">
-                        <option value="week">Неделя</option>
-                        <option value="month" selected>Месяц</option>
-                        <option value="year">Год</option>
-                    </select>
+                    <div class="period-quantity-row">
+                        <select id="period" class="period-select">
+                            <option value="week">Неделя</option>
+                            <option value="month" selected>Месяц</option>
+                            <option value="year">Год</option>
+                        </select>
+                        <div class="quantity-input">
+                            <input type="number" id="period-count" min="1" value="1" step="1" required>
+                        </div>
+                    </div>
+                    <div style="font-size: 13px; opacity: 0.6; margin-top: 4px;">Количество периодов</div>
                 </div>
+
                 <div class="form-group">
                     <label>Дата следующего платежа</label>
                     <input type="date" id="next-payment" required>
@@ -496,11 +532,17 @@
                 localStorage.setItem('subscriptions', JSON.stringify(subscriptions));
             }
 
-            function calculateNextPayment(currentDate, period) {
+            // Вычисление следующей даты с учётом множителя
+            function calculateNextPayment(currentDate, period, count = 1) {
                 const next = new Date(currentDate);
-                if (period === 'week') next.setDate(next.getDate() + 7);
-                else if (period === 'month') next.setMonth(next.getMonth() + 1);
-                else if (period === 'year') next.setFullYear(next.getFullYear() + 1);
+                const multiplier = parseInt(count) || 1;
+                if (period === 'week') {
+                    next.setDate(next.getDate() + (7 * multiplier));
+                } else if (period === 'month') {
+                    next.setMonth(next.getMonth() + multiplier);
+                } else if (period === 'year') {
+                    next.setFullYear(next.getFullYear() + multiplier);
+                }
                 return next;
             }
 
@@ -510,15 +552,16 @@
                 return Math.ceil((target - now) / (1000*60*60*24));
             }
 
-            // Автопродление просроченных
+            // Автопродление просроченных (с учётом periodCount)
             function refreshOverdueSubscriptions() {
                 let changed = false;
                 const today = new Date(); today.setHours(0,0,0,0);
                 for (let sub of subscriptions) {
                     let paymentDate = new Date(sub.nextPayment); paymentDate.setHours(0,0,0,0);
                     let days = daysUntil(paymentDate);
+                    const count = sub.periodCount || 1;
                     while (days <= 0) {
-                        const newDate = calculateNextPayment(paymentDate, sub.period);
+                        const newDate = calculateNextPayment(paymentDate, sub.period, count);
                         paymentDate = new Date(newDate); paymentDate.setHours(0,0,0,0);
                         days = daysUntil(paymentDate);
                         changed = true;
@@ -533,10 +576,11 @@
             function calculateMonthlyTotal() {
                 return subscriptions.reduce((total, sub) => {
                     const amount = parseFloat(sub.amount) || 0;
+                    const count = sub.periodCount || 1;
                     switch (sub.period) {
-                        case 'week': return total + (amount / 7 * 30);
-                        case 'month': return total + amount;
-                        case 'year': return total + (amount / 12);
+                        case 'week': return total + ((amount / 7 * 30) / count);
+                        case 'month': return total + (amount / count);
+                        case 'year': return total + (amount / (12 * count));
                         default: return total;
                     }
                 }, 0);
@@ -572,10 +616,15 @@
                     const days = daysUntil(new Date(sub.nextPayment));
                     const dateStr = new Date(sub.nextPayment).toLocaleDateString('ru-RU', {day:'numeric', month:'long', year:'numeric'});
                     const urgent = days <= 3;
+                    // Отображение периода с учётом множителя
+                    let periodText = sub.period === 'week' ? 'нед' : (sub.period === 'month' ? 'мес' : 'год');
+                    const count = sub.periodCount || 1;
+                    if (count > 1) periodText = count + ' ' + periodText;
+                    
                     return `
                         <div class="card" onclick="editSubscription('${sub.id}')">
                             <div class="card-title">${escapeHtml(sub.name) || 'Без названия'}</div>
-                            <div class="card-amount">${parseFloat(sub.amount).toFixed(0)} ₽</div>
+                            <div class="card-amount">${parseFloat(sub.amount).toFixed(0)} ₽ / ${periodText}</div>
                             <div class="card-date">📅 ${dateStr}</div>
                             <div class="card-days ${urgent ? 'urgent' : ''}">${days} ${getDaysWord(days)}</div>
                             <div class="card-buttons">
@@ -599,11 +648,13 @@
                         document.getElementById('name').value = sub.name;
                         document.getElementById('amount').value = sub.amount;
                         document.getElementById('period').value = sub.period;
+                        document.getElementById('period-count').value = sub.periodCount || 1;
                         document.getElementById('next-payment').value = sub.nextPayment;
                         title.textContent = 'Изменить подписку';
                     }
                 } else {
                     form.reset();
+                    document.getElementById('period-count').value = 1;
                     const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate()+1);
                     document.getElementById('next-payment').valueAsDate = tomorrow;
                     title.textContent = 'Новая подписка';
@@ -625,9 +676,17 @@
                 const name = document.getElementById('name').value.trim();
                 const amount = parseFloat(document.getElementById('amount').value) || 0;
                 const period = document.getElementById('period').value;
+                const periodCount = parseInt(document.getElementById('period-count').value) || 1;
                 const nextPayment = document.getElementById('next-payment').value;
                 if (!name || amount <= 0) { alert('Введите название и корректную стоимость'); return; }
-                const data = { id: editingId || generateId(), name, amount, period, nextPayment };
+                const data = { 
+                    id: editingId || generateId(), 
+                    name, 
+                    amount, 
+                    period, 
+                    periodCount,
+                    nextPayment 
+                };
                 if (editingId) {
                     const index = subscriptions.findIndex(s => s.id === editingId);
                     if (index !== -1) subscriptions[index] = data;
@@ -648,7 +707,7 @@
 
             // SW
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE='subs-v3';self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['./'])))});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)))});`;
+                const swCode = `const CACHE='subs-v4';self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['./'])))});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)))});`;
                 const blob = new Blob([swCode], {type:'application/javascript'});
                 navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
             }
