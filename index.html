@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Отслеживание подписок</title>
-    <!-- PWA манифест с новой стильной иконкой в стиле Liquid Glass -->
+    <!-- PWA манифест с иконкой Liquid Glass -->
     <link rel="manifest" href="data:application/manifest+json,{
         %22name%22:%22Подписки%22,
         %22short_name%22:%22Subscriptions%22,
@@ -58,7 +58,7 @@
             }
         }
 
-        /* ----- ЗАФИКСИРОВАННАЯ ВЕРХНЯЯ ПАНЕЛЬ (не скроллится) ----- */
+        /* ----- ЗАФИКСИРОВАННАЯ ВЕРХНЯЯ ПАНЕЛЬ ----- */
         .app-header {
             position: fixed;
             top: 0;
@@ -98,7 +98,12 @@
             }
         }
 
-        .header-add-btn {
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header-btn {
             width: 48px;
             height: 48px;
             border-radius: 30px;
@@ -108,7 +113,7 @@
             border: 0.5px solid rgba(255,255,255,0.8);
             box-shadow: var(--shadow-sm);
             color: var(--primary-blue);
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 300;
             display: flex;
             align-items: center;
@@ -116,16 +121,19 @@
             cursor: pointer;
             transition: all 0.15s;
             line-height: 1;
+        }
+        .header-btn.add-btn {
+            font-size: 28px;
             padding-bottom: 4px;
         }
         @media (prefers-color-scheme: dark) {
-            .header-add-btn {
+            .header-btn {
                 background: rgba(60,60,65,0.6);
                 border-color: rgba(255,255,255,0.1);
                 color: #0a84ff;
             }
         }
-        .header-add-btn:active {
+        .header-btn:active {
             transform: scale(0.92);
             background: rgba(255,255,255,0.9);
         }
@@ -136,7 +144,7 @@
             padding: 20px 20px 40px;
         }
 
-        /* Плашка с расходами — месяц + год */
+        /* Плашка с расходами */
         .monthly-summary {
             background: var(--glass-bg-light);
             backdrop-filter: blur(30px) saturate(180%);
@@ -146,7 +154,6 @@
             margin-bottom: 28px;
             box-shadow: var(--shadow-lg), inset 0 0 0 1px var(--glass-border-light);
             border: 0.5px solid rgba(255,255,255,0.3);
-            transition: all 0.2s ease;
         }
         @media (prefers-color-scheme: dark) {
             .monthly-summary {
@@ -170,14 +177,7 @@
             font-size: 36px;
             font-weight: 800;
             letter-spacing: -0.02em;
-            color: #1c1c1e;
         }
-        @media (prefers-color-scheme: dark) {
-            .summary-amount {
-                color: white;
-            }
-        }
-
         .yearly-row {
             display: flex;
             justify-content: space-between;
@@ -188,15 +188,13 @@
         .yearly-label {
             font-size: 15px;
             opacity: 0.6;
-            font-weight: 450;
         }
         .yearly-amount {
             font-size: 22px;
             font-weight: 700;
-            opacity: 0.9;
         }
 
-        /* Карточки подписок — жидкое стекло */
+        /* Карточки */
         .cards {
             display: flex;
             flex-direction: column;
@@ -209,10 +207,9 @@
             -webkit-backdrop-filter: blur(30px) saturate(180%);
             border-radius: 28px;
             padding: 22px 20px;
-            color: #1c1c1e;
             position: relative;
             cursor: pointer;
-            transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1), box-shadow 0.3s;
+            transition: transform 0.25s, box-shadow 0.3s;
             box-shadow: var(--shadow-sm), inset 0 0 0 1px var(--glass-border-light);
             border: 0.5px solid rgba(255,255,255,0.4);
             overflow: hidden;
@@ -222,169 +219,75 @@
                 background: var(--glass-bg-dark);
                 box-shadow: var(--shadow-sm), inset 0 0 0 1px var(--glass-border-dark);
                 border-color: rgba(255,255,255,0.08);
-                color: #ffffff;
             }
         }
 
         .card::after {
             content: "";
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at 20% 25%, rgba(255,255,255,0.5) 0%, transparent 70%);
             opacity: 0;
             transition: opacity 0.3s;
             pointer-events: none;
             border-radius: 28px;
         }
-        .card:hover::after {
-            opacity: 0.5;
-        }
-        @media (prefers-color-scheme: dark) {
-            .card::after {
-                background: radial-gradient(circle at 20% 25%, rgba(255,255,255,0.15) 0%, transparent 70%);
-            }
-        }
+        .card:hover::after { opacity: 0.5; }
 
         .card:hover {
             transform: translateY(-4px);
             box-shadow: var(--shadow-lg), inset 0 0 0 1px rgba(255,255,255,0.6);
         }
 
-        .card-title {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 6px;
-            letter-spacing: -0.01em;
-        }
+        .card-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+        .card-amount { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
+        .card-date { font-size: 15px; opacity: 0.8; margin-bottom: 12px; }
+        .card-days { font-size: 44px; font-weight: 800; text-align: right; margin-top: 6px; line-height: 1; }
+        .card-days.urgent { color: #ff3b30; text-shadow: 0 0 10px rgba(255,59,48,0.3); }
 
-        .card-amount {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 6px;
-            color: inherit;
-        }
-
-        .card-date {
-            font-size: 15px;
-            opacity: 0.8;
-            margin-bottom: 12px;
-            font-weight: 450;
-        }
-
-        .card-days {
-            font-size: 44px;
-            font-weight: 800;
-            text-align: right;
-            margin-top: 6px;
-            line-height: 1;
-            letter-spacing: -0.02em;
-        }
-
-        .card-days.urgent {
-            color: #ff3b30;
-            text-shadow: 0 0 10px rgba(255,59,48,0.3);
-        }
-
-        .card-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
+        .card-buttons { display: flex; gap: 10px; margin-top: 20px; }
         .btn {
             flex: 1;
-            padding: 12px 12px;
+            padding: 12px;
             border: none;
             border-radius: 40px;
             font-size: 15px;
             font-weight: 600;
             cursor: pointer;
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            transition: all 0.15s;
             background: rgba(255,255,255,0.5);
-            color: #1c1c1e;
             border: 0.5px solid rgba(255,255,255,0.8);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
         }
-        @media (prefers-color-scheme: dark) {
-            .btn {
-                background: rgba(60,60,65,0.6);
-                color: white;
-                border-color: rgba(255,255,255,0.1);
-            }
-        }
-        .btn:active {
-            transform: scale(0.97);
-        }
+        .btn-edit { background: rgba(255,255,255,0.35); }
+        .btn-delete { background: rgba(255,59,48,0.15); color: #ff3b30; }
 
-        .btn-edit {
-            background: rgba(255,255,255,0.35);
-        }
-        .btn-delete {
-            background: rgba(255,59,48,0.15);
-            color: #ff3b30;
-            border-color: rgba(255,59,48,0.3);
-        }
-        @media (prefers-color-scheme: dark) {
-            .btn-delete {
-                background: rgba(255,69,58,0.2);
-                color: #ff453a;
-            }
-        }
-
-        /* Модальное окно */
+        /* Модальные окна */
         .modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.2);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             z-index: 2000;
-        }
-        .modal.active {
-            display: flex;
             align-items: center;
             justify-content: center;
         }
+        .modal.active { display: flex; }
         .modal-content {
             background: rgba(255,255,255,0.85);
             backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
             border-radius: 36px;
             padding: 32px 28px;
-            max-width: 92vw;
             width: 380px;
-            max-height: 80vh;
-            overflow-y: auto;
+            max-width: 92vw;
             box-shadow: var(--shadow-lg), inset 0 0 0 1px rgba(255,255,255,0.8);
-            border: 0.5px solid rgba(255,255,255,0.5);
         }
         @media (prefers-color-scheme: dark) {
-            .modal-content {
-                background: rgba(30,30,34,0.85);
-                box-shadow: var(--shadow-lg), inset 0 0 0 1px rgba(255,255,255,0.05);
-                color: white;
-            }
+            .modal-content { background: rgba(30,30,34,0.85); }
         }
 
-        .form-group {
-            margin-bottom: 22px;
-        }
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            margin-bottom: 6px;
-            font-weight: 600;
-            opacity: 0.8;
-        }
+        .form-group { margin-bottom: 22px; }
+        .form-group label { font-size: 14px; font-weight: 600; opacity: 0.8; }
         .form-group input, .form-group select {
             width: 100%;
             padding: 14px 16px;
@@ -393,80 +296,54 @@
             font-size: 17px;
             background: rgba(255,255,255,0.5);
             backdrop-filter: blur(10px);
-            color: #1c1c1e;
-            outline: none;
         }
-        @media (prefers-color-scheme: dark) {
-            .form-group input, .form-group select {
-                background: rgba(20,20,24,0.6);
-                color: white;
-                border-color: rgba(255,255,255,0.1);
-            }
-        }
-        .form-group input:focus, .form-group select:focus {
-            border-color: #007aff;
-        }
+        input[type="date"] { text-align: left; }
+        .period-quantity-row { display: flex; gap: 12px; }
+        .period-select { flex: 2; }
+        .quantity-input { flex: 1; }
+        .quantity-input input { text-align: center; }
 
-        /* Исправление: выравнивание текста в поле даты по левому краю */
-        input[type="date"] {
-            text-align: left;
-            -webkit-appearance: none;
-            appearance: none;
-        }
-        /* Для iOS корректируем отображение */
-        input[type="date"]::-webkit-date-and-time-value {
-            text-align: left;
-        }
+        .form-buttons { display: flex; gap: 14px; margin-top: 28px; }
+        .btn-save { background: #007aff; color: white; }
+        .btn-cancel { background: rgba(120,120,128,0.15); }
 
-        /* Стили для блока с выбором количества периодов */
-        .period-quantity-row {
-            display: flex;
-            gap: 12px;
-            align-items: center;
+        /* Меню экспорта/импорта */
+        .menu-modal .modal-content {
+            padding: 24px;
+            width: 300px;
         }
-        .period-select {
-            flex: 2;
-        }
-        .quantity-input {
-            flex: 1;
-        }
-        .quantity-input input {
-            text-align: center;
-        }
-
-        .form-buttons {
-            display: flex;
-            gap: 14px;
-            margin-top: 28px;
-        }
-        .btn-save {
-            background: #007aff;
-            color: white;
+        .menu-item {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            margin-bottom: 8px;
+            background: rgba(255,255,255,0.3);
             border: none;
-            flex: 1;
-        }
-        .btn-cancel {
-            background: rgba(120,120,128,0.15);
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: 500;
+            text-align: left;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
             color: #1c1c1e;
-            flex: 1;
         }
         @media (prefers-color-scheme: dark) {
-            .btn-cancel {
-                color: white;
-                background: rgba(70,70,75,0.6);
-            }
+            .menu-item { background: rgba(60,60,65,0.5); color: white; }
         }
+        .menu-item:active { background: rgba(255,255,255,0.6); }
     </style>
 </head>
 <body>
-    <!-- ЗАФИКСИРОВАННЫЙ ХЕДЕР -->
+    <!-- Хедер с двумя кнопками -->
     <header class="app-header">
         <div class="header-title">Мои подписки</div>
-        <div class="header-add-btn" onclick="openModal()">+</div>
+        <div class="header-actions">
+            <div class="header-btn menu-btn" onclick="openMenuModal()">⋯</div>
+            <div class="header-btn add-btn" onclick="openModal()">+</div>
+        </div>
     </header>
 
     <div class="container">
-        <!-- Плашка: расходы в месяц и в год -->
         <div class="monthly-summary" id="monthlySummary">
             <div class="summary-row">
                 <span class="summary-label">В месяц</span>
@@ -477,11 +354,10 @@
                 <span class="yearly-amount" id="totalYearlyAmount">0 ₽</span>
             </div>
         </div>
-
         <div class="cards" id="cards"></div>
     </div>
 
-    <!-- Модальное окно -->
+    <!-- Модалка добавления/редактирования -->
     <div class="modal" id="modal">
         <div class="modal-content">
             <h2 id="modal-title" style="margin-bottom:24px; font-weight:700;">Новая подписка</h2>
@@ -494,8 +370,6 @@
                     <label>Стоимость (₽)</label>
                     <input type="number" id="amount" min="0" step="0.01" required placeholder="299">
                 </div>
-                
-                <!-- Блок с выбором периода и количества -->
                 <div class="form-group">
                     <label>Периодичность</label>
                     <div class="period-quantity-row">
@@ -510,7 +384,6 @@
                     </div>
                     <div style="font-size: 13px; opacity: 0.6; margin-top: 4px;">Количество периодов</div>
                 </div>
-
                 <div class="form-group">
                     <label>Дата следующего платежа</label>
                     <input type="date" id="next-payment" required>
@@ -523,26 +396,33 @@
         </div>
     </div>
 
+    <!-- Меню экспорта/импорта -->
+    <div class="modal menu-modal" id="menuModal">
+        <div class="modal-content">
+            <h3 style="margin-bottom:20px; text-align:center;">Данные</h3>
+            <button class="menu-item" onclick="exportData()">📤 Скачать данные (CSV)</button>
+            <button class="menu-item" onclick="triggerImport()">📥 Загрузить из файла</button>
+            <button class="menu-item" onclick="closeMenuModal()" style="background:rgba(120,120,128,0.2);">Отмена</button>
+            <input type="file" id="importFileInput" accept=".csv,text/csv,application/vnd.ms-excel" style="display:none;">
+        </div>
+    </div>
+
     <script>
         (function(){
             let subscriptions = JSON.parse(localStorage.getItem('subscriptions')) || [];
             let editingId = null;
 
+            // ---------- Базовые функции ----------
             function saveToStorage() {
                 localStorage.setItem('subscriptions', JSON.stringify(subscriptions));
             }
 
-            // Вычисление следующей даты с учётом множителя
             function calculateNextPayment(currentDate, period, count = 1) {
                 const next = new Date(currentDate);
                 const multiplier = parseInt(count) || 1;
-                if (period === 'week') {
-                    next.setDate(next.getDate() + (7 * multiplier));
-                } else if (period === 'month') {
-                    next.setMonth(next.getMonth() + multiplier);
-                } else if (period === 'year') {
-                    next.setFullYear(next.getFullYear() + multiplier);
-                }
+                if (period === 'week') next.setDate(next.getDate() + 7 * multiplier);
+                else if (period === 'month') next.setMonth(next.getMonth() + multiplier);
+                else if (period === 'year') next.setFullYear(next.getFullYear() + multiplier);
                 return next;
             }
 
@@ -552,7 +432,6 @@
                 return Math.ceil((target - now) / (1000*60*60*24));
             }
 
-            // Автопродление просроченных (с учётом periodCount)
             function refreshOverdueSubscriptions() {
                 let changed = false;
                 const today = new Date(); today.setHours(0,0,0,0);
@@ -572,7 +451,6 @@
                 return changed;
             }
 
-            // Расчёт месячной суммы (неделя = сумма /7 *30)
             function calculateMonthlyTotal() {
                 return subscriptions.reduce((total, sub) => {
                     const amount = parseFloat(sub.amount) || 0;
@@ -589,9 +467,9 @@
             function updateSummary() {
                 const monthly = calculateMonthlyTotal();
                 const yearly = monthly * 12;
-                const formatter = new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 0 });
-                document.getElementById('totalMonthlyAmount').textContent = formatter.format(monthly) + ' ₽';
-                document.getElementById('totalYearlyAmount').textContent = formatter.format(yearly) + ' ₽';
+                const fmt = new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 0 });
+                document.getElementById('totalMonthlyAmount').textContent = fmt.format(monthly) + ' ₽';
+                document.getElementById('totalYearlyAmount').textContent = fmt.format(yearly) + ' ₽';
             }
 
             function escapeHtml(text) {
@@ -616,11 +494,9 @@
                     const days = daysUntil(new Date(sub.nextPayment));
                     const dateStr = new Date(sub.nextPayment).toLocaleDateString('ru-RU', {day:'numeric', month:'long', year:'numeric'});
                     const urgent = days <= 3;
-                    // Отображение периода с учётом множителя
                     let periodText = sub.period === 'week' ? 'нед' : (sub.period === 'month' ? 'мес' : 'год');
                     const count = sub.periodCount || 1;
                     if (count > 1) periodText = count + ' ' + periodText;
-                    
                     return `
                         <div class="card" onclick="editSubscription('${sub.id}')">
                             <div class="card-title">${escapeHtml(sub.name) || 'Без названия'}</div>
@@ -636,6 +512,94 @@
                 }).join('');
                 updateSummary();
             }
+
+            // ---------- Экспорт / Импорт ----------
+            function convertToCSV() {
+                const headers = ['id', 'name', 'amount', 'period', 'periodCount', 'nextPayment'];
+                const rows = subscriptions.map(sub => [
+                    sub.id,
+                    sub.name,
+                    sub.amount,
+                    sub.period,
+                    sub.periodCount || 1,
+                    sub.nextPayment
+                ]);
+                const csvContent = [headers, ...rows].map(row => 
+                    row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')
+                ).join('\n');
+                return csvContent;
+            }
+
+            window.exportData = function() {
+                const csv = convertToCSV();
+                const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' }); // BOM для Excel
+                const link = document.createElement('a');
+                const url = URL.createObjectURL(blob);
+                link.setAttribute('href', url);
+                link.setAttribute('download', `subscriptions_${new Date().toISOString().slice(0,10)}.csv`);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+                closeMenuModal();
+            };
+
+            window.triggerImport = function() {
+                document.getElementById('importFileInput').click();
+                closeMenuModal();
+            };
+
+            function parseCSV(text) {
+                const lines = text.split('\n').filter(line => line.trim());
+                if (lines.length < 2) return [];
+                const headers = lines[0].split(',').map(h => h.replace(/^"|"$/g, '').trim());
+                const data = [];
+                for (let i = 1; i < lines.length; i++) {
+                    const values = [];
+                    let inQuotes = false;
+                    let current = '';
+                    for (let char of lines[i]) {
+                        if (char === '"') inQuotes = !inQuotes;
+                        else if (char === ',' && !inQuotes) { values.push(current); current = ''; }
+                        else current += char;
+                    }
+                    values.push(current);
+                    const cleanValues = values.map(v => v.replace(/^"|"$/g, '').trim());
+                    if (cleanValues.length !== headers.length) continue;
+                    const obj = {};
+                    headers.forEach((h, idx) => { obj[h] = cleanValues[idx]; });
+                    // Преобразование типов
+                    obj.amount = parseFloat(obj.amount) || 0;
+                    obj.periodCount = parseInt(obj.periodCount) || 1;
+                    data.push(obj);
+                }
+                return data;
+            }
+
+            document.getElementById('importFileInput').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    try {
+                        const imported = parseCSV(ev.target.result);
+                        if (imported.length === 0) { alert('Файл пуст или неверный формат'); return; }
+                        if (confirm(`Заменить текущие подписки (${subscriptions.length}) на ${imported.length} из файла?`)) {
+                            subscriptions = imported;
+                            saveToStorage();
+                            renderCards();
+                        }
+                    } catch (err) {
+                        alert('Ошибка чтения файла');
+                    }
+                    e.target.value = '';
+                };
+                reader.readAsText(file, 'UTF-8');
+            });
+
+            // ---------- Модалки ----------
+            window.openMenuModal = () => document.getElementById('menuModal').classList.add('active');
+            window.closeMenuModal = () => document.getElementById('menuModal').classList.remove('active');
 
             window.openModal = function(id = null) {
                 editingId = id;
@@ -662,14 +626,7 @@
                 modal.classList.add('active');
             };
 
-            window.closeModal = function() {
-                document.getElementById('modal').classList.remove('active');
-                editingId = null;
-            };
-
-            function generateId() {
-                return Date.now().toString(36) + Math.random().toString(36).substr(2,6);
-            }
+            window.closeModal = () => document.getElementById('modal').classList.remove('active');
 
             document.getElementById('subscription-form').addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -678,18 +635,11 @@
                 const period = document.getElementById('period').value;
                 const periodCount = parseInt(document.getElementById('period-count').value) || 1;
                 const nextPayment = document.getElementById('next-payment').value;
-                if (!name || amount <= 0) { alert('Введите название и корректную стоимость'); return; }
-                const data = { 
-                    id: editingId || generateId(), 
-                    name, 
-                    amount, 
-                    period, 
-                    periodCount,
-                    nextPayment 
-                };
+                if (!name || amount <= 0) { alert('Введите название и стоимость'); return; }
+                const data = { id: editingId || Date.now().toString(36) + Math.random().toString(36).substr(2,6), name, amount, period, periodCount, nextPayment };
                 if (editingId) {
-                    const index = subscriptions.findIndex(s => s.id === editingId);
-                    if (index !== -1) subscriptions[index] = data;
+                    const idx = subscriptions.findIndex(s => s.id === editingId);
+                    if (idx !== -1) subscriptions[idx] = data;
                 } else subscriptions.push(data);
                 saveToStorage();
                 closeModal();
@@ -707,7 +657,7 @@
 
             // SW
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE='subs-v4';self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['./'])))});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)))});`;
+                const swCode = `const CACHE='subs-v5';self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['./'])))});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)))});`;
                 const blob = new Blob([swCode], {type:'application/javascript'});
                 navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
             }
