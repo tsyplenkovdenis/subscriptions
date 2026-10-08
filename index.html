@@ -2,36 +2,30 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>РћС‚СЃР»РµР¶РёРІР°РЅРёРµ РїРѕРґРїРёСЃРѕРє</title>
-    <!-- PWA РјР°РЅРёС„РµСЃС‚ СЃ РёРєРѕРЅРєРѕР№ Liquid Glass -->
-    <link rel="manifest" href="data:application/manifest+json,{
-        %22name%22:%22РџРѕРґРїРёСЃРєРё%22,
-        %22short_name%22:%22Subscriptions%22,
-        %22start_url%22:%22./%22,
-        %22display%22:%22standalone%22,
-        %22background_color%22:%22%23f2f2f7%22,
-        %22theme_color%22:%22%23007aff%22,
-        %22icons%22:[{
-            %22src%22:%22data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImdsYXNzIiB4MT0iMjAlIiB5MT0iMCUiIHgyPSI4MCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6I0ZGRkZGRjsgc3RvcC1vcGFjaXR5OjAuNyIvPgo8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMwMDdBRkY7IHN0b3Atb3BhY2l0eTowLjk1Ii8+CjwvbGluZWFyR3JhZGllbnQ+CjxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnRCZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMwMDdBRkY7IHN0b3Atb3BhY2l0eTowLjkiLz4KPHN0b3Agb2Zmc2V0PSI4MCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM1QTVBRkY7IHN0b3Atb3BhY2l0eTowLjc1Ii8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIHJ4PSI0NCIgZmlsbD0idXJsKCNncmFkaWVudEJnKSIvPgo8cGF0aCBkPSJNMTI4IDU2QzEyOCA0NS40NDggOTguNTUyIDI0IDcyIDI0QzE2LjI4NDMgMjQgOCAzMi4yODQzIDggNTkuOTY5QzggODcuNjM1IDE2LjI4NDMgOTYgNzIgOTZDMTI3LjcxNiA5NiAxMzYgODguMTEwNSAxMzYgNTZaIiBmaWxsPSJ1cmwoI2dsYXNzKSIvPgo8cGF0aCBkPSJNMTE2IDg0TDE0NCAxMTJMMTE2IDE0ME04OCAxMTJMMTQ0IDExMiIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2Utd2lkdGg9IjEyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+%22,
-            %22sizes%22:%22192x192%22,
-            %22type%22:%22image/svg+xml%22
-        }]
-    }">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <title>&#1054;&#1090;&#1089;&#1083;&#1077;&#1078;&#1080;&#1074;&#1072;&#1085;&#1080;&#1077; &#1087;&#1086;&#1076;&#1087;&#1080;&#1089;&#1086;&#1082;</title>
+
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="РџРѕРґРїРёСЃРєРё">
+    <meta name="apple-mobile-web-app-title"
+          content="&#1055;&#1086;&#1076;&#1087;&#1080;&#1089;&#1082;&#1080;">
     <meta name="theme-color" content="#007aff">
+
     <style>
-        /* ----- iOS 26 Liquid Glass Theme (РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРЅС‹Рµ СЃС‚РёР»Рё) ----- */
         :root {
             --primary-blue: #007aff;
             --glass-bg-light: rgba(255, 255, 255, 0.45);
             --glass-bg-dark: rgba(30, 30, 32, 0.55);
             --glass-border-light: rgba(255, 255, 255, 0.6);
             --glass-border-dark: rgba(120, 120, 128, 0.2);
-            --shadow-sm: 0 8px 20px rgba(0, 0, 0, 0.04), 0 2px 6px rgba(0, 0, 0, 0.02);
-            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.08), 0 6px 12px rgba(0, 0, 0, 0.05);
+            --shadow-sm:
+                0 8px 20px rgba(0, 0, 0, 0.04),
+                0 2px 6px rgba(0, 0, 0, 0.02);
+            --shadow-lg:
+                0 20px 40px rgba(0, 0, 0, 0.08),
+                0 6px 12px rgba(0, 0, 0, 0.05);
             --header-height: 64px;
         }
 
@@ -42,7 +36,9 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            font-family:
+                -apple-system, BlinkMacSystemFont,
+                'Segoe UI', Roboto, Helvetica, sans-serif;
             background: linear-gradient(165deg, #e9ecf2 0%, #d9dee8 100%);
             min-height: 100vh;
             color: #1c1c1e;
@@ -51,14 +47,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        @media (prefers-color-scheme: dark) {
-            body {
-                background: linear-gradient(145deg, #101114 0%, #1c1c20 100%);
-                color: #ffffff;
-            }
-        }
-
-        /* ----- Р—РђР¤РРљРЎРР РћР’РђРќРќРђРЇ Р’Р•Р РҐРќРЇРЇ РџРђРќР•Р›Р¬ ----- */
         .app-header {
             position: fixed;
             top: 0;
@@ -68,21 +56,16 @@
             background: var(--glass-bg-light);
             backdrop-filter: blur(30px) saturate(180%);
             -webkit-backdrop-filter: blur(30px) saturate(180%);
-            box-shadow: 0 1px 0 rgba(0,0,0,0.05), inset 0 0 0 0.5px var(--glass-border-light);
-            border-bottom: 0.5px solid rgba(255,255,255,0.3);
+            box-shadow:
+                0 1px 0 rgba(0, 0, 0, 0.05),
+                inset 0 0 0 0.5px var(--glass-border-light);
+            border-bottom: 0.5px solid rgba(255, 255, 255, 0.3);
             z-index: 1000;
             display: flex;
             align-items: center;
             padding: 0 20px;
             padding-right: max(20px, env(safe-area-inset-right));
             padding-left: max(20px, env(safe-area-inset-left));
-        }
-        @media (prefers-color-scheme: dark) {
-            .app-header {
-                background: var(--glass-bg-dark);
-                border-bottom-color: rgba(255,255,255,0.05);
-                box-shadow: 0 1px 0 rgba(0,0,0,0.2), inset 0 0 0 0.5px var(--glass-border-dark);
-            }
         }
 
         .header-title {
@@ -91,11 +74,6 @@
             letter-spacing: -0.02em;
             color: #1c1c1e;
             flex: 1;
-        }
-        @media (prefers-color-scheme: dark) {
-            .header-title {
-                color: white;
-            }
         }
 
         .header-actions {
@@ -107,10 +85,10 @@
             width: 48px;
             height: 48px;
             border-radius: 30px;
-            background: rgba(255,255,255,0.6);
+            background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 0.5px solid rgba(255,255,255,0.8);
+            border: 0.5px solid rgba(255, 255, 255, 0.8);
             box-shadow: var(--shadow-sm);
             color: var(--primary-blue);
             font-size: 24px;
@@ -122,20 +100,15 @@
             transition: all 0.15s;
             line-height: 1;
         }
+
         .header-btn.add-btn {
             font-size: 28px;
             padding-bottom: 4px;
         }
-        @media (prefers-color-scheme: dark) {
-            .header-btn {
-                background: rgba(60,60,65,0.6);
-                border-color: rgba(255,255,255,0.1);
-                color: #0a84ff;
-            }
-        }
+
         .header-btn:active {
             transform: scale(0.92);
-            background: rgba(255,255,255,0.9);
+            background: rgba(255, 255, 255, 0.9);
         }
 
         .container {
@@ -144,7 +117,6 @@
             padding: 20px 20px 40px;
         }
 
-        /* РџР»Р°С€РєР° СЃ СЂР°СЃС…РѕРґР°РјРё */
         .monthly-summary {
             background: var(--glass-bg-light);
             backdrop-filter: blur(30px) saturate(180%);
@@ -152,15 +124,10 @@
             border-radius: 32px;
             padding: 20px 24px;
             margin-bottom: 28px;
-            box-shadow: var(--shadow-lg), inset 0 0 0 1px var(--glass-border-light);
-            border: 0.5px solid rgba(255,255,255,0.3);
-        }
-        @media (prefers-color-scheme: dark) {
-            .monthly-summary {
-                background: var(--glass-bg-dark);
-                box-shadow: var(--shadow-lg), inset 0 0 0 1px var(--glass-border-dark);
-                border-color: rgba(255,255,255,0.05);
-            }
+            box-shadow:
+                var(--shadow-lg),
+                inset 0 0 0 1px var(--glass-border-light);
+            border: 0.5px solid rgba(255, 255, 255, 0.3);
         }
 
         .summary-row {
@@ -168,33 +135,37 @@
             justify-content: space-between;
             align-items: baseline;
         }
+
         .summary-label {
             font-size: 17px;
             font-weight: 500;
             opacity: 0.7;
         }
+
         .summary-amount {
             font-size: 36px;
             font-weight: 800;
             letter-spacing: -0.02em;
         }
+
         .yearly-row {
             display: flex;
             justify-content: space-between;
             margin-top: 8px;
             padding-top: 8px;
-            border-top: 0.5px solid rgba(120,120,128,0.15);
+            border-top: 0.5px solid rgba(120, 120, 128, 0.15);
         }
+
         .yearly-label {
             font-size: 15px;
             opacity: 0.6;
         }
+
         .yearly-amount {
             font-size: 22px;
             font-weight: 700;
         }
 
-        /* РљР°СЂС‚РѕС‡РєРё */
         .cards {
             display: flex;
             flex-direction: column;
@@ -210,91 +181,136 @@
             position: relative;
             cursor: pointer;
             transition: transform 0.25s, box-shadow 0.3s;
-            box-shadow: var(--shadow-sm), inset 0 0 0 1px var(--glass-border-light);
-            border: 0.5px solid rgba(255,255,255,0.4);
+            box-shadow:
+                var(--shadow-sm),
+                inset 0 0 0 1px var(--glass-border-light);
+            border: 0.5px solid rgba(255, 255, 255, 0.4);
             overflow: hidden;
-        }
-        @media (prefers-color-scheme: dark) {
-            .card {
-                background: var(--glass-bg-dark);
-                box-shadow: var(--shadow-sm), inset 0 0 0 1px var(--glass-border-dark);
-                border-color: rgba(255,255,255,0.08);
-            }
         }
 
         .card::after {
             content: "";
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 20% 25%, rgba(255,255,255,0.5) 0%, transparent 70%);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                circle at 20% 25%,
+                rgba(255, 255, 255, 0.5) 0%,
+                transparent 70%
+            );
             opacity: 0;
             transition: opacity 0.3s;
             pointer-events: none;
             border-radius: 28px;
         }
-        .card:hover::after { opacity: 0.5; }
+
+        .card:hover::after {
+            opacity: 0.5;
+        }
 
         .card:hover {
             transform: translateY(-4px);
-            box-shadow: var(--shadow-lg), inset 0 0 0 1px rgba(255,255,255,0.6);
+            box-shadow:
+                var(--shadow-lg),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.6);
         }
 
-        .card-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
-        .card-amount { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
-        .card-date { font-size: 15px; opacity: 0.8; margin-bottom: 12px; }
-        .card-days { font-size: 44px; font-weight: 800; text-align: right; margin-top: 6px; line-height: 1; }
-        .card-days.urgent { color: #ff3b30; text-shadow: 0 0 10px rgba(255,59,48,0.3); }
+        .card-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
 
-        .card-buttons { display: flex; gap: 10px; margin-top: 20px; }
+        .card-amount {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .card-date {
+            font-size: 15px;
+            opacity: 0.8;
+            margin-bottom: 12px;
+        }
+
+        .card-days {
+            font-size: 44px;
+            font-weight: 800;
+            text-align: right;
+            margin-top: 6px;
+            line-height: 1;
+        }
+
+        .card-days.urgent {
+            color: #ff3b30;
+            text-shadow: 0 0 10px rgba(255, 59, 48, 0.3);
+        }
+
+        .card-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
         .btn {
             flex: 1;
             padding: 12px;
-            border: none;
             border-radius: 40px;
             font-size: 15px;
             font-weight: 600;
             cursor: pointer;
             backdrop-filter: blur(20px);
-            background: rgba(255,255,255,0.5);
-            border: 0.5px solid rgba(255,255,255,0.8);
+            background: rgba(255, 255, 255, 0.5);
+            border: 0.5px solid rgba(255, 255, 255, 0.8);
         }
-        .btn-edit { background: rgba(255,255,255,0.35); }
-        .btn-delete { background: rgba(255,59,48,0.15); color: #ff3b30; }
 
-        /* РњРѕРґР°Р»СЊРЅС‹Рµ РѕРєРЅР° */
+        .btn-edit {
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        .btn-delete {
+            background: rgba(255, 59, 48, 0.15);
+            color: #ff3b30;
+        }
+
         .modal {
             display: none;
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.2);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(20px);
-            z-index:2000;
-            align-items:center;
-            justify-content:center;
-        }
-        .modal.active { display:flex; }
-        .modal-content {
-            background: rgba(255,255,255,0.75);
-            backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
-            border-radius:36px;
-            padding:32px 28px;
-            width:380px;
-            max-width:92vw;
-            box-shadow: var(--shadow-lg), inset 0 0 0 1px rgba(255,255,255,0.8);
-            border:0.5px solid rgba(255,255,255,0.5);
-        }
-        @media (prefers-color-scheme: dark) {
-            .modal-content {
-                background: rgba(30,30,34,0.75);
-                color:#fff;
-            }
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* Р’РѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРЅС‹Рµ СЃС‚РёР»Рё РїРѕР»РµР№ вЂ” РїСЂРѕР·СЂР°С‡РЅС‹Рµ, СЃРІРµС‚Р»С‹Рµ */
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border-radius: 36px;
+            padding: 32px 28px;
+            width: 380px;
+            max-width: 92vw;
+            box-shadow:
+                var(--shadow-lg),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+            border: 0.5px solid rgba(255, 255, 255, 0.5);
+        }
+
         .form-group {
             margin-bottom: 22px;
         }
+
         .form-group label {
             display: block;
             font-size: 14px;
@@ -303,39 +319,33 @@
             opacity: 0.8;
             letter-spacing: -0.01em;
         }
+
         .form-group input,
         .form-group select {
             width: 100%;
             padding: 14px 16px;
-            border: 1px solid rgba(120,120,128,0.2);
+            border: 1px solid rgba(120, 120, 128, 0.2);
             border-radius: 20px;
             font-size: 17px;
-            background: rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             color: #1c1c1e;
             outline: none;
             transition: border 0.15s;
         }
-        @media (prefers-color-scheme: dark) {
-            .form-group input,
-            .form-group select {
-                background: rgba(20,20,24,0.5);
-                color: white;
-                border-color: rgba(255,255,255,0.1);
-            }
-        }
+
         .form-group input:focus,
         .form-group select:focus {
             border-color: #007aff;
         }
 
-        /* РСЃРїСЂР°РІР»РµРЅРёРµ РІС‹СЂР°РІРЅРёРІР°РЅРёСЏ РґР°С‚С‹ */
         input[type="date"] {
             text-align: left;
             -webkit-appearance: none;
             appearance: none;
         }
+
         input[type="date"]::-webkit-date-and-time-value {
             text-align: left;
         }
@@ -344,12 +354,15 @@
             display: flex;
             gap: 12px;
         }
+
         .period-select {
             flex: 2;
         }
+
         .quantity-input {
             flex: 1;
         }
+
         .quantity-input input {
             text-align: center;
         }
@@ -359,27 +372,29 @@
             gap: 14px;
             margin-top: 28px;
         }
+
         .btn-save {
             background: #007aff;
             color: white;
             border: none;
         }
+
         .btn-cancel {
-            background: rgba(120,120,128,0.15);
+            background: rgba(120, 120, 128, 0.15);
             color: #1c1c1e;
         }
 
-        /* РњРµРЅСЋ */
         .menu-modal .modal-content {
             padding: 24px;
             width: 300px;
         }
+
         .menu-item {
             display: block;
             width: 100%;
             padding: 16px;
             margin-bottom: 8px;
-            background: rgba(255,255,255,0.3);
+            background: rgba(255, 255, 255, 0.3);
             border: none;
             border-radius: 20px;
             font-size: 18px;
@@ -389,417 +404,1216 @@
             cursor: pointer;
             color: #1c1c1e;
         }
+
+        .menu-item:active {
+            background: rgba(255, 255, 255, 0.6);
+        }
+
         @media (prefers-color-scheme: dark) {
+            body {
+                background:
+                    linear-gradient(145deg, #101114 0%, #1c1c20 100%);
+                color: #ffffff;
+            }
+
+            .app-header {
+                background: var(--glass-bg-dark);
+                border-bottom-color: rgba(255, 255, 255, 0.05);
+                box-shadow:
+                    0 1px 0 rgba(0, 0, 0, 0.2),
+                    inset 0 0 0 0.5px var(--glass-border-dark);
+            }
+
+            .header-title {
+                color: white;
+            }
+
+            .header-btn {
+                background: rgba(60, 60, 65, 0.6);
+                border-color: rgba(255, 255, 255, 0.1);
+                color: #0a84ff;
+            }
+
+            .monthly-summary {
+                background: var(--glass-bg-dark);
+                box-shadow:
+                    var(--shadow-lg),
+                    inset 0 0 0 1px var(--glass-border-dark);
+                border-color: rgba(255, 255, 255, 0.05);
+            }
+
+            .card {
+                background: var(--glass-bg-dark);
+                box-shadow:
+                    var(--shadow-sm),
+                    inset 0 0 0 1px var(--glass-border-dark);
+                border-color: rgba(255, 255, 255, 0.08);
+            }
+
+            .modal-content {
+                background: rgba(30, 30, 34, 0.75);
+                color: #fff;
+            }
+
+            .form-group input,
+            .form-group select {
+                background: rgba(20, 20, 24, 0.5);
+                color: white;
+                border-color: rgba(255, 255, 255, 0.1);
+            }
+
             .menu-item {
-                background: rgba(60,60,65,0.5);
+                background: rgba(60, 60, 65, 0.5);
                 color: white;
             }
         }
-        .menu-item:active {
-            background: rgba(255,255,255,0.6);
-        }
     </style>
 </head>
+
 <body>
-    <!-- РҐРµРґРµСЂ -->
     <header class="app-header">
-        <div class="header-title">РњРѕРё РїРѕРґРїРёСЃРєРё</div>
+        <div class="header-title">
+            &#1052;&#1086;&#1080; &#1087;&#1086;&#1076;&#1087;&#1080;&#1089;&#1082;&#1080;
+        </div>
         <div class="header-actions">
-            <div class="header-btn menu-btn" onclick="openMenuModal()">в‹Ї</div>
-            <div class="header-btn add-btn" onclick="openModal()">+</div>
+            <div class="header-btn menu-btn"
+                 onclick="openMenuModal()">&#8943;</div>
+            <div class="header-btn add-btn"
+                 onclick="openModal()">+</div>
         </div>
     </header>
 
     <div class="container">
         <div class="monthly-summary" id="monthlySummary">
             <div class="summary-row">
-                <span class="summary-label">Р’ РјРµСЃСЏС†</span>
-                <span class="summary-amount" id="totalMonthlyAmount">0 в‚Ѕ</span>
+                <span class="summary-label">
+                    &#1042; &#1084;&#1077;&#1089;&#1103;&#1094;
+                </span>
+                <span class="summary-amount"
+                      id="totalMonthlyAmount">0 &#8381;</span>
             </div>
             <div class="yearly-row">
-                <span class="yearly-label">Р’ РіРѕРґ</span>
-                <span class="yearly-amount" id="totalYearlyAmount">0 в‚Ѕ</span>
+                <span class="yearly-label">
+                    &#1042; &#1075;&#1086;&#1076;
+                </span>
+                <span class="yearly-amount"
+                      id="totalYearlyAmount">0 &#8381;</span>
             </div>
         </div>
         <div class="cards" id="cards"></div>
     </div>
 
-    <!-- РњРѕРґР°Р»РєР° РїРѕРґРїРёСЃРєРё -->
     <div class="modal" id="modal">
         <div class="modal-content">
-            <h2 id="modal-title" style="margin-bottom:24px; font-weight:700;">РќРѕРІР°СЏ РїРѕРґРїРёСЃРєР°</h2>
+            <h2 id="modal-title"
+                style="margin-bottom:24px; font-weight:700;">
+                &#1053;&#1086;&#1074;&#1072;&#1103;
+                &#1087;&#1086;&#1076;&#1087;&#1080;&#1089;&#1082;&#1072;
+            </h2>
+
             <form id="subscription-form">
                 <div class="form-group">
-                    <label>РќР°Р·РІР°РЅРёРµ СЃРµСЂРІРёСЃР°</label>
-                    <input type="text" id="name" required placeholder="РќР°РїСЂРёРјРµСЂ, Apple Music">
+                    <label for="name">
+                        &#1053;&#1072;&#1079;&#1074;&#1072;&#1085;&#1080;&#1077;
+                        &#1089;&#1077;&#1088;&#1074;&#1080;&#1089;&#1072;
+                    </label>
+                    <input type="text" id="name" required
+                           placeholder="&#1053;&#1072;&#1087;&#1088;&#1080;&#1084;&#1077;&#1088;, Apple Music">
                 </div>
+
                 <div class="form-group">
-                    <label>РЎС‚РѕРёРјРѕСЃС‚СЊ (в‚Ѕ)</label>
-                    <input type="number" id="amount" min="0" step="0.01" required placeholder="299">
+                    <label for="amount">
+                        &#1057;&#1090;&#1086;&#1080;&#1084;&#1086;&#1089;&#1090;&#1100;
+                        (&#8381;)
+                    </label>
+                    <input type="number" id="amount"
+                           min="0" step="0.01" required
+                           placeholder="299">
                 </div>
+
                 <div class="form-group">
-                    <label>РџРµСЂРёРѕРґРёС‡РЅРѕСЃС‚СЊ</label>
+                    <label for="period">
+                        &#1055;&#1077;&#1088;&#1080;&#1086;&#1076;&#1080;&#1095;&#1085;&#1086;&#1089;&#1090;&#1100;
+                    </label>
+
                     <div class="period-quantity-row">
                         <select id="period" class="period-select">
-                            <option value="week">РќРµРґРµР»СЏ</option>
-                            <option value="month" selected>РњРµСЃСЏС†</option>
-                            <option value="year">Р“РѕРґ</option>
+                            <option value="week">
+                                &#1053;&#1077;&#1076;&#1077;&#1083;&#1103;
+                            </option>
+                            <option value="month" selected>
+                                &#1052;&#1077;&#1089;&#1103;&#1094;
+                            </option>
+                            <option value="year">
+                                &#1043;&#1086;&#1076;
+                            </option>
                         </select>
+
                         <div class="quantity-input">
-                            <input type="number" id="period-count" min="1" value="1" step="1" required>
+                            <input type="number" id="period-count"
+                                   min="1" max="10000"
+                                   value="1" step="1" required>
                         </div>
                     </div>
-                    <div style="font-size: 13px; opacity: 0.6; margin-top: 4px;">РљРѕР»РёС‡РµСЃС‚РІРѕ РїРµСЂРёРѕРґРѕРІ</div>
+
+                    <div style="font-size:13px; opacity:0.6; margin-top:4px;">
+                        &#1050;&#1086;&#1083;&#1080;&#1095;&#1077;&#1089;&#1090;&#1074;&#1086;
+                        &#1087;&#1077;&#1088;&#1080;&#1086;&#1076;&#1086;&#1074;
+                    </div>
                 </div>
+
                 <div class="form-group">
-                    <label>Р”Р°С‚Р° СЃР»РµРґСѓСЋС‰РµРіРѕ РїР»Р°С‚РµР¶Р°</label>
-                    <input type="date" id="next-payment" required>
+                    <label for="next-payment">
+                        &#1044;&#1072;&#1090;&#1072;
+                        &#1089;&#1083;&#1077;&#1076;&#1091;&#1102;&#1097;&#1077;&#1075;&#1086;
+                        &#1087;&#1083;&#1072;&#1090;&#1077;&#1078;&#1072;
+                    </label>
+                    <input type="date" id="next-payment"
+                           min="0001-01-01" max="9999-12-31" required>
                 </div>
+
                 <div class="form-buttons">
-                    <button type="button" class="btn btn-cancel" onclick="closeModal()">РћС‚РјРµРЅР°</button>
-                    <button type="submit" class="btn btn-save">РЎРѕС…СЂР°РЅРёС‚СЊ</button>
+                    <button type="button"
+                            class="btn btn-cancel"
+                            onclick="closeModal()">
+                        &#1054;&#1090;&#1084;&#1077;&#1085;&#1072;
+                    </button>
+                    <button type="submit" class="btn btn-save">
+                        &#1057;&#1086;&#1093;&#1088;&#1072;&#1085;&#1080;&#1090;&#1100;
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- РњРµРЅСЋ СЌРєСЃРїРѕСЂС‚Р°/РёРјРїРѕСЂС‚Р° -->
     <div class="modal menu-modal" id="menuModal">
         <div class="modal-content">
-            <h3 style="margin-bottom:20px; text-align:center;">Р”Р°РЅРЅС‹Рµ</h3>
-            <button class="menu-item" onclick="exportData()">рџ“¤ РЎРєР°С‡Р°С‚СЊ РґР°РЅРЅС‹Рµ (CSV)</button>
-            <button class="menu-item" onclick="triggerImport()">рџ“Ґ Р—Р°РіСЂСѓР·РёС‚СЊ РёР· С„Р°Р№Р»Р°</button>
-            <button class="menu-item" onclick="closeMenuModal()" style="background:rgba(120,120,128,0.2);">РћС‚РјРµРЅР°</button>
-            <input type="file" id="importFileInput" accept=".csv,text/csv,application/vnd.ms-excel" style="display:none;">
+            <h3 style="margin-bottom:20px; text-align:center;">
+                &#1044;&#1072;&#1085;&#1085;&#1099;&#1077;
+            </h3>
+
+            <button class="menu-item" onclick="exportData()">
+                &#128228;
+                &#1057;&#1082;&#1072;&#1095;&#1072;&#1090;&#1100;
+                &#1076;&#1072;&#1085;&#1085;&#1099;&#1077; (CSV)
+            </button>
+
+            <button class="menu-item" onclick="triggerImport()">
+                &#128229;
+                &#1047;&#1072;&#1075;&#1088;&#1091;&#1079;&#1080;&#1090;&#1100;
+                &#1080;&#1079; &#1092;&#1072;&#1081;&#1083;&#1072;
+            </button>
+
+            <button class="menu-item"
+                    onclick="closeMenuModal()"
+                    style="background:rgba(120,120,128,0.2);">
+                &#1054;&#1090;&#1084;&#1077;&#1085;&#1072;
+            </button>
+
+            <input type="file" id="importFileInput"
+                   accept=".csv,text/csv,application/vnd.ms-excel"
+                   style="display:none;">
         </div>
     </div>
 
     <script>
-        (function(){
-            let subscriptions = JSON.parse(localStorage.getItem('subscriptions')) || [];
-            let editingId = null;
+    (() => {
+        'use strict';
 
-            function saveToStorage() {
-                localStorage.setItem('subscriptions', JSON.stringify(subscriptions));
-            }
+        const STORAGE_KEY = 'subscriptions';
+        const BACKUP_KEY = 'subscriptions_before_date_fix';
+        const DAY_MS = 86400000;
+        const PERIODS = ['week', 'month', 'year'];
 
-            const DAY_MS = 86400000;
-            function parseDate(value) {
-                if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) throw new Error('РќРµРєРѕСЂСЂРµРєС‚РЅР°СЏ РґР°С‚Р°');
-                const [y,m,d] = value.split('-').map(Number);
-                const date = new Date(0);
-                date.setUTCHours(0,0,0,0); date.setUTCFullYear(y,m-1,d);
-                if (date.getUTCFullYear() !== y || date.getUTCMonth() !== m-1 || date.getUTCDate() !== d) throw new Error('РќРµСЃСѓС‰РµСЃС‚РІСѓСЋС‰Р°СЏ РґР°С‚Р°');
-                return date;
-            }
-            function formatDate(date) {
-                return [String(date.getUTCFullYear()).padStart(4,'0'),String(date.getUTCMonth()+1).padStart(2,'0'),String(date.getUTCDate()).padStart(2,'0')].join('-');
-            }
-            function todayDate() {
-                const d = new Date();
-                return [String(d.getFullYear()).padStart(4,'0'),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
-            }
-            function validCount(value) {
-                const n = Number(value);
-                if (!Number.isSafeInteger(n) || n < 1 || n > 10000) throw new Error('РљРѕР»РёС‡РµСЃС‚РІРѕ РїРµСЂРёРѕРґРѕРІ: С†РµР»РѕРµ С‡РёСЃР»Рѕ РѕС‚ 1 РґРѕ 10000');
-                return n;
-            }
-            function calculateNextPayment(anchor,period,count=1,cycles=1) {
-                const d=parseDate(anchor), step=validCount(count)*cycles;
-                if (!Number.isSafeInteger(cycles) || cycles < 0) throw new Error('РќРµРєРѕСЂСЂРµРєС‚РЅРѕРµ С‡РёСЃР»Рѕ С†РёРєР»РѕРІ');
-                if (period === 'week') d.setUTCDate(d.getUTCDate()+7*step);
-                else if (period === 'month' || period === 'year') {
-                    const day=d.getUTCDate(); d.setUTCDate(1);
-                    d.setUTCMonth(d.getUTCMonth()+step*(period === 'year' ? 12 : 1));
-                    const last=new Date(d.getTime()); last.setUTCMonth(last.getUTCMonth()+1,0);
-                    d.setUTCDate(Math.min(day,last.getUTCDate()));
-                } else throw new Error('РќРµРёР·РІРµСЃС‚РЅС‹РёМ† РїРµСЂРёРѕРґ');
-                if (!Number.isFinite(d.getTime()) || d.getUTCFullYear()>9999) throw new Error('Р”Р°С‚Р° РІРЅРµ РґРёР°РїР°Р·РѕРЅР°');
-                return formatDate(d);
-            }
-            function daysUntil(date,today=todayDate()) {
-                return Math.round((parseDate(date)-parseDate(today))/DAY_MS);
-            }
-            function refreshOverdueSubscriptions(today=todayDate()) {
-                let changed=false;
-                for (const sub of subscriptions) {
-                    try {
-                        parseDate(sub.nextPayment);
-                        const count=validCount(sub.periodCount ?? 1);
-                        if (!['week','month','year'].includes(sub.period)) throw new Error('РќРµРёР·РІРµСЃС‚РЅС‹РёМ† РїРµСЂРёРѕРґ');
-                        if (!sub.renewalAnchor) { sub.renewalAnchor=sub.nextPayment; changed=true; }
-                        const anchor=parseDate(sub.renewalAnchor);
-                        // Р”Р°С‚Р° РїР»Р°С‚РµР¶Р° РѕСЃС‚Р°РµМ€С‚СЃСЏ РІРёРґРёРјРѕРёМ† РІРµСЃСЊ РґРµРЅСЊ; РїРµСЂРµРЅРѕСЃ РЅР° СЃР»РµРґСѓСЋС‰РёРёМ† РґРµРЅСЊ.
-                        if (sub.nextPayment>=today) continue;
-                        const target=parseDate(today);
-                        let cycles;
-                        if (sub.period==='week') cycles=Math.max(0,Math.ceil((target-anchor)/(DAY_MS*7*count)));
-                        else {
-                            const months=(target.getUTCFullYear()-anchor.getUTCFullYear())*12+target.getUTCMonth()-anchor.getUTCMonth();
-                            cycles=Math.max(0,Math.floor(months/(count*(sub.period==='year'?12:1))));
-                        }
-                        let next=calculateNextPayment(sub.renewalAnchor,sub.period,count,cycles);
-                        while(next<today) next=calculateNextPayment(sub.renewalAnchor,sub.period,count,++cycles);
-                        if(next!==sub.nextPayment) { sub.nextPayment=next; changed=true; }
-                    } catch(error) { console.error('РћС€РёР±РєР° РґР°С‚С‹',sub.name,error); }
-                }
-                if(changed) saveToStorage();
-                return changed;
-            }
+        // All built-in text uses Unicode escapes.
+        const TEXT = {
+            newSubscription:
+                '\u041d\u043e\u0432\u0430\u044f \u043f\u043e\u0434\u043f\u0438\u0441\u043a\u0430',
+            editSubscription:
+                '\u0418\u0437\u043c\u0435\u043d\u0438\u0442\u044c \u043f\u043e\u0434\u043f\u0438\u0441\u043a\u0443',
+            edit:
+                '\u0418\u0437\u043c\u0435\u043d\u0438\u0442\u044c',
+            remove:
+                '\u0423\u0434\u0430\u043b\u0438\u0442\u044c',
+            removeQuestion:
+                '\u0423\u0434\u0430\u043b\u0438\u0442\u044c \u043f\u043e\u0434\u043f\u0438\u0441\u043a\u0443?',
+            unnamed:
+                '\u0411\u0435\u0437 \u043d\u0430\u0437\u0432\u0430\u043d\u0438\u044f',
+            day:
+                '\u0434\u0435\u043d\u044c',
+            daysFew:
+                '\u0434\u043d\u044f',
+            daysMany:
+                '\u0434\u043d\u0435\u0439',
+            week:
+                '\u043d\u0435\u0434',
+            month:
+                '\u043c\u0435\u0441',
+            year:
+                '\u0433\u043e\u0434',
+            ruble:
+                '\u20bd',
+            calendar:
+                '\ud83d\udcc5',
+            invalidDate:
+                '\u041d\u0435\u043a\u043e\u0440\u0440\u0435\u043a\u0442\u043d\u0430\u044f \u0434\u0430\u0442\u0430.',
+            invalidPeriod:
+                '\u041d\u0435\u043a\u043e\u0440\u0440\u0435\u043a\u0442\u043d\u0430\u044f \u043f\u0435\u0440\u0438\u043e\u0434\u0438\u0447\u043d\u043e\u0441\u0442\u044c.',
+            invalidCount:
+                '\u041a\u043e\u043b\u0438\u0447\u0435\u0441\u0442\u0432\u043e \u043f\u0435\u0440\u0438\u043e\u0434\u043e\u0432: \u0446\u0435\u043b\u043e\u0435 \u0447\u0438\u0441\u043b\u043e \u043e\u0442 1 \u0434\u043e 10000.',
+            invalidSubscription:
+                '\u041f\u0440\u043e\u0432\u0435\u0440\u044c\u0442\u0435 \u043d\u0430\u0437\u0432\u0430\u043d\u0438\u0435, \u0441\u0442\u043e\u0438\u043c\u043e\u0441\u0442\u044c \u0438 \u0434\u0430\u0442\u0443.',
+            loadError:
+                '\u041d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u0442\u044c \u043f\u043e\u0434\u043f\u0438\u0441\u043a\u0438. \u0418\u0441\u0445\u043e\u0434\u043d\u044b\u0435 \u0434\u0430\u043d\u043d\u044b\u0435 \u043d\u0435 \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u044b.',
+            saveError:
+                '\u041d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c \u0441\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c \u0434\u0430\u043d\u043d\u044b\u0435.',
+            importError:
+                '\u041e\u0448\u0438\u0431\u043a\u0430 \u0438\u043c\u043f\u043e\u0440\u0442\u0430.',
+            emptyFile:
+                '\u0424\u0430\u0439\u043b \u043d\u0435 \u0441\u043e\u0434\u0435\u0440\u0436\u0438\u0442 \u043f\u043e\u0434\u043f\u0438\u0441\u043e\u043a.',
+            replaceQuestion:
+                '\u0417\u0430\u043c\u0435\u043d\u0438\u0442\u044c \u0442\u0435\u043a\u0443\u0449\u0438\u0435 \u043f\u043e\u0434\u043f\u0438\u0441\u043a\u0438',
+            fromFile:
+                '\u043d\u0430 \u043f\u043e\u0434\u043f\u0438\u0441\u043a\u0438 \u0438\u0437 \u0444\u0430\u0439\u043b\u0430'
+        };
 
-            function calculateMonthlyTotal() {
-                return subscriptions.reduce((total, sub) => {
-                    const amount = parseFloat(sub.amount) || 0;
-                    const count = sub.periodCount || 1;
-                    switch (sub.period) {
-                        case 'week': return total + ((amount / 7 * 30) / count);
-                        case 'month': return total + (amount / count);
-                        case 'year': return total + (amount / (12 * count));
-                        default: return total;
-                    }
-                }, 0);
-            }
+        const moneyFormatter = new Intl.NumberFormat(
+            'ru-RU',
+            { maximumFractionDigits: 0 }
+        );
 
-            function updateSummary() {
-                const monthly = calculateMonthlyTotal();
-                const yearly = monthly * 12;
-                const fmt = new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 0 });
-                document.getElementById('totalMonthlyAmount').textContent = fmt.format(monthly) + ' в‚Ѕ';
-                document.getElementById('totalYearlyAmount').textContent = fmt.format(yearly) + ' в‚Ѕ';
+        const dateFormatter = new Intl.DateTimeFormat(
+            'ru-RU',
+            {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+                timeZone: 'UTC'
+            }
+        );
+
+        const form = document.getElementById('subscription-form');
+        const cards = document.getElementById('cards');
+        const importInput = document.getElementById('importFileInput');
+
+        let subscriptions = [];
+        let editingId = null;
+        let storageWarningShown = false;
+
+        function makeId() {
+            if (globalThis.crypto?.randomUUID) {
+                return globalThis.crypto.randomUUID();
             }
 
-            function escapeHtml(text) {
-                const div = document.createElement('div');
-                div.textContent = text;
-                return div.innerHTML;
+            return (
+                Date.now().toString(36) +
+                Math.random().toString(36).slice(2)
+            );
+        }
+
+        // UTC is used only as a timezone-free calendar arithmetic container.
+        function parseDate(value) {
+            if (
+                typeof value !== 'string' ||
+                !/^\d{4}-\d{2}-\d{2}$/.test(value)
+            ) {
+                throw new Error(TEXT.invalidDate);
             }
 
-            function getDaysWord(days) {
-                const abs = Math.abs(days);
-                if (abs % 100 >= 11 && abs % 100 <= 14) return 'РґРЅРµР№';
-                if (abs % 10 === 1) return 'РґРµРЅСЊ';
-                if (abs % 10 >= 2 && abs % 10 <= 4) return 'РґРЅСЏ';
-                return 'РґРЅРµР№';
+            const [year, month, day] = value.split('-').map(Number);
+
+            if (year < 1 || year > 9999) {
+                throw new Error(TEXT.invalidDate);
             }
 
-            function renderCards() {
-                refreshOverdueSubscriptions();
-                const container = document.getElementById('cards');
-                const today = todayDate();
-                const sorted = [...subscriptions].sort((a,b) => a.nextPayment.localeCompare(b.nextPayment));
-                container.innerHTML = sorted.map(sub => {
-                    const days = daysUntil(sub.nextPayment,today);
-                    const dateStr = parseDate(sub.nextPayment).toLocaleDateString('ru-RU', {day:'numeric', month:'long', year:'numeric', timeZone:'UTC'});
-                    const urgent = days <= 3;
-                    let periodText = sub.period === 'week' ? 'РЅРµРґ' : (sub.period === 'month' ? 'РјРµСЃ' : 'РіРѕРґ');
-                    const count = sub.periodCount || 1;
-                    if (count > 1) periodText = count + ' ' + periodText;
-                    return `
-                        <div class="card" onclick="editSubscription('${sub.id}')">
-                            <div class="card-title">${escapeHtml(sub.name) || 'Р‘РµР· РЅР°Р·РІР°РЅРёСЏ'}</div>
-                            <div class="card-amount">${parseFloat(sub.amount).toFixed(0)} в‚Ѕ / ${periodText}</div>
-                            <div class="card-date">рџ“… ${dateStr}</div>
-                            <div class="card-days ${urgent ? 'urgent' : ''}">${days} ${getDaysWord(days)}</div>
-                            <div class="card-buttons">
-                                <button class="btn btn-edit" onclick="event.stopPropagation(); editSubscription('${sub.id}')">РР·РјРµРЅРёС‚СЊ</button>
-                                <button class="btn btn-delete" onclick="event.stopPropagation(); deleteSubscription('${sub.id}')">РЈРґР°Р»РёС‚СЊ</button>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-                updateSummary();
+            const date = new Date(0);
+            date.setUTCHours(0, 0, 0, 0);
+            date.setUTCFullYear(year, month - 1, day);
+
+            if (
+                date.getUTCFullYear() !== year ||
+                date.getUTCMonth() !== month - 1 ||
+                date.getUTCDate() !== day
+            ) {
+                throw new Error(TEXT.invalidDate);
             }
 
-            // ---------- РЈР›РЈР§РЁР•РќРќР«Р™ РРњРџРћР Рў CSV (РїРѕРґРґРµСЂР¶РєР° Excel) ----------
-            function parseCSV(text) {
-                // РЈР±РёСЂР°РµРј BOM
-                if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
-                const lines = text.split(/\r?\n/).filter(line => line.trim());
-                if (lines.length < 2) return [];
-                
-                // РћРїСЂРµРґРµР»СЏРµРј СЂР°Р·РґРµР»РёС‚РµР»СЊ: Р·Р°РїСЏС‚Р°СЏ РёР»Рё С‚РѕС‡РєР° СЃ Р·Р°РїСЏС‚РѕР№
-                const firstLine = lines[0];
-                const delimiter = firstLine.includes(';') ? ';' : ',';
-                
-                // РџР°СЂСЃРёРј Р·Р°РіРѕР»РѕРІРєРё
-                const headers = firstLine.split(delimiter).map(h => h.replace(/^"|"$/g, '').trim());
-                
-                const data = [];
-                for (let i = 1; i < lines.length; i++) {
-                    const line = lines[i];
-                    // РџСЂРѕСЃС‚РѕР№, РЅРѕ РЅР°РґС‘Р¶РЅС‹Р№ СЂР°Р·Р±РѕСЂ СЃ СѓС‡С‘С‚РѕРј РєР°РІС‹С‡РµРє
-                    const values = [];
-                    let current = '';
-                    let inQuotes = false;
-                    for (let j = 0; j < line.length; j++) {
-                        const char = line[j];
-                        if (char === '"') {
-                            inQuotes = !inQuotes;
-                        } else if (char === delimiter && !inQuotes) {
-                            values.push(current);
-                            current = '';
-                        } else {
-                            current += char;
-                        }
-                    }
-                    values.push(current);
-                    
-                    const cleanValues = values.map(v => v.replace(/^"|"$/g, '').trim());
-                    if (cleanValues.length !== headers.length) continue;
-                    
-                    const obj = {};
-                    headers.forEach((h, idx) => {
-                        obj[h] = cleanValues[idx];
-                    });
-                    
-                    // РџСЂРёРІРµРґРµРЅРёРµ С‚РёРїРѕРІ
-                    obj.amount = parseFloat(obj.amount) || 0;
-                    obj.periodCount = validCount(obj.periodCount || 1);
-                    parseDate(obj.nextPayment);
-                    obj.renewalAnchor = obj.renewalAnchor || obj.nextPayment;
-                    parseDate(obj.renewalAnchor);
-                    if (!['week','month','year'].includes(obj.period) || obj.renewalAnchor > obj.nextPayment) throw new Error('РќРµРєРѕСЂСЂРµРєС‚РЅР°СЏ РїРѕРґРїРёСЃРєР°');
-                    // Р•СЃР»Рё id РЅРµС‚ вЂ” СЃРіРµРЅРµСЂРёСЂСѓРµРј
-                    if (!obj.id) obj.id = Date.now().toString(36) + Math.random().toString(36).substr(2,6);
-                    data.push(obj);
-                }
-                return data;
+            return date;
+        }
+
+        function formatDate(date) {
+            const year = date.getUTCFullYear();
+
+            if (
+                !Number.isFinite(date.getTime()) ||
+                year < 1 ||
+                year > 9999
+            ) {
+                throw new Error(TEXT.invalidDate);
             }
 
-            window.exportData = function() {
-                const headers = ['id', 'name', 'amount', 'period', 'periodCount', 'nextPayment', 'renewalAnchor'];
-                const rows = subscriptions.map(sub => [
-                    sub.id,
-                    sub.name,
-                    sub.amount,
-                    sub.period,
-                    sub.periodCount || 1,
-                    sub.nextPayment,
-                    sub.renewalAnchor || sub.nextPayment
-                ]);
-                const csvContent = [headers, ...rows].map(row => 
-                    row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')
-                ).join('\n');
-                const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
-                const link = document.createElement('a');
-                const url = URL.createObjectURL(blob);
-                link.href = url;
-                link.download = `subscriptions_${todayDate()}.csv`;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                URL.revokeObjectURL(url);
-                closeMenuModal();
+            return [
+                String(year).padStart(4, '0'),
+                String(date.getUTCMonth() + 1).padStart(2, '0'),
+                String(date.getUTCDate()).padStart(2, '0')
+            ].join('-');
+        }
+
+        // Today's date follows the device's local timezone.
+        function todayDate() {
+            const now = new Date();
+
+            return [
+                String(now.getFullYear()).padStart(4, '0'),
+                String(now.getMonth() + 1).padStart(2, '0'),
+                String(now.getDate()).padStart(2, '0')
+            ].join('-');
+        }
+
+        function validCount(value) {
+            const count = Number(value);
+
+            if (
+                !Number.isSafeInteger(count) ||
+                count < 1 ||
+                count > 10000
+            ) {
+                throw new Error(TEXT.invalidCount);
+            }
+
+            return count;
+        }
+
+        function validPeriod(value) {
+            if (!PERIODS.includes(value)) {
+                throw new Error(TEXT.invalidPeriod);
+            }
+
+            return value;
+        }
+
+        // Always calculate from the billing anchor, not from a clamped date.
+        // Example: Jan 31 -> Feb 28 -> Mar 31.
+        function calculateNextPayment(
+            anchor,
+            period,
+            count = 1,
+            cycles = 1
+        ) {
+            const date = parseDate(anchor);
+            const periodCount = validCount(count);
+            validPeriod(period);
+
+            if (!Number.isSafeInteger(cycles) || cycles < 0) {
+                throw new Error(TEXT.invalidDate);
+            }
+
+            const step = periodCount * cycles;
+
+            if (!Number.isSafeInteger(step)) {
+                throw new Error(TEXT.invalidDate);
+            }
+
+            if (period === 'week') {
+                date.setUTCDate(date.getUTCDate() + 7 * step);
+            } else {
+                const originalDay = date.getUTCDate();
+                const months = step * (period === 'year' ? 12 : 1);
+
+                date.setUTCDate(1);
+                date.setUTCMonth(date.getUTCMonth() + months);
+
+                const lastDay = new Date(date.getTime());
+                lastDay.setUTCMonth(lastDay.getUTCMonth() + 1, 0);
+
+                date.setUTCDate(
+                    Math.min(originalDay, lastDay.getUTCDate())
+                );
+            }
+
+            return formatDate(date);
+        }
+
+        function daysUntil(date, today = todayDate()) {
+            return Math.round(
+                (parseDate(date) - parseDate(today)) / DAY_MS
+            );
+        }
+
+        function normalizeSubscription(input) {
+            if (!input || typeof input !== 'object') {
+                throw new Error(TEXT.invalidSubscription);
+            }
+
+            const name = String(input.name ?? '').trim();
+            const rawAmount = String(input.amount ?? '')
+                .trim()
+                .replace(',', '.');
+            const amount = Number(rawAmount);
+
+            if (
+                !name ||
+                !rawAmount ||
+                !Number.isFinite(amount) ||
+                amount < 0
+            ) {
+                throw new Error(TEXT.invalidSubscription);
+            }
+
+            const period = validPeriod(input.period);
+            const periodCount = validCount(
+                input.periodCount === '' ||
+                input.periodCount == null
+                    ? 1
+                    : input.periodCount
+            );
+
+            const nextPayment = String(input.nextPayment ?? '').trim();
+            parseDate(nextPayment);
+
+            const renewalAnchor = String(
+                input.renewalAnchor || nextPayment
+            ).trim();
+
+            parseDate(renewalAnchor);
+
+            if (renewalAnchor > nextPayment) {
+                throw new Error(TEXT.invalidDate);
+            }
+
+            return {
+                id: String(input.id || makeId()),
+                name,
+                amount,
+                period,
+                periodCount,
+                nextPayment,
+                renewalAnchor
             };
+        }
 
-            window.triggerImport = function() {
-                document.getElementById('importFileInput').click();
-                closeMenuModal();
-            };
+        function normalizeList(list) {
+            if (!Array.isArray(list)) {
+                throw new Error(TEXT.invalidSubscription);
+            }
 
-            document.getElementById('importFileInput').addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (!file) return;
-                const reader = new FileReader();
-                reader.onload = (ev) => {
-                    try {
-                        const imported = parseCSV(ev.target.result);
-                        if (imported.length === 0) {
-                            alert('Р¤Р°Р№Р» РЅРµ СЃРѕРґРµСЂР¶РёС‚ РґР°РЅРЅС‹С… РёР»Рё РёРјРµРµС‚ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚.');
-                            return;
-                        }
-                        if (confirm(`Р—Р°РјРµРЅРёС‚СЊ С‚РµРєСѓС‰РёРµ РїРѕРґРїРёСЃРєРё (${subscriptions.length}) РЅР° ${imported.length} РёР· С„Р°Р№Р»Р°?`)) {
-                            subscriptions = imported;
-                            saveToStorage();
-                            renderCards();
-                        }
-                    } catch (err) {
-                        alert('РћС€РёР±РєР° РїСЂРё С‡С‚РµРЅРёРё С„Р°Р№Р»Р°.');
-                        console.error(err);
-                    }
-                    e.target.value = '';
-                };
-                reader.readAsText(file, 'UTF-8');
+            const usedIds = new Set();
+
+            return list.map(item => {
+                const sub = normalizeSubscription(item);
+
+                if (usedIds.has(sub.id)) {
+                    sub.id = makeId();
+                }
+
+                usedIds.add(sub.id);
+                return sub;
             });
+        }
 
-            // ---------- РњРѕРґР°Р»РєРё ----------
-            window.openMenuModal = () => document.getElementById('menuModal').classList.add('active');
-            window.closeMenuModal = () => document.getElementById('menuModal').classList.remove('active');
+        function saveToStorage(list = subscriptions) {
+            try {
+                localStorage.setItem(
+                    STORAGE_KEY,
+                    JSON.stringify(list)
+                );
+                storageWarningShown = false;
+                return true;
+            } catch (error) {
+                console.error(error);
 
-            window.openModal = function(id = null) {
-                editingId = id;
-                const modal = document.getElementById('modal');
-                const title = document.getElementById('modal-title');
-                const form = document.getElementById('subscription-form');
-                if (id) {
-                    const sub = subscriptions.find(s => s.id === id);
-                    if (sub) {
-                        document.getElementById('name').value = sub.name;
-                        document.getElementById('amount').value = sub.amount;
-                        document.getElementById('period').value = sub.period;
-                        document.getElementById('period-count').value = sub.periodCount || 1;
-                        document.getElementById('next-payment').value = sub.nextPayment;
-                        title.textContent = 'РР·РјРµРЅРёС‚СЊ РїРѕРґРїРёСЃРєСѓ';
+                if (!storageWarningShown) {
+                    alert(TEXT.saveError);
+                    storageWarningShown = true;
+                }
+
+                return false;
+            }
+        }
+
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            const parsed = JSON.parse(raw || '[]');
+
+            subscriptions = normalizeList(parsed);
+
+            if (raw && !localStorage.getItem(BACKUP_KEY)) {
+                try {
+                    localStorage.setItem(BACKUP_KEY, raw);
+                } catch (error) {
+                    console.warn('Backup was not saved:', error);
+                }
+            }
+        } catch (error) {
+            console.error(error);
+            alert(TEXT.loadError);
+            return;
+        }
+
+        function refreshOverdueSubscriptions(today = todayDate()) {
+            let changed = false;
+
+            for (const sub of subscriptions) {
+                // A payment due today stays visible until tomorrow.
+                if (sub.nextPayment >= today) {
+                    continue;
+                }
+
+                try {
+                    const anchor = parseDate(sub.renewalAnchor);
+                    const target = parseDate(today);
+                    const count = sub.periodCount;
+                    let cycles;
+
+                    if (sub.period === 'week') {
+                        cycles = Math.max(
+                            0,
+                            Math.ceil(
+                                (target - anchor) /
+                                (DAY_MS * 7 * count)
+                            )
+                        );
+                    } else {
+                        const months =
+                            (
+                                target.getUTCFullYear() -
+                                anchor.getUTCFullYear()
+                            ) * 12 +
+                            target.getUTCMonth() -
+                            anchor.getUTCMonth();
+
+                        const cycleMonths =
+                            count * (sub.period === 'year' ? 12 : 1);
+
+                        cycles = Math.max(
+                            0,
+                            Math.floor(months / cycleMonths)
+                        );
                     }
-                } else {
-                    form.reset();
-                    document.getElementById('period-count').value = 1;
-                    const tomorrow = parseDate(todayDate()); tomorrow.setUTCDate(tomorrow.getUTCDate()+1);
-                    document.getElementById('next-payment').value = formatDate(tomorrow);
-                    title.textContent = 'РќРѕРІР°СЏ РїРѕРґРїРёСЃРєР°';
-                }
-                modal.classList.add('active');
-            };
 
-            window.closeModal = () => document.getElementById('modal').classList.remove('active');
+                    let nextPayment = calculateNextPayment(
+                        sub.renewalAnchor,
+                        sub.period,
+                        count,
+                        cycles
+                    );
 
-            document.getElementById('subscription-form').addEventListener('submit', (e) => {
-                e.preventDefault();
-                const name = document.getElementById('name').value.trim();
-                const amount = parseFloat(document.getElementById('amount').value) || 0;
-                const period = document.getElementById('period').value;
-                const periodCount = Number(document.getElementById('period-count').value);
-                const nextPayment = document.getElementById('next-payment').value;
-                if (!name || !Number.isFinite(amount) || amount < 0) { alert('Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ Рё РЅРµРѕС‚СЂРёС†Р°С‚РµР»СЊРЅСѓСЋ СЃС‚РѕРёРјРѕСЃС‚СЊ'); return; }
-                try { validCount(periodCount); parseDate(nextPayment); } catch (error) { alert(error.message); return; }
-                const previous = subscriptions.find(s => s.id === editingId);
-                const renewalAnchor = previous && previous.nextPayment === nextPayment && previous.period === period && Number(previous.periodCount || 1) === periodCount
-                    ? (previous.renewalAnchor || nextPayment) : nextPayment;
-                const data = {
-                    id: editingId || Date.now().toString(36) + Math.random().toString(36).substr(2,6),
-                    name, amount, period, periodCount, nextPayment, renewalAnchor
-                };
-                if (editingId) {
-                    const idx = subscriptions.findIndex(s => s.id === editingId);
-                    if (idx !== -1) subscriptions[idx] = data;
-                } else {
-                    subscriptions.push(data);
+                    while (nextPayment < today) {
+                        cycles++;
+
+                        nextPayment = calculateNextPayment(
+                            sub.renewalAnchor,
+                            sub.period,
+                            count,
+                            cycles
+                        );
+                    }
+
+                    if (sub.nextPayment !== nextPayment) {
+                        sub.nextPayment = nextPayment;
+                        changed = true;
+                    }
+                } catch (error) {
+                    console.error(
+                        'Renewal failed:',
+                        sub.name,
+                        error
+                    );
                 }
+            }
+
+            if (changed) {
                 saveToStorage();
-                closeModal();
-                renderCards();
+            }
+
+            return changed;
+        }
+
+        function calculateMonthlyTotal() {
+            return subscriptions.reduce((total, sub) => {
+                switch (sub.period) {
+                    case 'week':
+                        // Preserve the original 30-day estimate.
+                        return total +
+                            sub.amount * 30 / (7 * sub.periodCount);
+
+                    case 'month':
+                        return total +
+                            sub.amount / sub.periodCount;
+
+                    case 'year':
+                        return total +
+                            sub.amount / (12 * sub.periodCount);
+
+                    default:
+                        return total;
+                }
+            }, 0);
+        }
+
+        function updateSummary() {
+            const monthly = calculateMonthlyTotal();
+
+            document.getElementById(
+                'totalMonthlyAmount'
+            ).textContent =
+                moneyFormatter.format(monthly) + ' ' + TEXT.ruble;
+
+            document.getElementById(
+                'totalYearlyAmount'
+            ).textContent =
+                moneyFormatter.format(monthly * 12) + ' ' + TEXT.ruble;
+        }
+
+        function getDaysWord(days) {
+            const abs = Math.abs(days);
+
+            if (abs % 100 >= 11 && abs % 100 <= 14) {
+                return TEXT.daysMany;
+            }
+
+            if (abs % 10 === 1) {
+                return TEXT.day;
+            }
+
+            if (abs % 10 >= 2 && abs % 10 <= 4) {
+                return TEXT.daysFew;
+            }
+
+            return TEXT.daysMany;
+        }
+
+        function createElement(tag, className, text) {
+            const element = document.createElement(tag);
+
+            if (className) {
+                element.className = className;
+            }
+
+            if (text !== undefined) {
+                element.textContent = text;
+            }
+
+            return element;
+        }
+
+        function renderCards() {
+            const today = todayDate();
+            refreshOverdueSubscriptions(today);
+
+            const sorted = [...subscriptions].sort(
+                (a, b) => a.nextPayment.localeCompare(b.nextPayment)
+            );
+
+            const fragment = document.createDocumentFragment();
+
+            for (const sub of sorted) {
+                const days = daysUntil(sub.nextPayment, today);
+                const dateText = dateFormatter.format(
+                    parseDate(sub.nextPayment)
+                );
+
+                let periodText = TEXT[sub.period];
+
+                if (sub.periodCount > 1) {
+                    periodText = sub.periodCount + ' ' + periodText;
+                }
+
+                const card = createElement('div', 'card');
+                card.dataset.id = sub.id;
+
+                card.append(
+                    createElement(
+                        'div',
+                        'card-title',
+                        sub.name || TEXT.unnamed
+                    ),
+                    createElement(
+                        'div',
+                        'card-amount',
+                        sub.amount.toFixed(0) +
+                            ' ' + TEXT.ruble +
+                            ' / ' + periodText
+                    ),
+                    createElement(
+                        'div',
+                        'card-date',
+                        TEXT.calendar + ' ' + dateText
+                    ),
+                    createElement(
+                        'div',
+                        'card-days' + (days <= 3 ? ' urgent' : ''),
+                        days + ' ' + getDaysWord(days)
+                    )
+                );
+
+                const buttons = createElement('div', 'card-buttons');
+
+                const editButton = createElement(
+                    'button',
+                    'btn btn-edit',
+                    TEXT.edit
+                );
+                editButton.type = 'button';
+                editButton.dataset.action = 'edit';
+
+                const deleteButton = createElement(
+                    'button',
+                    'btn btn-delete',
+                    TEXT.remove
+                );
+                deleteButton.type = 'button';
+                deleteButton.dataset.action = 'delete';
+
+                buttons.append(editButton, deleteButton);
+                card.append(buttons);
+                fragment.append(card);
+            }
+
+            cards.replaceChildren(fragment);
+            updateSummary();
+        }
+
+        cards.addEventListener('click', event => {
+            const card = event.target.closest('.card');
+
+            if (!card || !cards.contains(card)) {
+                return;
+            }
+
+            const button = event.target.closest(
+                'button[data-action]'
+            );
+
+            if (button?.dataset.action === 'delete') {
+                window.deleteSubscription(card.dataset.id);
+            } else {
+                window.openModal(card.dataset.id);
+            }
+        });
+
+        // Supports BOM, commas/semicolons, escaped quotes,
+        // quoted separators and multiline values.
+        function parseCSV(text) {
+            text = String(text).replace(/^\uFEFF/, '');
+
+            const firstLine = text.split(/\r\n|\n|\r/, 1)[0];
+            let quoted = false;
+            let commas = 0;
+            let semicolons = 0;
+
+            for (let i = 0; i < firstLine.length; i++) {
+                const char = firstLine[i];
+
+                if (char === '"') {
+                    if (quoted && firstLine[i + 1] === '"') {
+                        i++;
+                    } else {
+                        quoted = !quoted;
+                    }
+                } else if (!quoted) {
+                    if (char === ',') commas++;
+                    if (char === ';') semicolons++;
+                }
+            }
+
+            const delimiter = semicolons > commas ? ';' : ',';
+            const rows = [];
+            let row = [];
+            let cell = '';
+            let inQuotes = false;
+
+            function finishRow() {
+                row.push(cell);
+
+                if (row.some(value => value.trim() !== '')) {
+                    rows.push(row);
+                }
+
+                row = [];
+                cell = '';
+            }
+
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+
+                if (char === '"') {
+                    if (inQuotes && text[i + 1] === '"') {
+                        cell += '"';
+                        i++;
+                    } else {
+                        inQuotes = !inQuotes;
+                    }
+                } else if (!inQuotes && char === delimiter) {
+                    row.push(cell);
+                    cell = '';
+                } else if (
+                    !inQuotes &&
+                    (char === '\n' || char === '\r')
+                ) {
+                    if (char === '\r' && text[i + 1] === '\n') {
+                        i++;
+                    }
+
+                    finishRow();
+                } else {
+                    cell += char;
+                }
+            }
+
+            if (inQuotes) {
+                throw new Error(TEXT.importError);
+            }
+
+            finishRow();
+
+            if (rows.length < 2) {
+                return [];
+            }
+
+            const headers = rows.shift().map(value => value.trim());
+            const required = [
+                'name',
+                'amount',
+                'period',
+                'nextPayment'
+            ];
+
+            if (
+                new Set(headers).size !== headers.length ||
+                !required.every(key => headers.includes(key))
+            ) {
+                throw new Error(TEXT.importError);
+            }
+
+            const imported = rows.map(values => {
+                if (values.length !== headers.length) {
+                    throw new Error(TEXT.importError);
+                }
+
+                const record = Object.create(null);
+
+                headers.forEach((header, index) => {
+                    record[header] = values[index].trim();
+                });
+
+                return record;
             });
 
-            window.editSubscription = (id) => openModal(id);
-            window.deleteSubscription = (id) => {
-                if (confirm('РЈРґР°Р»РёС‚СЊ РїРѕРґРїРёСЃРєСѓ?')) {
-                    subscriptions = subscriptions.filter(s => s.id !== id);
-                    saveToStorage();
+            return normalizeList(imported);
+        }
+
+        window.exportData = function() {
+            renderCards();
+
+            const headers = [
+                'id',
+                'name',
+                'amount',
+                'period',
+                'periodCount',
+                'nextPayment',
+                'renewalAnchor'
+            ];
+
+            const rows = subscriptions.map(sub =>
+                headers.map(key => sub[key])
+            );
+
+            const csvContent = [headers, ...rows]
+                .map(row =>
+                    row.map(value =>
+                        '"' +
+                        String(value ?? '').replace(/"/g, '""') +
+                        '"'
+                    ).join(',')
+                )
+                .join('\r\n');
+
+            const blob = new Blob(
+                ['\uFEFF', csvContent],
+                { type: 'text/csv;charset=utf-8;' }
+            );
+
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+
+            link.href = url;
+            link.download = 'subscriptions_' + todayDate() + '.csv';
+
+            document.body.append(link);
+            link.click();
+            link.remove();
+
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+            window.closeMenuModal();
+        };
+
+        window.triggerImport = function() {
+            importInput.value = '';
+            importInput.click();
+            window.closeMenuModal();
+        };
+
+        importInput.addEventListener('change', async event => {
+            const file = event.target.files[0];
+
+            if (!file) {
+                return;
+            }
+
+            try {
+                const buffer = await file.arrayBuffer();
+                let text;
+
+                try {
+                    text = new TextDecoder(
+                        'utf-8',
+                        { fatal: true }
+                    ).decode(buffer);
+                } catch {
+                    // Legacy Russian Excel CSV encoding.
+                    text = new TextDecoder(
+                        'windows-1251',
+                        { fatal: true }
+                    ).decode(buffer);
+                }
+
+                const imported = parseCSV(text);
+
+                if (imported.length === 0) {
+                    alert(TEXT.emptyFile);
+                    return;
+                }
+
+                const question =
+                    TEXT.replaceQuestion +
+                    ' (' + subscriptions.length + ') ' +
+                    TEXT.fromFile +
+                    ' (' + imported.length + ')?';
+
+                if (confirm(question) && saveToStorage(imported)) {
+                    subscriptions = imported;
                     renderCards();
                 }
-            };
+            } catch (error) {
+                console.error(error);
+                alert(TEXT.importError + ' ' + error.message);
+            } finally {
+                importInput.value = '';
+            }
+        });
 
-            // Service Worker
-            if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE='subs-v6';self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['./'])))});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)))});`;
-                const blob = new Blob([swCode], {type:'application/javascript'});
-                navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
+        window.openMenuModal = function() {
+            document.getElementById('menuModal')
+                .classList.add('active');
+        };
+
+        window.closeMenuModal = function() {
+            document.getElementById('menuModal')
+                .classList.remove('active');
+        };
+
+        window.openModal = function(id = null) {
+            const sub = id === null
+                ? null
+                : subscriptions.find(item => item.id === id);
+
+            if (id !== null && !sub) {
+                return;
             }
 
-            renderCards();
-            setInterval(renderCards, 60000);
-            document.addEventListener('visibilitychange', () => { if (!document.hidden) renderCards(); });
-        })();
+            editingId = id;
+
+            if (sub) {
+                document.getElementById('name').value = sub.name;
+                document.getElementById('amount').value = sub.amount;
+                document.getElementById('period').value = sub.period;
+
+                document.getElementById('period-count').value =
+                    sub.periodCount;
+
+                document.getElementById('next-payment').value =
+                    sub.nextPayment;
+
+                document.getElementById('modal-title').textContent =
+                    TEXT.editSubscription;
+            } else {
+                form.reset();
+
+                document.getElementById('period-count').value = 1;
+
+                const tomorrow = parseDate(todayDate());
+                tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
+
+                document.getElementById('next-payment').value =
+                    formatDate(tomorrow);
+
+                document.getElementById('modal-title').textContent =
+                    TEXT.newSubscription;
+            }
+
+            document.getElementById('modal').classList.add('active');
+        };
+
+        window.closeModal = function() {
+            document.getElementById('modal')
+                .classList.remove('active');
+            editingId = null;
+        };
+
+        window.editSubscription = function(id) {
+            window.openModal(id);
+        };
+
+        form.addEventListener('submit', event => {
+            event.preventDefault();
+
+            try {
+                const name = document.getElementById('name')
+                    .value.trim();
+                const amount = document.getElementById('amount').value;
+                const period = document.getElementById('period').value;
+                const periodCount = validCount(
+                    document.getElementById('period-count').value
+                );
+                const nextPayment = document.getElementById(
+                    'next-payment'
+                ).value;
+
+                const previous = subscriptions.find(
+                    sub => sub.id === editingId
+                );
+
+                // Changing the date or recurrence resets the anchor.
+                // Changing only the name/price preserves it.
+                const keepAnchor =
+                    previous &&
+                    previous.nextPayment === nextPayment &&
+                    previous.period === period &&
+                    previous.periodCount === periodCount;
+
+                const data = normalizeSubscription({
+                    id: editingId ?? makeId(),
+                    name,
+                    amount,
+                    period,
+                    periodCount,
+                    nextPayment,
+                    renewalAnchor: keepAnchor
+                        ? previous.renewalAnchor
+                        : nextPayment
+                });
+
+                const updated = [...subscriptions];
+
+                if (editingId !== null) {
+                    const index = updated.findIndex(
+                        sub => sub.id === editingId
+                    );
+
+                    if (index < 0) {
+                        return;
+                    }
+
+                    updated[index] = data;
+                } else {
+                    updated.push(data);
+                }
+
+                if (!saveToStorage(updated)) {
+                    return;
+                }
+
+                subscriptions = updated;
+                window.closeModal();
+                renderCards();
+            } catch (error) {
+                alert(error.message);
+            }
+        });
+
+        window.deleteSubscription = function(id) {
+            if (!confirm(TEXT.removeQuestion)) {
+                return;
+            }
+
+            const updated = subscriptions.filter(
+                sub => sub.id !== id
+            );
+
+            if (saveToStorage(updated)) {
+                subscriptions = updated;
+                renderCards();
+            }
+        };
+
+        // Preserve the original standalone app metadata and icon.
+        function setupManifest() {
+            const iconSvg =
+                '<svg width="192" height="192" viewBox="0 0 192 192" ' +
+                'fill="none" xmlns="http://www.w3.org/2000/svg">' +
+                '<defs>' +
+                '<linearGradient id="glass" x1="20%" y1="0%" ' +
+                'x2="80%" y2="100%">' +
+                '<stop offset="0%" stop-color="#FFFFFF" stop-opacity=".7"/>' +
+                '<stop offset="100%" stop-color="#007AFF" stop-opacity=".95"/>' +
+                '</linearGradient>' +
+                '<linearGradient id="gradientBg" x1="0%" y1="0%" ' +
+                'x2="100%" y2="100%">' +
+                '<stop offset="0%" stop-color="#007AFF" stop-opacity=".9"/>' +
+                '<stop offset="80%" stop-color="#5A5AFF" stop-opacity=".75"/>' +
+                '</linearGradient>' +
+                '</defs>' +
+                '<rect width="192" height="192" rx="44" ' +
+                'fill="url(#gradientBg)"/>' +
+                '<path d="M128 56C128 45.448 98.552 24 72 24' +
+                'C16.2843 24 8 32.2843 8 59.969' +
+                'C8 87.635 16.2843 96 72 96' +
+                'C127.716 96 136 88.1105 136 56Z" ' +
+                'fill="url(#glass)"/>' +
+                '<path d="M116 84L144 112L116 140M88 112L144 112" ' +
+                'stroke="#FFFFFF" stroke-width="12" ' +
+                'stroke-linecap="round" stroke-linejoin="round"/>' +
+                '</svg>';
+
+            const manifest = {
+                name: '\u041f\u043e\u0434\u043f\u0438\u0441\u043a\u0438',
+                short_name: 'Subscriptions',
+                start_url: './',
+                display: 'standalone',
+                background_color: '#f2f2f7',
+                theme_color: '#007aff',
+                icons: [{
+                    src: 'data:image/svg+xml;base64,' + btoa(iconSvg),
+                    sizes: '192x192',
+                    type: 'image/svg+xml'
+                }]
+            };
+
+            const link = document.createElement('link');
+            link.rel = 'manifest';
+            link.href =
+                'data:application/manifest+json,' +
+                encodeURIComponent(JSON.stringify(manifest));
+
+            document.head.append(link);
+        }
+
+        setupManifest();
+        renderCards();
+
+        // Check the date while open and immediately after resuming.
+        setInterval(renderCards, 60000);
+
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                renderCards();
+            }
+        });
+
+        window.addEventListener('pageshow', renderCards);
+    })();
     </script>
 </body>
 </html>
