@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Отслеживание подписок</title>
-    <!-- PWA манифест с иконкой Liquid Glass -->
+    <title>РћС‚СЃР»РµР¶РёРІР°РЅРёРµ РїРѕРґРїРёСЃРѕРє</title>
+    <!-- PWA РјР°РЅРёС„РµСЃС‚ СЃ РёРєРѕРЅРєРѕР№ Liquid Glass -->
     <link rel="manifest" href="data:application/manifest+json,{
-        %22name%22:%22Подписки%22,
+        %22name%22:%22РџРѕРґРїРёСЃРєРё%22,
         %22short_name%22:%22Subscriptions%22,
         %22start_url%22:%22./%22,
         %22display%22:%22standalone%22,
@@ -20,10 +20,10 @@
     }">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Подписки">
+    <meta name="apple-mobile-web-app-title" content="РџРѕРґРїРёСЃРєРё">
     <meta name="theme-color" content="#007aff">
     <style>
-        /* ----- iOS 26 Liquid Glass Theme (восстановленные стили) ----- */
+        /* ----- iOS 26 Liquid Glass Theme (РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРЅС‹Рµ СЃС‚РёР»Рё) ----- */
         :root {
             --primary-blue: #007aff;
             --glass-bg-light: rgba(255, 255, 255, 0.45);
@@ -58,7 +58,7 @@
             }
         }
 
-        /* ----- ЗАФИКСИРОВАННАЯ ВЕРХНЯЯ ПАНЕЛЬ ----- */
+        /* ----- Р—РђР¤РРљРЎРР РћР’РђРќРќРђРЇ Р’Р•Р РҐРќРЇРЇ РџРђРќР•Р›Р¬ ----- */
         .app-header {
             position: fixed;
             top: 0;
@@ -144,7 +144,7 @@
             padding: 20px 20px 40px;
         }
 
-        /* Плашка с расходами */
+        /* РџР»Р°С€РєР° СЃ СЂР°СЃС…РѕРґР°РјРё */
         .monthly-summary {
             background: var(--glass-bg-light);
             backdrop-filter: blur(30px) saturate(180%);
@@ -194,7 +194,7 @@
             font-weight: 700;
         }
 
-        /* Карточки */
+        /* РљР°СЂС‚РѕС‡РєРё */
         .cards {
             display: flex;
             flex-direction: column;
@@ -261,7 +261,7 @@
         .btn-edit { background: rgba(255,255,255,0.35); }
         .btn-delete { background: rgba(255,59,48,0.15); color: #ff3b30; }
 
-        /* Модальные окна */
+        /* РњРѕРґР°Р»СЊРЅС‹Рµ РѕРєРЅР° */
         .modal {
             display: none;
             position: fixed;
@@ -291,7 +291,7 @@
             }
         }
 
-        /* Восстановленные стили полей — прозрачные, светлые */
+        /* Р’РѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРЅС‹Рµ СЃС‚РёР»Рё РїРѕР»РµР№ вЂ” РїСЂРѕР·СЂР°С‡РЅС‹Рµ, СЃРІРµС‚Р»С‹Рµ */
         .form-group {
             margin-bottom: 22px;
         }
@@ -330,7 +330,7 @@
             border-color: #007aff;
         }
 
-        /* Исправление выравнивания даты */
+        /* РСЃРїСЂР°РІР»РµРЅРёРµ РІС‹СЂР°РІРЅРёРІР°РЅРёСЏ РґР°С‚С‹ */
         input[type="date"] {
             text-align: left;
             -webkit-appearance: none;
@@ -369,7 +369,7 @@
             color: #1c1c1e;
         }
 
-        /* Меню */
+        /* РњРµРЅСЋ */
         .menu-modal .modal-content {
             padding: 24px;
             width: 300px;
@@ -401,11 +401,11 @@
     </style>
 </head>
 <body>
-    <!-- Хедер -->
+    <!-- РҐРµРґРµСЂ -->
     <header class="app-header">
-        <div class="header-title">Мои подписки</div>
+        <div class="header-title">РњРѕРё РїРѕРґРїРёСЃРєРё</div>
         <div class="header-actions">
-            <div class="header-btn menu-btn" onclick="openMenuModal()">⋯</div>
+            <div class="header-btn menu-btn" onclick="openMenuModal()">в‹Ї</div>
             <div class="header-btn add-btn" onclick="openModal()">+</div>
         </div>
     </header>
@@ -413,63 +413,63 @@
     <div class="container">
         <div class="monthly-summary" id="monthlySummary">
             <div class="summary-row">
-                <span class="summary-label">В месяц</span>
-                <span class="summary-amount" id="totalMonthlyAmount">0 ₽</span>
+                <span class="summary-label">Р’ РјРµСЃСЏС†</span>
+                <span class="summary-amount" id="totalMonthlyAmount">0 в‚Ѕ</span>
             </div>
             <div class="yearly-row">
-                <span class="yearly-label">В год</span>
-                <span class="yearly-amount" id="totalYearlyAmount">0 ₽</span>
+                <span class="yearly-label">Р’ РіРѕРґ</span>
+                <span class="yearly-amount" id="totalYearlyAmount">0 в‚Ѕ</span>
             </div>
         </div>
         <div class="cards" id="cards"></div>
     </div>
 
-    <!-- Модалка подписки -->
+    <!-- РњРѕРґР°Р»РєР° РїРѕРґРїРёСЃРєРё -->
     <div class="modal" id="modal">
         <div class="modal-content">
-            <h2 id="modal-title" style="margin-bottom:24px; font-weight:700;">Новая подписка</h2>
+            <h2 id="modal-title" style="margin-bottom:24px; font-weight:700;">РќРѕРІР°СЏ РїРѕРґРїРёСЃРєР°</h2>
             <form id="subscription-form">
                 <div class="form-group">
-                    <label>Название сервиса</label>
-                    <input type="text" id="name" required placeholder="Например, Apple Music">
+                    <label>РќР°Р·РІР°РЅРёРµ СЃРµСЂРІРёСЃР°</label>
+                    <input type="text" id="name" required placeholder="РќР°РїСЂРёРјРµСЂ, Apple Music">
                 </div>
                 <div class="form-group">
-                    <label>Стоимость (₽)</label>
+                    <label>РЎС‚РѕРёРјРѕСЃС‚СЊ (в‚Ѕ)</label>
                     <input type="number" id="amount" min="0" step="0.01" required placeholder="299">
                 </div>
                 <div class="form-group">
-                    <label>Периодичность</label>
+                    <label>РџРµСЂРёРѕРґРёС‡РЅРѕСЃС‚СЊ</label>
                     <div class="period-quantity-row">
                         <select id="period" class="period-select">
-                            <option value="week">Неделя</option>
-                            <option value="month" selected>Месяц</option>
-                            <option value="year">Год</option>
+                            <option value="week">РќРµРґРµР»СЏ</option>
+                            <option value="month" selected>РњРµСЃСЏС†</option>
+                            <option value="year">Р“РѕРґ</option>
                         </select>
                         <div class="quantity-input">
                             <input type="number" id="period-count" min="1" value="1" step="1" required>
                         </div>
                     </div>
-                    <div style="font-size: 13px; opacity: 0.6; margin-top: 4px;">Количество периодов</div>
+                    <div style="font-size: 13px; opacity: 0.6; margin-top: 4px;">РљРѕР»РёС‡РµСЃС‚РІРѕ РїРµСЂРёРѕРґРѕРІ</div>
                 </div>
                 <div class="form-group">
-                    <label>Дата следующего платежа</label>
+                    <label>Р”Р°С‚Р° СЃР»РµРґСѓСЋС‰РµРіРѕ РїР»Р°С‚РµР¶Р°</label>
                     <input type="date" id="next-payment" required>
                 </div>
                 <div class="form-buttons">
-                    <button type="button" class="btn btn-cancel" onclick="closeModal()">Отмена</button>
-                    <button type="submit" class="btn btn-save">Сохранить</button>
+                    <button type="button" class="btn btn-cancel" onclick="closeModal()">РћС‚РјРµРЅР°</button>
+                    <button type="submit" class="btn btn-save">РЎРѕС…СЂР°РЅРёС‚СЊ</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Меню экспорта/импорта -->
+    <!-- РњРµРЅСЋ СЌРєСЃРїРѕСЂС‚Р°/РёРјРїРѕСЂС‚Р° -->
     <div class="modal menu-modal" id="menuModal">
         <div class="modal-content">
-            <h3 style="margin-bottom:20px; text-align:center;">Данные</h3>
-            <button class="menu-item" onclick="exportData()">📤 Скачать данные (CSV)</button>
-            <button class="menu-item" onclick="triggerImport()">📥 Загрузить из файла</button>
-            <button class="menu-item" onclick="closeMenuModal()" style="background:rgba(120,120,128,0.2);">Отмена</button>
+            <h3 style="margin-bottom:20px; text-align:center;">Р”Р°РЅРЅС‹Рµ</h3>
+            <button class="menu-item" onclick="exportData()">рџ“¤ РЎРєР°С‡Р°С‚СЊ РґР°РЅРЅС‹Рµ (CSV)</button>
+            <button class="menu-item" onclick="triggerImport()">рџ“Ґ Р—Р°РіСЂСѓР·РёС‚СЊ РёР· С„Р°Р№Р»Р°</button>
+            <button class="menu-item" onclick="closeMenuModal()" style="background:rgba(120,120,128,0.2);">РћС‚РјРµРЅР°</button>
             <input type="file" id="importFileInput" accept=".csv,text/csv,application/vnd.ms-excel" style="display:none;">
         </div>
     </div>
@@ -483,37 +483,67 @@
                 localStorage.setItem('subscriptions', JSON.stringify(subscriptions));
             }
 
-            function calculateNextPayment(currentDate, period, count = 1) {
-                const next = new Date(currentDate);
-                const multiplier = parseInt(count) || 1;
-                if (period === 'week') next.setDate(next.getDate() + 7 * multiplier);
-                else if (period === 'month') next.setMonth(next.getMonth() + multiplier);
-                else if (period === 'year') next.setFullYear(next.getFullYear() + multiplier);
-                return next;
+            const DAY_MS = 86400000;
+            function parseDate(value) {
+                if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) throw new Error('РќРµРєРѕСЂСЂРµРєС‚РЅР°СЏ РґР°С‚Р°');
+                const [y,m,d] = value.split('-').map(Number);
+                const date = new Date(0);
+                date.setUTCHours(0,0,0,0); date.setUTCFullYear(y,m-1,d);
+                if (date.getUTCFullYear() !== y || date.getUTCMonth() !== m-1 || date.getUTCDate() !== d) throw new Error('РќРµСЃСѓС‰РµСЃС‚РІСѓСЋС‰Р°СЏ РґР°С‚Р°');
+                return date;
             }
-
-            function daysUntil(date) {
-                const now = new Date(); now.setHours(0,0,0,0);
-                const target = new Date(date); target.setHours(0,0,0,0);
-                return Math.ceil((target - now) / (1000*60*60*24));
+            function formatDate(date) {
+                return [String(date.getUTCFullYear()).padStart(4,'0'),String(date.getUTCMonth()+1).padStart(2,'0'),String(date.getUTCDate()).padStart(2,'0')].join('-');
             }
-
-            function refreshOverdueSubscriptions() {
-                let changed = false;
-                const today = new Date(); today.setHours(0,0,0,0);
-                for (let sub of subscriptions) {
-                    let paymentDate = new Date(sub.nextPayment); paymentDate.setHours(0,0,0,0);
-                    let days = daysUntil(paymentDate);
-                    const count = sub.periodCount || 1;
-                    while (days <= 0) {
-                        const newDate = calculateNextPayment(paymentDate, sub.period, count);
-                        paymentDate = new Date(newDate); paymentDate.setHours(0,0,0,0);
-                        days = daysUntil(paymentDate);
-                        changed = true;
-                    }
-                    if (changed) sub.nextPayment = paymentDate.toISOString().split('T')[0];
+            function todayDate() {
+                const d = new Date();
+                return [String(d.getFullYear()).padStart(4,'0'),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
+            }
+            function validCount(value) {
+                const n = Number(value);
+                if (!Number.isSafeInteger(n) || n < 1 || n > 10000) throw new Error('РљРѕР»РёС‡РµСЃС‚РІРѕ РїРµСЂРёРѕРґРѕРІ: С†РµР»РѕРµ С‡РёСЃР»Рѕ РѕС‚ 1 РґРѕ 10000');
+                return n;
+            }
+            function calculateNextPayment(anchor,period,count=1,cycles=1) {
+                const d=parseDate(anchor), step=validCount(count)*cycles;
+                if (!Number.isSafeInteger(cycles) || cycles < 0) throw new Error('РќРµРєРѕСЂСЂРµРєС‚РЅРѕРµ С‡РёСЃР»Рѕ С†РёРєР»РѕРІ');
+                if (period === 'week') d.setUTCDate(d.getUTCDate()+7*step);
+                else if (period === 'month' || period === 'year') {
+                    const day=d.getUTCDate(); d.setUTCDate(1);
+                    d.setUTCMonth(d.getUTCMonth()+step*(period === 'year' ? 12 : 1));
+                    const last=new Date(d.getTime()); last.setUTCMonth(last.getUTCMonth()+1,0);
+                    d.setUTCDate(Math.min(day,last.getUTCDate()));
+                } else throw new Error('РќРµРёР·РІРµСЃС‚РЅС‹РёМ† РїРµСЂРёРѕРґ');
+                if (!Number.isFinite(d.getTime()) || d.getUTCFullYear()>9999) throw new Error('Р”Р°С‚Р° РІРЅРµ РґРёР°РїР°Р·РѕРЅР°');
+                return formatDate(d);
+            }
+            function daysUntil(date,today=todayDate()) {
+                return Math.round((parseDate(date)-parseDate(today))/DAY_MS);
+            }
+            function refreshOverdueSubscriptions(today=todayDate()) {
+                let changed=false;
+                for (const sub of subscriptions) {
+                    try {
+                        parseDate(sub.nextPayment);
+                        const count=validCount(sub.periodCount ?? 1);
+                        if (!['week','month','year'].includes(sub.period)) throw new Error('РќРµРёР·РІРµСЃС‚РЅС‹РёМ† РїРµСЂРёРѕРґ');
+                        if (!sub.renewalAnchor) { sub.renewalAnchor=sub.nextPayment; changed=true; }
+                        const anchor=parseDate(sub.renewalAnchor);
+                        // Р”Р°С‚Р° РїР»Р°С‚РµР¶Р° РѕСЃС‚Р°РµМ€С‚СЃСЏ РІРёРґРёРјРѕРёМ† РІРµСЃСЊ РґРµРЅСЊ; РїРµСЂРµРЅРѕСЃ РЅР° СЃР»РµРґСѓСЋС‰РёРёМ† РґРµРЅСЊ.
+                        if (sub.nextPayment>=today) continue;
+                        const target=parseDate(today);
+                        let cycles;
+                        if (sub.period==='week') cycles=Math.max(0,Math.ceil((target-anchor)/(DAY_MS*7*count)));
+                        else {
+                            const months=(target.getUTCFullYear()-anchor.getUTCFullYear())*12+target.getUTCMonth()-anchor.getUTCMonth();
+                            cycles=Math.max(0,Math.floor(months/(count*(sub.period==='year'?12:1))));
+                        }
+                        let next=calculateNextPayment(sub.renewalAnchor,sub.period,count,cycles);
+                        while(next<today) next=calculateNextPayment(sub.renewalAnchor,sub.period,count,++cycles);
+                        if(next!==sub.nextPayment) { sub.nextPayment=next; changed=true; }
+                    } catch(error) { console.error('РћС€РёР±РєР° РґР°С‚С‹',sub.name,error); }
                 }
-                if (changed) saveToStorage();
+                if(changed) saveToStorage();
                 return changed;
             }
 
@@ -534,8 +564,8 @@
                 const monthly = calculateMonthlyTotal();
                 const yearly = monthly * 12;
                 const fmt = new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 0 });
-                document.getElementById('totalMonthlyAmount').textContent = fmt.format(monthly) + ' ₽';
-                document.getElementById('totalYearlyAmount').textContent = fmt.format(yearly) + ' ₽';
+                document.getElementById('totalMonthlyAmount').textContent = fmt.format(monthly) + ' в‚Ѕ';
+                document.getElementById('totalYearlyAmount').textContent = fmt.format(yearly) + ' в‚Ѕ';
             }
 
             function escapeHtml(text) {
@@ -546,32 +576,33 @@
 
             function getDaysWord(days) {
                 const abs = Math.abs(days);
-                if (abs % 100 >= 11 && abs % 100 <= 14) return 'дней';
-                if (abs % 10 === 1) return 'день';
-                if (abs % 10 >= 2 && abs % 10 <= 4) return 'дня';
-                return 'дней';
+                if (abs % 100 >= 11 && abs % 100 <= 14) return 'РґРЅРµР№';
+                if (abs % 10 === 1) return 'РґРµРЅСЊ';
+                if (abs % 10 >= 2 && abs % 10 <= 4) return 'РґРЅСЏ';
+                return 'РґРЅРµР№';
             }
 
             function renderCards() {
                 refreshOverdueSubscriptions();
                 const container = document.getElementById('cards');
-                const sorted = [...subscriptions].sort((a,b) => daysUntil(new Date(a.nextPayment)) - daysUntil(new Date(b.nextPayment)));
+                const today = todayDate();
+                const sorted = [...subscriptions].sort((a,b) => a.nextPayment.localeCompare(b.nextPayment));
                 container.innerHTML = sorted.map(sub => {
-                    const days = daysUntil(new Date(sub.nextPayment));
-                    const dateStr = new Date(sub.nextPayment).toLocaleDateString('ru-RU', {day:'numeric', month:'long', year:'numeric'});
+                    const days = daysUntil(sub.nextPayment,today);
+                    const dateStr = parseDate(sub.nextPayment).toLocaleDateString('ru-RU', {day:'numeric', month:'long', year:'numeric', timeZone:'UTC'});
                     const urgent = days <= 3;
-                    let periodText = sub.period === 'week' ? 'нед' : (sub.period === 'month' ? 'мес' : 'год');
+                    let periodText = sub.period === 'week' ? 'РЅРµРґ' : (sub.period === 'month' ? 'РјРµСЃ' : 'РіРѕРґ');
                     const count = sub.periodCount || 1;
                     if (count > 1) periodText = count + ' ' + periodText;
                     return `
                         <div class="card" onclick="editSubscription('${sub.id}')">
-                            <div class="card-title">${escapeHtml(sub.name) || 'Без названия'}</div>
-                            <div class="card-amount">${parseFloat(sub.amount).toFixed(0)} ₽ / ${periodText}</div>
-                            <div class="card-date">📅 ${dateStr}</div>
+                            <div class="card-title">${escapeHtml(sub.name) || 'Р‘РµР· РЅР°Р·РІР°РЅРёСЏ'}</div>
+                            <div class="card-amount">${parseFloat(sub.amount).toFixed(0)} в‚Ѕ / ${periodText}</div>
+                            <div class="card-date">рџ“… ${dateStr}</div>
                             <div class="card-days ${urgent ? 'urgent' : ''}">${days} ${getDaysWord(days)}</div>
                             <div class="card-buttons">
-                                <button class="btn btn-edit" onclick="event.stopPropagation(); editSubscription('${sub.id}')">Изменить</button>
-                                <button class="btn btn-delete" onclick="event.stopPropagation(); deleteSubscription('${sub.id}')">Удалить</button>
+                                <button class="btn btn-edit" onclick="event.stopPropagation(); editSubscription('${sub.id}')">РР·РјРµРЅРёС‚СЊ</button>
+                                <button class="btn btn-delete" onclick="event.stopPropagation(); deleteSubscription('${sub.id}')">РЈРґР°Р»РёС‚СЊ</button>
                             </div>
                         </div>
                     `;
@@ -579,24 +610,24 @@
                 updateSummary();
             }
 
-            // ---------- УЛУЧШЕННЫЙ ИМПОРТ CSV (поддержка Excel) ----------
+            // ---------- РЈР›РЈР§РЁР•РќРќР«Р™ РРњРџРћР Рў CSV (РїРѕРґРґРµСЂР¶РєР° Excel) ----------
             function parseCSV(text) {
-                // Убираем BOM
+                // РЈР±РёСЂР°РµРј BOM
                 if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
                 const lines = text.split(/\r?\n/).filter(line => line.trim());
                 if (lines.length < 2) return [];
                 
-                // Определяем разделитель: запятая или точка с запятой
+                // РћРїСЂРµРґРµР»СЏРµРј СЂР°Р·РґРµР»РёС‚РµР»СЊ: Р·Р°РїСЏС‚Р°СЏ РёР»Рё С‚РѕС‡РєР° СЃ Р·Р°РїСЏС‚РѕР№
                 const firstLine = lines[0];
                 const delimiter = firstLine.includes(';') ? ';' : ',';
                 
-                // Парсим заголовки
+                // РџР°СЂСЃРёРј Р·Р°РіРѕР»РѕРІРєРё
                 const headers = firstLine.split(delimiter).map(h => h.replace(/^"|"$/g, '').trim());
                 
                 const data = [];
                 for (let i = 1; i < lines.length; i++) {
                     const line = lines[i];
-                    // Простой, но надёжный разбор с учётом кавычек
+                    // РџСЂРѕСЃС‚РѕР№, РЅРѕ РЅР°РґС‘Р¶РЅС‹Р№ СЂР°Р·Р±РѕСЂ СЃ СѓС‡С‘С‚РѕРј РєР°РІС‹С‡РµРє
                     const values = [];
                     let current = '';
                     let inQuotes = false;
@@ -621,10 +652,14 @@
                         obj[h] = cleanValues[idx];
                     });
                     
-                    // Приведение типов
+                    // РџСЂРёРІРµРґРµРЅРёРµ С‚РёРїРѕРІ
                     obj.amount = parseFloat(obj.amount) || 0;
-                    obj.periodCount = parseInt(obj.periodCount) || 1;
-                    // Если id нет — сгенерируем
+                    obj.periodCount = validCount(obj.periodCount || 1);
+                    parseDate(obj.nextPayment);
+                    obj.renewalAnchor = obj.renewalAnchor || obj.nextPayment;
+                    parseDate(obj.renewalAnchor);
+                    if (!['week','month','year'].includes(obj.period) || obj.renewalAnchor > obj.nextPayment) throw new Error('РќРµРєРѕСЂСЂРµРєС‚РЅР°СЏ РїРѕРґРїРёСЃРєР°');
+                    // Р•СЃР»Рё id РЅРµС‚ вЂ” СЃРіРµРЅРµСЂРёСЂСѓРµРј
                     if (!obj.id) obj.id = Date.now().toString(36) + Math.random().toString(36).substr(2,6);
                     data.push(obj);
                 }
@@ -632,14 +667,15 @@
             }
 
             window.exportData = function() {
-                const headers = ['id', 'name', 'amount', 'period', 'periodCount', 'nextPayment'];
+                const headers = ['id', 'name', 'amount', 'period', 'periodCount', 'nextPayment', 'renewalAnchor'];
                 const rows = subscriptions.map(sub => [
                     sub.id,
                     sub.name,
                     sub.amount,
                     sub.period,
                     sub.periodCount || 1,
-                    sub.nextPayment
+                    sub.nextPayment,
+                    sub.renewalAnchor || sub.nextPayment
                 ]);
                 const csvContent = [headers, ...rows].map(row => 
                     row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')
@@ -648,7 +684,7 @@
                 const link = document.createElement('a');
                 const url = URL.createObjectURL(blob);
                 link.href = url;
-                link.download = `subscriptions_${new Date().toISOString().slice(0,10)}.csv`;
+                link.download = `subscriptions_${todayDate()}.csv`;
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
@@ -669,16 +705,16 @@
                     try {
                         const imported = parseCSV(ev.target.result);
                         if (imported.length === 0) {
-                            alert('Файл не содержит данных или имеет неверный формат.');
+                            alert('Р¤Р°Р№Р» РЅРµ СЃРѕРґРµСЂР¶РёС‚ РґР°РЅРЅС‹С… РёР»Рё РёРјРµРµС‚ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚.');
                             return;
                         }
-                        if (confirm(`Заменить текущие подписки (${subscriptions.length}) на ${imported.length} из файла?`)) {
+                        if (confirm(`Р—Р°РјРµРЅРёС‚СЊ С‚РµРєСѓС‰РёРµ РїРѕРґРїРёСЃРєРё (${subscriptions.length}) РЅР° ${imported.length} РёР· С„Р°Р№Р»Р°?`)) {
                             subscriptions = imported;
                             saveToStorage();
                             renderCards();
                         }
                     } catch (err) {
-                        alert('Ошибка при чтении файла.');
+                        alert('РћС€РёР±РєР° РїСЂРё С‡С‚РµРЅРёРё С„Р°Р№Р»Р°.');
                         console.error(err);
                     }
                     e.target.value = '';
@@ -686,7 +722,7 @@
                 reader.readAsText(file, 'UTF-8');
             });
 
-            // ---------- Модалки ----------
+            // ---------- РњРѕРґР°Р»РєРё ----------
             window.openMenuModal = () => document.getElementById('menuModal').classList.add('active');
             window.closeMenuModal = () => document.getElementById('menuModal').classList.remove('active');
 
@@ -703,14 +739,14 @@
                         document.getElementById('period').value = sub.period;
                         document.getElementById('period-count').value = sub.periodCount || 1;
                         document.getElementById('next-payment').value = sub.nextPayment;
-                        title.textContent = 'Изменить подписку';
+                        title.textContent = 'РР·РјРµРЅРёС‚СЊ РїРѕРґРїРёСЃРєСѓ';
                     }
                 } else {
                     form.reset();
                     document.getElementById('period-count').value = 1;
-                    const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate()+1);
-                    document.getElementById('next-payment').valueAsDate = tomorrow;
-                    title.textContent = 'Новая подписка';
+                    const tomorrow = parseDate(todayDate()); tomorrow.setUTCDate(tomorrow.getUTCDate()+1);
+                    document.getElementById('next-payment').value = formatDate(tomorrow);
+                    title.textContent = 'РќРѕРІР°СЏ РїРѕРґРїРёСЃРєР°';
                 }
                 modal.classList.add('active');
             };
@@ -722,12 +758,16 @@
                 const name = document.getElementById('name').value.trim();
                 const amount = parseFloat(document.getElementById('amount').value) || 0;
                 const period = document.getElementById('period').value;
-                const periodCount = parseInt(document.getElementById('period-count').value) || 1;
+                const periodCount = Number(document.getElementById('period-count').value);
                 const nextPayment = document.getElementById('next-payment').value;
-                if (!name || amount <= 0) { alert('Введите название и стоимость'); return; }
+                if (!name || !Number.isFinite(amount) || amount < 0) { alert('Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ Рё РЅРµРѕС‚СЂРёС†Р°С‚РµР»СЊРЅСѓСЋ СЃС‚РѕРёРјРѕСЃС‚СЊ'); return; }
+                try { validCount(periodCount); parseDate(nextPayment); } catch (error) { alert(error.message); return; }
+                const previous = subscriptions.find(s => s.id === editingId);
+                const renewalAnchor = previous && previous.nextPayment === nextPayment && previous.period === period && Number(previous.periodCount || 1) === periodCount
+                    ? (previous.renewalAnchor || nextPayment) : nextPayment;
                 const data = {
                     id: editingId || Date.now().toString(36) + Math.random().toString(36).substr(2,6),
-                    name, amount, period, periodCount, nextPayment
+                    name, amount, period, periodCount, nextPayment, renewalAnchor
                 };
                 if (editingId) {
                     const idx = subscriptions.findIndex(s => s.id === editingId);
@@ -742,7 +782,7 @@
 
             window.editSubscription = (id) => openModal(id);
             window.deleteSubscription = (id) => {
-                if (confirm('Удалить подписку?')) {
+                if (confirm('РЈРґР°Р»РёС‚СЊ РїРѕРґРїРёСЃРєСѓ?')) {
                     subscriptions = subscriptions.filter(s => s.id !== id);
                     saveToStorage();
                     renderCards();
@@ -757,7 +797,7 @@
             }
 
             renderCards();
-            setInterval(() => { if (refreshOverdueSubscriptions()) renderCards(); else renderCards(); }, 3600000);
+            setInterval(renderCards, 60000);
             document.addEventListener('visibilitychange', () => { if (!document.hidden) renderCards(); });
         })();
     </script>
