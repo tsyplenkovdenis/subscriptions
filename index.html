@@ -414,7 +414,73 @@
             background: rgba(255, 255, 255, 0.6);
         }
 
+        .hint {
+            font-size: 13px;
+            opacity: 0.65;
+            margin-top: 6px;
+            line-height: 1.35;
+        }
+
+        .form-error {
+            color: #ff3b30;
+            font-size: 14px;
+            min-height: 18px;
+            margin: -6px 0 8px;
+        }
+
+        .link-btn {
+            display: block;
+            width: 100%;
+            margin-top: 14px;
+            background: none;
+            border: none;
+            color: var(--primary-blue);
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .link-muted {
+            color: inherit;
+            opacity: 0.55;
+            margin-top: 8px;
+        }
+
+        .form-group .check-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 2px;
+            margin: 0;
+            font-size: 17px;
+            font-weight: 400;
+            opacity: 1;
+        }
+
+        .check-row input {
+            width: 22px;
+            height: 22px;
+            accent-color: var(--primary-blue);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+        }
+
+        .modal-content {
+            max-height: 92vh;
+            overflow-y: auto;
+        }
+
         @media (prefers-color-scheme: dark) {
+            .link-btn {
+                color: #4da3ff;
+            }
+
+            .link-muted {
+                color: #fff;
+            }
+
             body {
                 background:
                     linear-gradient(145deg, #101114 0%, #1c1c20 100%);
@@ -619,7 +685,7 @@
     <div class="modal menu-modal" id="menuModal">
         <div class="modal-content">
             <h3 style="margin-bottom:20px; text-align:center;">
-                Данные
+                Меню
             </h3>
 
             <button class="menu-item" onclick="exportData()">
@@ -634,9 +700,14 @@
                 из файла
             </button>
 
+            <button class="menu-item" id="accountButton"
+                    onclick="openAccount()">
+                👤 Аккаунт
+            </button>
+
             <button class="menu-item" id="notifyButton"
-                    onclick="toggleNotifications()">
-                🔔 Включить уведомления
+                    onclick="openNotifySettings()">
+                🔔 Уведомления
             </button>
 
             <button class="menu-item"
@@ -651,6 +722,132 @@
         </div>
     </div>
 
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <h2 id="auth-title" style="margin-bottom:12px; font-weight:700;">
+                Создать аккаунт
+            </h2>
+            <p class="hint" id="auth-message" style="display:none; margin-bottom:12px;"></p>
+            <p class="hint" style="margin-bottom:20px;">
+                Аккаунт хранит ваши подписки и настройки уведомлений —
+                их можно восстановить на любом телефоне.
+            </p>
+
+            <form id="auth-form" autocomplete="on">
+                <div class="form-group">
+                    <label for="auth-login">Логин</label>
+                    <input type="text" id="auth-login" required
+                           autocapitalize="none" autocorrect="off"
+                           spellcheck="false" autocomplete="username"
+                           minlength="3" maxlength="32"
+                           placeholder="например, denis">
+                </div>
+
+                <div class="form-group">
+                    <label for="auth-password">Пароль</label>
+                    <input type="password" id="auth-password" required
+                           minlength="6" maxlength="128"
+                           autocomplete="new-password">
+                </div>
+
+                <div class="form-group" id="auth-repeat-group">
+                    <label for="auth-password-repeat">Повторите пароль</label>
+                    <input type="password" id="auth-password-repeat"
+                           minlength="6" maxlength="128"
+                           autocomplete="new-password">
+                </div>
+
+                <p class="hint" id="auth-hint" style="margin:-10px 0 14px;">
+                    Восстановить забытый пароль нельзя — сохраните его,
+                    например, в «Паролях» iPhone.
+                </p>
+
+                <div class="form-error" id="auth-error"></div>
+
+                <div class="form-buttons" style="margin-top:8px;">
+                    <button type="submit" class="btn btn-save" id="auth-submit">
+                        Создать аккаунт
+                    </button>
+                </div>
+            </form>
+
+            <button class="link-btn" id="auth-switch" type="button"
+                    onclick="toggleAuthMode()">
+                У меня уже есть аккаунт — войти
+            </button>
+            <button class="link-btn link-muted" type="button"
+                    onclick="authLater()">
+                Позже
+            </button>
+        </div>
+    </div>
+
+    <div class="modal" id="accountModal">
+        <div class="modal-content">
+            <h2 style="margin-bottom:8px; font-weight:700;">Аккаунт</h2>
+            <p class="hint" style="margin-bottom:24px;">
+                Вы вошли как <b id="account-login"></b>.
+                Подписки и настройки сохраняются в аккаунте автоматически.
+            </p>
+
+            <button class="menu-item" type="button" onclick="logout()">
+                🚪 Выйти
+            </button>
+            <button class="menu-item" type="button" onclick="deleteAccount()"
+                    style="color:#ff3b30;">
+                🗑 Удалить аккаунт
+            </button>
+            <button class="menu-item" type="button" onclick="closeAccount()"
+                    style="background:rgba(120,120,128,0.2);">
+                Закрыть
+            </button>
+        </div>
+    </div>
+
+    <div class="modal" id="notifyModal">
+        <div class="modal-content">
+            <h2 style="margin-bottom:8px; font-weight:700;">Уведомления</h2>
+            <p class="hint" id="notify-status" style="margin-bottom:14px;"></p>
+
+            <div class="form-buttons" style="margin:0 0 22px;">
+                <button type="button" class="btn btn-save" id="notify-toggle"
+                        onclick="toggleNotifications()">
+                    Включить уведомления
+                </button>
+            </div>
+
+            <div class="form-group">
+                <label>Когда напоминать</label>
+                <label class="check-row">
+                    <input type="checkbox" id="remind-3"> За 3 дня
+                </label>
+                <label class="check-row">
+                    <input type="checkbox" id="remind-1"> Накануне
+                </label>
+                <label class="check-row">
+                    <input type="checkbox" id="remind-0"> В день списания
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label for="notify-hour">Время уведомления</label>
+                <select id="notify-hour"></select>
+                <p class="hint">По времени вашего телефона.</p>
+            </div>
+
+            <div class="form-buttons">
+                <button type="button" class="btn btn-cancel"
+                        onclick="closeNotifySettings()">
+                    Отмена
+                </button>
+                <button type="button" class="btn btn-save"
+                        onclick="saveNotifySettings()">
+                    Сохранить
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
     (() => {
         'use strict';
@@ -662,7 +859,7 @@
 
         // ===== Настройки уведомлений =====
         // Адрес функции в Яндекс Облаке (шаг 5 инструкции).
-        const PUSH_SERVER_URL = 'https://functions.yandexcloud.net/d4etm6fedset84nvun4v';
+        const PUSH_SERVER_URL = '';
         // Публичный ключ VAPID. Он не секретный.
         const VAPID_PUBLIC_KEY =
             'BMaChWe8ptTpYEb-G2cirqp4Q-K-P7QUybTn64_AuGBph6yN_QUAfDw_GbOUtDP23fgzNqgtieB2pswoGn-rgwA';
@@ -670,6 +867,34 @@
         const DEVICE_ID_KEY = 'push_device_id';
         const PUSH_ENABLED_KEY = 'push_enabled';
         let pushSyncTimer = null;
+
+        const ACCOUNT_KEY = 'account';
+        const SYNC_HASH_KEY = 'sync_hash';
+        const SYNC_VERSION_KEY = 'sync_version';
+        const DEVICE_HASH_KEY = 'device_hash';
+        const SETTINGS_KEY = 'notify_settings';
+        const LEGACY_DONE_KEY = 'legacy_cleaned';
+        const AUTH_LATER_KEY = 'auth_later';
+        const PULL_INTERVAL_MS = 5 * 60 * 1000;
+        const DEFAULT_SETTINGS = { remindDays: [3, 0], hour: 10 };
+
+        const ERRORS = {
+            login_taken: 'Этот логин уже занят.',
+            bad_login:
+                'Логин: от 3 до 32 символов — латинские буквы, цифры, ' +
+                'точка, дефис или подчёркивание.',
+            bad_password: 'Пароль должен быть не короче 6 символов.',
+            wrong_credentials: 'Неверный логин или пароль.',
+            locked: 'Слишком много попыток. Попробуйте через 15 минут.',
+            unauthorized: 'Сессия устарела. Войдите снова.',
+            network: 'Нет связи с сервером. Проверьте интернет.'
+        };
+
+        let syncing = false;
+        let syncAgain = false;
+        let lastPullAt = 0;
+        let authMode = 'register';
+
 
         // Все тексты интерфейса.
         const TEXT = {
@@ -1627,7 +1852,228 @@
 
         window.addEventListener('pageshow', renderCards);
 
-        // ===== Push-уведомления =====
+        // ===== Аккаунт, синхронизация и уведомления =====
+
+        function serverConfigured() {
+            return Boolean(PUSH_SERVER_URL);
+        }
+
+        function readJson(key, fallback) {
+            try {
+                const value = JSON.parse(localStorage.getItem(key));
+                return value ?? fallback;
+            } catch {
+                return fallback;
+            }
+        }
+
+        function writeJson(key, value) {
+            try {
+                localStorage.setItem(key, JSON.stringify(value));
+            } catch (error) {
+                console.warn(error);
+            }
+        }
+
+        function account() {
+            const value = readJson(ACCOUNT_KEY, null);
+            return value?.login && value?.token ? value : null;
+        }
+
+        function normalizeSettings(value) {
+            const days = Array.isArray(value?.remindDays)
+                ? [...new Set(value.remindDays.map(Number))]
+                    .filter(day => [0, 1, 3].includes(day))
+                    .sort((a, b) => b - a)
+                : DEFAULT_SETTINGS.remindDays;
+            const hour = Number(value?.hour);
+
+            return {
+                remindDays: days,
+                hour: Number.isInteger(hour) && hour >= 0 && hour <= 23
+                    ? hour
+                    : DEFAULT_SETTINGS.hour
+            };
+        }
+
+        function notifySettings() {
+            return normalizeSettings(readJson(SETTINGS_KEY, DEFAULT_SETTINGS));
+        }
+
+        function timeZone() {
+            try {
+                return Intl.DateTimeFormat().resolvedOptions().timeZone;
+            } catch {
+                return 'Europe/Moscow';
+            }
+        }
+
+        function hashOf(text) {
+            // FNV-1a: короткий отпечаток, чтобы понять, были ли изменения.
+            let hash = 0x811c9dc5;
+
+            for (let i = 0; i < text.length; i++) {
+                hash ^= text.charCodeAt(i);
+                hash = Math.imul(hash, 0x01000193) >>> 0;
+            }
+
+            return hash.toString(36) + ':' + text.length;
+        }
+
+        function syncPayload() {
+            return {
+                items: subscriptions.map(sub => ({
+                    id: sub.id,
+                    name: sub.name,
+                    amount: sub.amount,
+                    period: sub.period,
+                    periodCount: sub.periodCount,
+                    nextPayment: sub.nextPayment,
+                    renewalAnchor: sub.renewalAnchor
+                })),
+                settings: notifySettings()
+            };
+        }
+
+        function payloadHash() {
+            return hashOf(JSON.stringify(syncPayload()));
+        }
+
+        async function api(data) {
+            let response;
+
+            try {
+                // text/plain — без предварительного CORS-запроса.
+                response = await fetch(PUSH_SERVER_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify(data)
+                });
+            } catch {
+                const error = new Error(ERRORS.network);
+                error.code = 'network';
+                throw error;
+            }
+
+            const result = await response.json().catch(() => ({}));
+
+            if (!response.ok) {
+                const error = new Error(
+                    ERRORS[result.error] || 'Ошибка сервера: ' +
+                    (result.error || response.status)
+                );
+                error.code = result.error || 'http_' + response.status;
+                error.status = response.status;
+                throw error;
+            }
+
+            return result;
+        }
+
+        // Принять подписки и настройки из аккаунта.
+        function adoptServerData(data) {
+            const list = normalizeList(data.items || []);
+
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+            } catch (error) {
+                console.warn(error);
+            }
+
+            subscriptions = list;
+            writeJson(SETTINGS_KEY, normalizeSettings(data.settings));
+            localStorage.setItem(SYNC_HASH_KEY, payloadHash());
+            localStorage.setItem(SYNC_VERSION_KEY, String(data.version));
+            renderCards();
+        }
+
+        function forgetAccountLocally() {
+            [
+                ACCOUNT_KEY, SYNC_HASH_KEY, SYNC_VERSION_KEY,
+                DEVICE_HASH_KEY, PUSH_ENABLED_KEY
+            ].forEach(key => localStorage.removeItem(key));
+            updateMenu();
+        }
+
+        async function syncNow({ pull = false } = {}) {
+            const acc = account();
+
+            if (!serverConfigured() || !acc || !navigator.onLine) {
+                return;
+            }
+
+            if (syncing) {
+                syncAgain = true;
+                return;
+            }
+
+            syncing = true;
+
+            try {
+                const hash = payloadHash();
+
+                if (hash !== localStorage.getItem(SYNC_HASH_KEY)) {
+                    // Есть изменения на телефоне — отправляем.
+                    const result = await api({
+                        action: 'save',
+                        login: acc.login,
+                        token: acc.token,
+                        timeZone: timeZone(),
+                        ...syncPayload()
+                    });
+
+                    localStorage.setItem(SYNC_HASH_KEY, hash);
+                    localStorage.setItem(SYNC_VERSION_KEY, String(result.version));
+                    lastPullAt = Date.now();
+                } else if (pull || Date.now() - lastPullAt > PULL_INTERVAL_MS) {
+                    // Изменений нет — проверяем, не обновился ли аккаунт
+                    // с другого телефона.
+                    const data = await api({
+                        action: 'get',
+                        login: acc.login,
+                        token: acc.token
+                    });
+
+                    lastPullAt = Date.now();
+
+                    if (String(data.version) !== localStorage.getItem(SYNC_VERSION_KEY)) {
+                        adoptServerData(data);
+                    }
+                }
+
+                await syncDevice(acc);
+            } catch (error) {
+                if (error.status === 401) {
+                    forgetAccountLocally();
+                    openAuth(ERRORS.unauthorized);
+                } else {
+                    console.warn('Sync:', error.message);
+                }
+            } finally {
+                syncing = false;
+
+                if (syncAgain) {
+                    syncAgain = false;
+                    scheduleSync();
+                }
+            }
+        }
+
+        function scheduleSync(delay = 1500) {
+            if (!serverConfigured() || !account()) {
+                return;
+            }
+
+            clearTimeout(pushSyncTimer);
+            pushSyncTimer = setTimeout(() => syncNow(), delay);
+        }
+
+        // Совместимость: старое имя функции.
+        function schedulePushSync() {
+            scheduleSync();
+        }
+
+        // ----- Push -----
 
         function pushSupported() {
             return (
@@ -1638,25 +2084,7 @@
         }
 
         function pushEnabled() {
-            try {
-                return localStorage.getItem(PUSH_ENABLED_KEY) === '1';
-            } catch {
-                return false;
-            }
-        }
-
-        function setPushEnabled(value) {
-            try {
-                if (value) {
-                    localStorage.setItem(PUSH_ENABLED_KEY, '1');
-                } else {
-                    localStorage.removeItem(PUSH_ENABLED_KEY);
-                }
-            } catch (error) {
-                console.warn(error);
-            }
-
-            updateNotifyButton();
+            return localStorage.getItem(PUSH_ENABLED_KEY) === '1';
         }
 
         function deviceId() {
@@ -1670,89 +2098,58 @@
             return id;
         }
 
-        function updateNotifyButton() {
-            const button = document.getElementById('notifyButton');
-
-            if (!PUSH_SERVER_URL) {
-                button.style.display = 'none';
-                return;
-            }
-
-            button.textContent = pushEnabled()
-                ? '🔕 Выключить уведомления'
-                : '🔔 Включить уведомления';
-        }
-
         function base64UrlToBytes(value) {
             const base64 = (value + '='.repeat((4 - value.length % 4) % 4))
                 .replace(/-/g, '+')
                 .replace(/_/g, '/');
-            const raw = atob(base64);
-
-            return Uint8Array.from(raw, char => char.charCodeAt(0));
+            return Uint8Array.from(atob(base64), char => char.charCodeAt(0));
         }
 
-        async function postToServer(data) {
-            // text/plain — чтобы браузер не делал предварительный
-            // CORS-запрос OPTIONS.
-            const response = await fetch(PUSH_SERVER_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'text/plain' },
-                body: JSON.stringify(data)
-            });
-
-            const result = await response.json().catch(() => ({}));
-
-            if (!response.ok) {
-                throw new Error(result.error || 'HTTP ' + response.status);
+        // Сообщить серверу «адрес» телефона — только если он изменился.
+        async function syncDevice(acc, test = false) {
+            if (!pushSupported() || !pushEnabled()) {
+                return;
             }
 
-            return result;
-        }
-
-        async function syncWithServer(test = false) {
             const registration = await navigator.serviceWorker.ready;
-            const subscription =
-                await registration.pushManager.getSubscription();
+            const subscription = await registration.pushManager.getSubscription();
 
             if (!subscription) {
-                // Разрешение отозвано в настройках iPhone.
-                setPushEnabled(false);
+                localStorage.removeItem(PUSH_ENABLED_KEY);
+                localStorage.removeItem(DEVICE_HASH_KEY);
+                updateMenu();
                 return;
             }
 
-            await postToServer({
-                action: 'save',
+            const hash = hashOf(
+                subscription.endpoint + '|' + timeZone() + '|' + acc.login
+            );
+
+            if (!test && hash === localStorage.getItem(DEVICE_HASH_KEY)) {
+                return;
+            }
+
+            await api({
+                action: 'device',
+                login: acc.login,
+                token: acc.token,
                 deviceId: deviceId(),
                 subscription: subscription.toJSON(),
-                timeZone:
-                    Intl.DateTimeFormat().resolvedOptions().timeZone,
-                items: subscriptions.map(sub => ({
-                    name: sub.name,
-                    amount: sub.amount,
-                    period: sub.period,
-                    periodCount: sub.periodCount,
-                    nextPayment: sub.nextPayment,
-                    renewalAnchor: sub.renewalAnchor
-                })),
+                timeZone: timeZone(),
                 test
             });
-        }
 
-        function schedulePushSync() {
-            if (!PUSH_SERVER_URL || !pushSupported() || !pushEnabled()) {
-                return;
-            }
-
-            clearTimeout(pushSyncTimer);
-            pushSyncTimer = setTimeout(() => {
-                syncWithServer().catch(error =>
-                    console.warn('Sync failed:', error)
-                );
-            }, 1500);
+            localStorage.setItem(DEVICE_HASH_KEY, hash);
         }
 
         async function enableNotifications() {
+            const acc = account();
+
+            if (!acc) {
+                openAuth('Чтобы получать уведомления, войдите или создайте аккаунт.');
+                return;
+            }
+
             if (!pushSupported()) {
                 alert(
                     'Уведомления работают на iPhone с iOS 16.4 и новее, ' +
@@ -1773,49 +2170,370 @@
 
             try {
                 const registration = await navigator.serviceWorker.ready;
-                let subscription =
-                    await registration.pushManager.getSubscription();
+                let subscription = await registration.pushManager.getSubscription();
 
                 if (!subscription) {
                     subscription = await registration.pushManager.subscribe({
                         userVisibleOnly: true,
-                        applicationServerKey:
-                            base64UrlToBytes(VAPID_PUBLIC_KEY)
+                        applicationServerKey: base64UrlToBytes(VAPID_PUBLIC_KEY)
                     });
                 }
 
-                setPushEnabled(true);
-                await syncWithServer(true);
+                localStorage.setItem(PUSH_ENABLED_KEY, '1');
+                await syncNow();
+                await syncDevice(acc, true);
             } catch (error) {
                 console.error(error);
-                setPushEnabled(false);
+                localStorage.removeItem(PUSH_ENABLED_KEY);
                 alert('Не удалось включить уведомления: ' + error.message);
             }
+
+            updateMenu();
+            renderNotifyModal();
         }
 
         async function disableNotifications() {
-            setPushEnabled(false);
+            const acc = account();
+            localStorage.removeItem(PUSH_ENABLED_KEY);
+            localStorage.removeItem(DEVICE_HASH_KEY);
 
             try {
                 const registration = await navigator.serviceWorker.ready;
-                const subscription =
-                    await registration.pushManager.getSubscription();
-
+                const subscription = await registration.pushManager.getSubscription();
                 await subscription?.unsubscribe();
-                await postToServer({
-                    action: 'delete',
+
+                if (acc) {
+                    await api({
+                        action: 'deviceRemove',
+                        login: acc.login,
+                        token: acc.token,
+                        deviceId: deviceId()
+                    });
+                }
+            } catch (error) {
+                console.warn(error);
+            }
+
+            updateMenu();
+            renderNotifyModal();
+        }
+
+        // Удалить запись от первой версии приложения (без аккаунтов).
+        async function cleanupLegacy() {
+            if (localStorage.getItem(LEGACY_DONE_KEY)) {
+                return;
+            }
+
+            const id = localStorage.getItem(DEVICE_ID_KEY);
+
+            if (id) {
+                try {
+                    await api({ action: 'legacyDelete', deviceId: id });
+                } catch (error) {
+                    console.warn(error);
+                    return;
+                }
+            }
+
+            localStorage.setItem(LEGACY_DONE_KEY, '1');
+        }
+
+        // ----- Окно входа и регистрации -----
+
+        function setAuthMode(mode) {
+            authMode = mode;
+            const register = mode === 'register';
+
+            document.getElementById('auth-title').textContent =
+                register ? 'Создать аккаунт' : 'Вход';
+            document.getElementById('auth-submit').textContent =
+                register ? 'Создать аккаунт' : 'Войти';
+            document.getElementById('auth-switch').textContent =
+                register ? 'У меня уже есть аккаунт — войти' : 'Нет аккаунта — создать';
+            document.getElementById('auth-repeat-group').style.display =
+                register ? '' : 'none';
+            document.getElementById('auth-password-repeat').required = register;
+            document.getElementById('auth-password').autocomplete =
+                register ? 'new-password' : 'current-password';
+            document.getElementById('auth-hint').style.display =
+                register ? '' : 'none';
+            document.getElementById('auth-error').textContent = '';
+        }
+
+        function openAuth(message = '') {
+            if (!serverConfigured()) {
+                return;
+            }
+
+            window.closeMenuModal();
+            setAuthMode(authMode);
+            document.getElementById('auth-message').textContent = message;
+            document.getElementById('auth-message').style.display =
+                message ? '' : 'none';
+            document.getElementById('authModal').classList.add('active');
+        }
+
+        function closeAuth() {
+            document.getElementById('authModal').classList.remove('active');
+            document.getElementById('auth-form').reset();
+        }
+
+        window.authLater = function() {
+            sessionStorage.setItem(AUTH_LATER_KEY, '1');
+            closeAuth();
+        };
+
+        window.toggleAuthMode = function() {
+            setAuthMode(authMode === 'register' ? 'login' : 'register');
+        };
+
+        async function afterAuth(acc) {
+            writeJson(ACCOUNT_KEY, acc);
+            localStorage.removeItem(DEVICE_HASH_KEY);
+            closeAuth();
+            updateMenu();
+            await cleanupLegacy();
+            await syncNow();
+        }
+
+        document.getElementById('auth-form').addEventListener('submit', async event => {
+            event.preventDefault();
+
+            const errorBox = document.getElementById('auth-error');
+            const submit = document.getElementById('auth-submit');
+            const login = document.getElementById('auth-login').value.trim().toLowerCase();
+            const password = document.getElementById('auth-password').value;
+
+            errorBox.textContent = '';
+
+            if (authMode === 'register' &&
+                password !== document.getElementById('auth-password-repeat').value) {
+                errorBox.textContent = 'Пароли не совпадают.';
+                return;
+            }
+
+            submit.disabled = true;
+
+            try {
+                if (authMode === 'register') {
+                    const result = await api({
+                        action: 'register',
+                        login,
+                        password,
+                        deviceId: deviceId(),
+                        timeZone: timeZone(),
+                        ...syncPayload()
+                    });
+
+                    localStorage.setItem(SYNC_HASH_KEY, payloadHash());
+                    localStorage.setItem(SYNC_VERSION_KEY, String(result.version));
+                    await afterAuth({ login, token: result.token });
+                    alert(
+                        'Аккаунт «' + login + '» создан. Запомните пароль — ' +
+                        'с ним можно восстановить подписки на любом телефоне.'
+                    );
+                } else {
+                    const result = await api({
+                        action: 'login',
+                        login,
+                        password,
+                        deviceId: deviceId()
+                    });
+
+                    const serverItems = result.items || [];
+                    const keepLocal =
+                        subscriptions.length > 0 &&
+                        serverItems.length > 0 &&
+                        !confirm(
+                            'В аккаунте подписок: ' + serverItems.length +
+                            ', на этом телефоне: ' + subscriptions.length + '.\n\n' +
+                            'OK — загрузить подписки из аккаунта.\n' +
+                            'Отмена — сохранить в аккаунт подписки с этого телефона.'
+                        );
+
+                    if (keepLocal || serverItems.length === 0 && subscriptions.length > 0) {
+                        // Телефон главнее: при синхронизации данные уйдут в аккаунт.
+                        localStorage.setItem(SYNC_HASH_KEY, '');
+                        localStorage.setItem(SYNC_VERSION_KEY, String(result.version));
+                    } else {
+                        adoptServerData(result);
+                    }
+
+                    await afterAuth({ login, token: result.token });
+                }
+            } catch (error) {
+                errorBox.textContent = error.message;
+            } finally {
+                submit.disabled = false;
+            }
+        });
+
+        // ----- Окно аккаунта -----
+
+        window.openAccount = function() {
+            const acc = account();
+
+            if (!acc) {
+                openAuth();
+                return;
+            }
+
+            window.closeMenuModal();
+            document.getElementById('account-login').textContent = acc.login;
+            document.getElementById('accountModal').classList.add('active');
+        };
+
+        window.closeAccount = function() {
+            document.getElementById('accountModal').classList.remove('active');
+        };
+
+        window.logout = async function() {
+            const acc = account();
+
+            if (!acc || !confirm(
+                'Выйти из аккаунта «' + acc.login + '»?\n\n' +
+                'Подписки будут удалены с этого телефона, ' +
+                'но останутся в аккаунте.'
+            )) {
+                return;
+            }
+
+            // Сначала отправим несохранённые изменения.
+            await syncNow();
+
+            if (
+                payloadHash() !== localStorage.getItem(SYNC_HASH_KEY) &&
+                !confirm(
+                    'Нет связи с сервером: последние изменения ещё не ' +
+                    'сохранены в аккаунт и будут потеряны. Всё равно выйти?'
+                )
+            ) {
+                return;
+            }
+
+            try {
+                const registration = await navigator.serviceWorker?.ready;
+                const subscription = await registration?.pushManager?.getSubscription();
+                await subscription?.unsubscribe();
+            } catch (error) {
+                console.warn(error);
+            }
+
+            try {
+                await api({
+                    action: 'logout',
+                    login: acc.login,
+                    token: acc.token,
                     deviceId: deviceId()
                 });
             } catch (error) {
                 console.warn(error);
             }
 
-            alert('Уведомления выключены.');
+            forgetAccountLocally();
+            localStorage.setItem(STORAGE_KEY, '[]');
+            subscriptions = [];
+            renderCards();
+            window.closeAccount();
+            openAuth();
+        };
+
+        window.deleteAccount = async function() {
+            const acc = account();
+
+            if (!acc) {
+                return;
+            }
+
+            const password = prompt(
+                'Удаление аккаунта «' + acc.login + '» нельзя отменить.\n' +
+                'Подписки на этом телефоне сохранятся.\n\n' +
+                'Введите пароль для подтверждения:'
+            );
+
+            if (!password) {
+                return;
+            }
+
+            try {
+                await api({
+                    action: 'deleteAccount',
+                    login: acc.login,
+                    token: acc.token,
+                    password
+                });
+
+                try {
+                    const registration = await navigator.serviceWorker.ready;
+                    const subscription = await registration.pushManager.getSubscription();
+                    await subscription?.unsubscribe();
+                } catch (error) {
+                    console.warn(error);
+                }
+
+                forgetAccountLocally();
+                window.closeAccount();
+                alert('Аккаунт удалён.');
+            } catch (error) {
+                alert(error.message);
+            }
+        };
+
+        // ----- Окно настроек уведомлений -----
+
+        function renderNotifyModal() {
+            const settings = notifySettings();
+            const enabled = pushEnabled();
+
+            document.getElementById('notify-status').textContent = enabled
+                ? 'Уведомления включены на этом телефоне.'
+                : 'Уведомления выключены на этом телефоне.';
+            document.getElementById('notify-toggle').textContent = enabled
+                ? 'Выключить уведомления'
+                : 'Включить уведомления';
+            document.getElementById('notify-toggle').className = enabled
+                ? 'btn btn-delete'
+                : 'btn btn-save';
+
+            for (const day of [3, 1, 0]) {
+                document.getElementById('remind-' + day).checked =
+                    settings.remindDays.includes(day);
+            }
+
+            document.getElementById('notify-hour').value = String(settings.hour);
         }
 
-        window.toggleNotifications = function() {
+        window.openNotifySettings = function() {
             window.closeMenuModal();
 
+            if (!account()) {
+                openAuth('Чтобы получать уведомления, войдите или создайте аккаунт.');
+                return;
+            }
+
+            renderNotifyModal();
+            document.getElementById('notifyModal').classList.add('active');
+        };
+
+        window.closeNotifySettings = function() {
+            document.getElementById('notifyModal').classList.remove('active');
+        };
+
+        window.saveNotifySettings = function() {
+            const remindDays = [3, 1, 0].filter(
+                day => document.getElementById('remind-' + day).checked
+            );
+
+            writeJson(SETTINGS_KEY, normalizeSettings({
+                remindDays,
+                hour: Number(document.getElementById('notify-hour').value)
+            }));
+
+            scheduleSync(0);
+            window.closeNotifySettings();
+        };
+
+        window.toggleNotifications = function() {
             if (pushEnabled()) {
                 disableNotifications();
             } else {
@@ -1823,15 +2541,64 @@
             }
         };
 
+        (function fillHours() {
+            const select = document.getElementById('notify-hour');
+
+            for (let hour = 0; hour < 24; hour++) {
+                const option = document.createElement('option');
+                option.value = String(hour);
+                option.textContent = String(hour).padStart(2, '0') + ':00';
+                select.append(option);
+            }
+        })();
+
+        // ----- Меню -----
+
+        function updateMenu() {
+            const accountButton = document.getElementById('accountButton');
+            const notifyButton = document.getElementById('notifyButton');
+
+            if (!serverConfigured()) {
+                accountButton.style.display = 'none';
+                notifyButton.style.display = 'none';
+                return;
+            }
+
+            const acc = account();
+
+            accountButton.textContent = acc
+                ? '👤 Аккаунт: ' + acc.login
+                : '👤 Войти или создать аккаунт';
+            notifyButton.textContent = pushEnabled()
+                ? '🔔 Уведомления: включены'
+                : '🔕 Уведомления: выключены';
+        }
+
+        // ----- Запуск -----
+
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js').catch(error =>
                 console.warn('Service worker:', error)
             );
         }
 
-        updateNotifyButton();
-        // При каждом запуске обновляем данные на сервере.
-        schedulePushSync();
+        updateMenu();
+
+        if (serverConfigured()) {
+            if (account()) {
+                syncNow({ pull: true });
+            } else if (!sessionStorage.getItem(AUTH_LATER_KEY)) {
+                openAuth();
+            }
+        }
+
+        window.addEventListener('online', () => syncNow({ pull: true }));
+
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                syncNow();
+            }
+        });
     })();
     </script>
 </body>
