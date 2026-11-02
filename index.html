@@ -634,6 +634,11 @@
                 из файла
             </button>
 
+            <button class="menu-item" id="notifyButton"
+                    onclick="toggleNotifications()">
+                🔔 Включить уведомления
+            </button>
+
             <button class="menu-item"
                     onclick="closeMenuModal()"
                     style="background:rgba(120,120,128,0.2);">
@@ -654,6 +659,17 @@
         const BACKUP_KEY = 'subscriptions_before_date_fix';
         const DAY_MS = 86400000;
         const PERIODS = ['week', 'month', 'year'];
+
+        // ===== Настройки уведомлений =====
+        // Адрес функции в Яндекс Облаке (шаг 5 инструкции).
+        const PUSH_SERVER_URL = '';
+        // Публичный ключ VAPID. Он не секретный.
+        const VAPID_PUBLIC_KEY =
+            'BMaChWe8ptTpYEb-G2cirqp4Q-K-P7QUybTn64_AuGBph6yN_QUAfDw_GbOUtDP23fgzNqgtieB2pswoGn-rgwA';
+
+        const DEVICE_ID_KEY = 'push_device_id';
+        const PUSH_ENABLED_KEY = 'push_enabled';
+        let pushSyncTimer = null;
 
         // Все тексты интерфейса.
         const TEXT = {
@@ -955,6 +971,7 @@
                     JSON.stringify(list)
                 );
                 storageWarningShown = false;
+                schedulePushSync();
                 return true;
             } catch (error) {
                 console.error(error);
@@ -1609,6 +1626,212 @@
         });
 
         window.addEventListener('pageshow', renderCards);
+
+        // ===== Push-уведомления =====
+
+        function pushSupported() {
+            return (
+                'serviceWorker' in navigator &&
+                'PushManager' in window &&
+                'Notification' in window
+            );
+        }
+
+        function pushEnabled() {
+            try {
+                return localStorage.getItem(PUSH_ENABLED_KEY) === '1';
+            } catch {
+                return false;
+            }
+        }
+
+        function setPushEnabled(value) {
+            try {
+                if (value) {
+                    localStorage.setItem(PUSH_ENABLED_KEY, '1');
+                } else {
+                    localStorage.removeItem(PUSH_ENABLED_KEY);
+                }
+            } catch (error) {
+                console.warn(error);
+            }
+
+            updateNotifyButton();
+        }
+
+        function deviceId() {
+            let id = localStorage.getItem(DEVICE_ID_KEY);
+
+            if (!id) {
+                id = makeId();
+                localStorage.setItem(DEVICE_ID_KEY, id);
+            }
+
+            return id;
+        }
+
+        function updateNotifyButton() {
+            const button = document.getElementById('notifyButton');
+
+            if (!PUSH_SERVER_URL) {
+                button.style.display = 'none';
+                return;
+            }
+
+            button.textContent = pushEnabled()
+                ? '🔕 Выключить уведомления'
+                : '🔔 Включить уведомления';
+        }
+
+        function base64UrlToBytes(value) {
+            const base64 = (value + '='.repeat((4 - value.length % 4) % 4))
+                .replace(/-/g, '+')
+                .replace(/_/g, '/');
+            const raw = atob(base64);
+
+            return Uint8Array.from(raw, char => char.charCodeAt(0));
+        }
+
+        async function postToServer(data) {
+            // text/plain — чтобы браузер не делал предварительный
+            // CORS-запрос OPTIONS.
+            const response = await fetch(PUSH_SERVER_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json().catch(() => ({}));
+
+            if (!response.ok) {
+                throw new Error(result.error || 'HTTP ' + response.status);
+            }
+
+            return result;
+        }
+
+        async function syncWithServer(test = false) {
+            const registration = await navigator.serviceWorker.ready;
+            const subscription =
+                await registration.pushManager.getSubscription();
+
+            if (!subscription) {
+                // Разрешение отозвано в настройках iPhone.
+                setPushEnabled(false);
+                return;
+            }
+
+            await postToServer({
+                action: 'save',
+                deviceId: deviceId(),
+                subscription: subscription.toJSON(),
+                timeZone:
+                    Intl.DateTimeFormat().resolvedOptions().timeZone,
+                items: subscriptions.map(sub => ({
+                    name: sub.name,
+                    amount: sub.amount,
+                    period: sub.period,
+                    periodCount: sub.periodCount,
+                    nextPayment: sub.nextPayment,
+                    renewalAnchor: sub.renewalAnchor
+                })),
+                test
+            });
+        }
+
+        function schedulePushSync() {
+            if (!PUSH_SERVER_URL || !pushSupported() || !pushEnabled()) {
+                return;
+            }
+
+            clearTimeout(pushSyncTimer);
+            pushSyncTimer = setTimeout(() => {
+                syncWithServer().catch(error =>
+                    console.warn('Sync failed:', error)
+                );
+            }, 1500);
+        }
+
+        async function enableNotifications() {
+            if (!pushSupported()) {
+                alert(
+                    'Уведомления работают на iPhone с iOS 16.4 и новее, ' +
+                    'и только если приложение открыто с экрана «Домой».'
+                );
+                return;
+            }
+
+            const permission = await Notification.requestPermission();
+
+            if (permission !== 'granted') {
+                alert(
+                    'Уведомления запрещены. Разрешить их можно в ' +
+                    'Настройках iPhone → Уведомления → Подписки.'
+                );
+                return;
+            }
+
+            try {
+                const registration = await navigator.serviceWorker.ready;
+                let subscription =
+                    await registration.pushManager.getSubscription();
+
+                if (!subscription) {
+                    subscription = await registration.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey:
+                            base64UrlToBytes(VAPID_PUBLIC_KEY)
+                    });
+                }
+
+                setPushEnabled(true);
+                await syncWithServer(true);
+            } catch (error) {
+                console.error(error);
+                setPushEnabled(false);
+                alert('Не удалось включить уведомления: ' + error.message);
+            }
+        }
+
+        async function disableNotifications() {
+            setPushEnabled(false);
+
+            try {
+                const registration = await navigator.serviceWorker.ready;
+                const subscription =
+                    await registration.pushManager.getSubscription();
+
+                await subscription?.unsubscribe();
+                await postToServer({
+                    action: 'delete',
+                    deviceId: deviceId()
+                });
+            } catch (error) {
+                console.warn(error);
+            }
+
+            alert('Уведомления выключены.');
+        }
+
+        window.toggleNotifications = function() {
+            window.closeMenuModal();
+
+            if (pushEnabled()) {
+                disableNotifications();
+            } else {
+                enableNotifications();
+            }
+        };
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(error =>
+                console.warn('Service worker:', error)
+            );
+        }
+
+        updateNotifyButton();
+        // При каждом запуске обновляем данные на сервере.
+        schedulePushSync();
     })();
     </script>
 </body>
