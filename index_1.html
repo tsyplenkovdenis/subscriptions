@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <title>Отслеживание подписок</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title"
+          content="Подписки">
+    <meta name="theme-color" content="#007aff">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+    <link rel="manifest" href="manifest.webmanifest">
+
+    <style>
+        :root {
+            --primary-blue: #007aff;
+            --glass-bg-light: rgba(255, 255, 255, 0.45);
+            --glass-bg-dark: rgba(30, 30, 32, 0.55);
+            --glass-border-light: rgba(255, 255, 255, 0.6);
+            --glass-border-dark: rgba(120, 120, 128, 0.2);
+            --shadow-sm:
+                0 8px 20px rgba(0, 0, 0, 0.04),
+                0 2px 6px rgba(0, 0, 0, 0.02);
+            --shadow-lg:
+                0 20px 40px rgba(0, 0, 0, 0.08),
+                0 6px 12px rgba(0, 0, 0, 0.05);
+            --header-height: 64px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family:
+                -apple-system, BlinkMacSystemFont,
+                'Segoe UI', Roboto, Helvetica, sans-serif;
+            background: linear-gradient(165deg, #e9ecf2 0%, #d9dee8 100%);
+            min-height: 100vh;
+            color: #1c1c1e;
+            padding-top: var(--header-height);
+            padding-bottom: env(safe-area-inset-bottom);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .app-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background: var(--glass-bg-light);
+            backdrop-filter: blur(30px) saturate(180%);
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
+            box-shadow:
+                0 1px 0 rgba(0, 0, 0, 0.05),
+                inset 0 0 0 0.5px var(--glass-border-light);
+            border-bottom: 0.5px solid rgba(255, 255, 255, 0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            padding-right: max(20px, env(safe-area-inset-right));
+            padding-left: max(20px, env(safe-area-inset-left));
+        }
+
+        .header-title {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #1c1c1e;
+            flex: 1;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 0.5px solid rgba(255, 255, 255, 0.8);
+            box-shadow: var(--shadow-sm);
+            color: var(--primary-blue);
+            font-size: 24px;
+            font-weight: 300;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.15s;
+            line-height: 1;
+        }
+
+        .header-btn.add-btn {
+            font-size: 28px;
+            padding-bottom: 4px;
+        }
+
+        .header-btn:active {
+            transform: scale(0.92);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px 20px 40px;
+        }
+
+        .monthly-summary {
+            background: var(--glass-bg-light);
+            backdrop-filter: blur(30px) saturate(180%);
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
+            border-radius: 32px;
+            padding: 20px 24px;
+            margin-bottom: 28px;
+            box-shadow:
+                var(--shadow-lg),
+                inset 0 0 0 1px var(--glass-border-light);
+            border: 0.5px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .summary-label {
+            font-size: 17px;
+            font-weight: 500;
+            opacity: 0.7;
+        }
+
+        .summary-amount {
+            font-size: 36px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .yearly-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 0.5px solid rgba(120, 120, 128, 0.15);
+        }
+
+        .yearly-label {
+            font-size: 15px;
+            opacity: 0.6;
+        }
+
+        .yearly-amount {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .cards {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .card {
+            background: var(--glass-bg-light);
+            backdrop-filter: blur(30px) saturate(180%);
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
+            border-radius: 28px;
+            padding: 22px 20px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.25s, box-shadow 0.3s;
+            box-shadow:
+                var(--shadow-sm),
+                inset 0 0 0 1px var(--glass-border-light);
+            border: 0.5px solid rgba(255, 255, 255, 0.4);
+            overflow: hidden;
+        }
+
+        .card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                circle at 20% 25%,
+                rgba(255, 255, 255, 0.5) 0%,
+                transparent 70%
+            );
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            border-radius: 28px;
+        }
+
+        .card:hover::after {
+            opacity: 0.5;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow:
+                var(--shadow-lg),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+        }
+
+        .card-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .card-amount {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .card-date {
+            font-size: 15px;
+            opacity: 0.8;
+            margin-bottom: 12px;
+        }
+
+        .card-days {
+            font-size: 44px;
+            font-weight: 800;
+            text-align: right;
+            margin-top: 6px;
+            line-height: 1;
+        }
+
+        .card-days.urgent {
+            color: #ff3b30;
+            text-shadow: 0 0 10px rgba(255, 59, 48, 0.3);
+        }
+
+        .card-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 40px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.5);
+            border: 0.5px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .btn-edit {
+            background: rgba(255, 255, 255, 0.35);
+            color: var(--primary-blue);
+        }
+
+        .btn-delete {
+            background: rgba(255, 59, 48, 0.15);
+            color: #ff3b30;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border-radius: 36px;
+            padding: 32px 28px;
+            width: 380px;
+            max-width: 92vw;
+            box-shadow:
+                var(--shadow-lg),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+            border: 0.5px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 6px;
+            font-weight: 600;
+            opacity: 0.8;
+            letter-spacing: -0.01em;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid rgba(120, 120, 128, 0.2);
+            border-radius: 20px;
+            font-size: 17px;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #1c1c1e;
+            outline: none;
+            transition: border 0.15s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #007aff;
+        }
+
+        input[type="date"] {
+            text-align: left;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        input[type="date"]::-webkit-date-and-time-value {
+            text-align: left;
+        }
+
+        .period-quantity-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .period-select {
+            flex: 2;
+        }
+
+        .quantity-input {
+            flex: 1;
+        }
+
+        .quantity-input input {
+            text-align: center;
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 14px;
+            margin-top: 28px;
+        }
+
+        .btn-save {
+            background: #007aff;
+            color: white;
+            border: none;
+        }
+
+        .btn-cancel {
+            background: rgba(120, 120, 128, 0.15);
+            color: #1c1c1e;
+        }
+
+        .menu-modal .modal-content {
+            padding: 24px;
+            width: 300px;
+        }
+
+        .menu-item {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: 500;
+            text-align: left;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            color: #1c1c1e;
+        }
+
+        .menu-item:active {
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background:
+                    linear-gradient(145deg, #101114 0%, #1c1c20 100%);
+                color: #ffffff;
+            }
+
+            .app-header {
+                background: var(--glass-bg-dark);
+                border-bottom-color: rgba(255, 255, 255, 0.05);
+                box-shadow:
+                    0 1px 0 rgba(0, 0, 0, 0.2),
+                    inset 0 0 0 0.5px var(--glass-border-dark);
+            }
+
+            .header-title {
+                color: white;
+            }
+
+            .header-btn {
+                background: rgba(60, 60, 65, 0.6);
+                border-color: rgba(255, 255, 255, 0.1);
+                color: #0a84ff;
+            }
+
+            .monthly-summary {
+                background: var(--glass-bg-dark);
+                box-shadow:
+                    var(--shadow-lg),
+                    inset 0 0 0 1px var(--glass-border-dark);
+                border-color: rgba(255, 255, 255, 0.05);
+            }
+
+            .card {
+                background: var(--glass-bg-dark);
+                box-shadow:
+                    var(--shadow-sm),
+                    inset 0 0 0 1px var(--glass-border-dark);
+                border-color: rgba(255, 255, 255, 0.08);
+            }
+
+            .modal-content {
+                background: rgba(30, 30, 34, 0.75);
+                color: #fff;
+            }
+
+            .form-group input,
+            .form-group select {
+                background: rgba(20, 20, 24, 0.5);
+                color: white;
+                border-color: rgba(255, 255, 255, 0.1);
+            }
+
+            .menu-item {
+                background: rgba(60, 60, 65, 0.5);
+                color: white;
+            }
+
+            .btn {
+                background: rgba(255, 255, 255, 0.08);
+                border-color: rgba(255, 255, 255, 0.12);
+            }
+
+            .btn-edit {
+                background: rgba(10, 132, 255, 0.22);
+                color: #4da3ff;
+            }
+
+            .btn-delete {
+                background: rgba(255, 69, 58, 0.2);
+                color: #ff6961;
+            }
+
+            .btn-cancel {
+                background: rgba(255, 255, 255, 0.12);
+                color: #ffffff;
+            }
+
+            .btn-save {
+                background: #0a84ff;
+                color: #ffffff;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="app-header">
+        <div class="header-title">
+            Мои подписки
+        </div>
+        <div class="header-actions">
+            <div class="header-btn menu-btn"
+                 onclick="openMenuModal()">⋯</div>
+            <div class="header-btn add-btn"
+                 onclick="openModal()">+</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="monthly-summary" id="monthlySummary">
+            <div class="summary-row">
+                <span class="summary-label">
+                    В месяц
+                </span>
+                <span class="summary-amount"
+                      id="totalMonthlyAmount">0 ₽</span>
+            </div>
+            <div class="yearly-row">
+                <span class="yearly-label">
+                    В год
+                </span>
+                <span class="yearly-amount"
+                      id="totalYearlyAmount">0 ₽</span>
+            </div>
+        </div>
+        <div class="cards" id="cards"></div>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h2 id="modal-title"
+                style="margin-bottom:24px; font-weight:700;">
+                Новая
+                подписка
+            </h2>
+
+            <form id="subscription-form">
+                <div class="form-group">
+                    <label for="name">
+                        Название
+                        сервиса
+                    </label>
+                    <input type="text" id="name" required
+                           placeholder="Например, Apple Music">
+                </div>
+
+                <div class="form-group">
+                    <label for="amount">
+                        Стоимость
+                        (₽)
+                    </label>
+                    <input type="number" id="amount"
+                           min="0" step="0.01" required
+                           placeholder="299">
+                </div>
+
+                <div class="form-group">
+                    <label for="period">
+                        Периодичность
+                    </label>
+
+                    <div class="period-quantity-row">
+                        <select id="period" class="period-select">
+                            <option value="week">
+                                Неделя
+                            </option>
+                            <option value="month" selected>
+                                Месяц
+                            </option>
+                            <option value="year">
+                                Год
+                            </option>
+                        </select>
+
+                        <div class="quantity-input">
+                            <input type="number" id="period-count"
+                                   min="1" max="10000"
+                                   value="1" step="1" required>
+                        </div>
+                    </div>
+
+                    <div style="font-size:13px; opacity:0.6; margin-top:4px;">
+                        Количество
+                        периодов
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="next-payment">
+                        Дата
+                        следующего
+                        платежа
+                    </label>
+                    <input type="date" id="next-payment"
+                           min="0001-01-01" max="9999-12-31" required>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="button"
+                            class="btn btn-cancel"
+                            onclick="closeModal()">
+                        Отмена
+                    </button>
+                    <button type="submit" class="btn btn-save">
+                        Сохранить
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal menu-modal" id="menuModal">
+        <div class="modal-content">
+            <h3 style="margin-bottom:20px; text-align:center;">
+                Данные
+            </h3>
+
+            <button class="menu-item" onclick="exportData()">
+                📤
+                Скачать
+                данные (CSV)
+            </button>
+
+            <button class="menu-item" onclick="triggerImport()">
+                📥
+                Загрузить
+                из файла
+            </button>
+
+            <button class="menu-item"
+                    onclick="closeMenuModal()"
+                    style="background:rgba(120,120,128,0.2);">
+                Отмена
+            </button>
+
+            <input type="file" id="importFileInput"
+                   accept=".csv,text/csv,application/vnd.ms-excel"
+                   style="display:none;">
+        </div>
+    </div>
+
+    <script>
+    (() => {
+        'use strict';
+
+        const STORAGE_KEY = 'subscriptions';
+        const BACKUP_KEY = 'subscriptions_before_date_fix';
+        const DAY_MS = 86400000;
+        const PERIODS = ['week', 'month', 'year'];
+
+        // Все тексты интерфейса.
+        const TEXT = {
+            newSubscription:
+                'Новая подписка',
+            editSubscription:
+                'Изменить подписку',
+            edit:
+                'Изменить',
+            remove:
+                'Удалить',
+            removeQuestion:
+                'Удалить подписку?',
+            unnamed:
+                'Без названия',
+            day:
+                'день',
+            daysFew:
+                'дня',
+            daysMany:
+                'дней',
+            today:
+                'Сегодня',
+            tomorrow:
+                'Завтра',
+            week:
+                'нед',
+            month:
+                'мес',
+            year:
+                'год',
+            ruble:
+                '₽',
+            calendar:
+                '📅',
+            invalidDate:
+                'Некорректная дата.',
+            invalidPeriod:
+                'Некорректная периодичность.',
+            invalidCount:
+                'Количество периодов: целое число от 1 до 10000.',
+            invalidSubscription:
+                'Проверьте название, стоимость и дату.',
+            loadError:
+                'Не удалось прочитать подписки. Исходные данные не изменены.',
+            saveError:
+                'Не удалось сохранить данные.',
+            importError:
+                'Ошибка импорта.',
+            emptyFile:
+                'Файл не содержит подписок.',
+            replaceQuestion:
+                'Заменить текущие подписки',
+            fromFile:
+                'на подписки из файла'
+        };
+
+        // Пробел между тысячами всегда, включая 4-значные суммы: 1 689.
+        const moneyFormatter = {
+            format(value) {
+                return String(Math.round(value))
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0');
+            }
+        };
+
+        const dateFormatter = new Intl.DateTimeFormat(
+            'ru-RU',
+            {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+                timeZone: 'UTC'
+            }
+        );
+
+        const form = document.getElementById('subscription-form');
+        const cards = document.getElementById('cards');
+        const importInput = document.getElementById('importFileInput');
+
+        let subscriptions = [];
+        let editingId = null;
+        let storageWarningShown = false;
+
+        function makeId() {
+            if (globalThis.crypto?.randomUUID) {
+                return globalThis.crypto.randomUUID();
+            }
+
+            return (
+                Date.now().toString(36) +
+                Math.random().toString(36).slice(2)
+            );
+        }
+
+        // UTC is used only as a timezone-free calendar arithmetic container.
+        function parseDate(value) {
+            if (
+                typeof value !== 'string' ||
+                !/^\d{4}-\d{2}-\d{2}$/.test(value)
+            ) {
+                throw new Error(TEXT.invalidDate);
+            }
+
+            const [year, month, day] = value.split('-').map(Number);
+
+            if (year < 1 || year > 9999) {
+                throw new Error(TEXT.invalidDate);
+            }
+
+            const date = new Date(0);
+            date.setUTCHours(0, 0, 0, 0);
+            date.setUTCFullYear(year, month - 1, day);
+
+            if (
+                date.getUTCFullYear() !== year ||
+                date.getUTCMonth() !== month - 1 ||
+                date.getUTCDate() !== day
+            ) {
+                throw new Error(TEXT.invalidDate);
+            }
+
+            return date;
+        }
+
+        function formatDate(date) {
+            const year = date.getUTCFullYear();
+
+            if (
+                !Number.isFinite(date.getTime()) ||
+                year < 1 ||
+                year > 9999
+            ) {
+                throw new Error(TEXT.invalidDate);
+            }
+
+            return [
+                String(year).padStart(4, '0'),
+                String(date.getUTCMonth() + 1).padStart(2, '0'),
+                String(date.getUTCDate()).padStart(2, '0')
+            ].join('-');
+        }
+
+        // Today's date follows the device's local timezone.
+        function todayDate() {
+            const now = new Date();
+
+            return [
+                String(now.getFullYear()).padStart(4, '0'),
+                String(now.getMonth() + 1).padStart(2, '0'),
+                String(now.getDate()).padStart(2, '0')
+            ].join('-');
+        }
+
+        function validCount(value) {
+            const count = Number(value);
+
+            if (
+                !Number.isSafeInteger(count) ||
+                count < 1 ||
+                count > 10000
+            ) {
+                throw new Error(TEXT.invalidCount);
+            }
+
+            return count;
+        }
+
+        function validPeriod(value) {
+            if (!PERIODS.includes(value)) {
+                throw new Error(TEXT.invalidPeriod);
+            }
+
+            return value;
+        }
+
+        // Always calculate from the billing anchor, not from a clamped date.
+        // Example: Jan 31 -> Feb 28 -> Mar 31.
+        function calculateNextPayment(
+            anchor,
+            period,
+            count = 1,
+            cycles = 1
+        ) {
+            const date = parseDate(anchor);
+            const periodCount = validCount(count);
+            validPeriod(period);
+
+            if (!Number.isSafeInteger(cycles) || cycles < 0) {
+                throw new Error(TEXT.invalidDate);
+            }
+
+            const step = periodCount * cycles;
+
+            if (!Number.isSafeInteger(step)) {
+                throw new Error(TEXT.invalidDate);
+            }
+
+            if (period === 'week') {
+                date.setUTCDate(date.getUTCDate() + 7 * step);
+            } else {
+                const originalDay = date.getUTCDate();
+                const months = step * (period === 'year' ? 12 : 1);
+
+                date.setUTCDate(1);
+                date.setUTCMonth(date.getUTCMonth() + months);
+
+                const lastDay = new Date(date.getTime());
+                lastDay.setUTCMonth(lastDay.getUTCMonth() + 1, 0);
+
+                date.setUTCDate(
+                    Math.min(originalDay, lastDay.getUTCDate())
+                );
+            }
+
+            return formatDate(date);
+        }
+
+        function daysUntil(date, today = todayDate()) {
+            return Math.round(
+                (parseDate(date) - parseDate(today)) / DAY_MS
+            );
+        }
+
+        function normalizeSubscription(input) {
+            if (!input || typeof input !== 'object') {
+                throw new Error(TEXT.invalidSubscription);
+            }
+
+            const name = String(input.name ?? '').trim();
+            const rawAmount = String(input.amount ?? '')
+                .trim()
+                .replace(',', '.');
+            const amount = Number(rawAmount);
+
+            if (
+                !name ||
+                !rawAmount ||
+                !Number.isFinite(amount) ||
+                amount < 0
+            ) {
+                throw new Error(TEXT.invalidSubscription);
+            }
+
+            const period = validPeriod(input.period);
+            const periodCount = validCount(
+                input.periodCount === '' ||
+                input.periodCount == null
+                    ? 1
+                    : input.periodCount
+            );
+
+            const nextPayment = String(input.nextPayment ?? '').trim();
+            parseDate(nextPayment);
+
+            const renewalAnchor = String(
+                input.renewalAnchor || nextPayment
+            ).trim();
+
+            parseDate(renewalAnchor);
+
+            if (renewalAnchor > nextPayment) {
+                throw new Error(TEXT.invalidDate);
+            }
+
+            return {
+                id: String(input.id || makeId()),
+                name,
+                amount,
+                period,
+                periodCount,
+                nextPayment,
+                renewalAnchor
+            };
+        }
+
+        function normalizeList(list) {
+            if (!Array.isArray(list)) {
+                throw new Error(TEXT.invalidSubscription);
+            }
+
+            const usedIds = new Set();
+
+            return list.map(item => {
+                const sub = normalizeSubscription(item);
+
+                if (usedIds.has(sub.id)) {
+                    sub.id = makeId();
+                }
+
+                usedIds.add(sub.id);
+                return sub;
+            });
+        }
+
+        function saveToStorage(list = subscriptions) {
+            try {
+                localStorage.setItem(
+                    STORAGE_KEY,
+                    JSON.stringify(list)
+                );
+                storageWarningShown = false;
+                return true;
+            } catch (error) {
+                console.error(error);
+
+                if (!storageWarningShown) {
+                    alert(TEXT.saveError);
+                    storageWarningShown = true;
+                }
+
+                return false;
+            }
+        }
+
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            const parsed = JSON.parse(raw || '[]');
+
+            subscriptions = normalizeList(parsed);
+
+            if (raw && !localStorage.getItem(BACKUP_KEY)) {
+                try {
+                    localStorage.setItem(BACKUP_KEY, raw);
+                } catch (error) {
+                    console.warn('Backup was not saved:', error);
+                }
+            }
+        } catch (error) {
+            console.error(error);
+            alert(TEXT.loadError);
+            return;
+        }
+
+        function refreshOverdueSubscriptions(today = todayDate()) {
+            let changed = false;
+
+            for (const sub of subscriptions) {
+                // A payment due today stays visible until tomorrow.
+                if (sub.nextPayment >= today) {
+                    continue;
+                }
+
+                try {
+                    const anchor = parseDate(sub.renewalAnchor);
+                    const target = parseDate(today);
+                    const count = sub.periodCount;
+                    let cycles;
+
+                    if (sub.period === 'week') {
+                        cycles = Math.max(
+                            0,
+                            Math.ceil(
+                                (target - anchor) /
+                                (DAY_MS * 7 * count)
+                            )
+                        );
+                    } else {
+                        const months =
+                            (
+                                target.getUTCFullYear() -
+                                anchor.getUTCFullYear()
+                            ) * 12 +
+                            target.getUTCMonth() -
+                            anchor.getUTCMonth();
+
+                        const cycleMonths =
+                            count * (sub.period === 'year' ? 12 : 1);
+
+                        cycles = Math.max(
+                            0,
+                            Math.floor(months / cycleMonths)
+                        );
+                    }
+
+                    let nextPayment = calculateNextPayment(
+                        sub.renewalAnchor,
+                        sub.period,
+                        count,
+                        cycles
+                    );
+
+                    while (nextPayment < today) {
+                        cycles++;
+
+                        nextPayment = calculateNextPayment(
+                            sub.renewalAnchor,
+                            sub.period,
+                            count,
+                            cycles
+                        );
+                    }
+
+                    if (sub.nextPayment !== nextPayment) {
+                        sub.nextPayment = nextPayment;
+                        changed = true;
+                    }
+                } catch (error) {
+                    console.error(
+                        'Renewal failed:',
+                        sub.name,
+                        error
+                    );
+                }
+            }
+
+            if (changed) {
+                saveToStorage();
+            }
+
+            return changed;
+        }
+
+        function calculateMonthlyTotal() {
+            return subscriptions.reduce((total, sub) => {
+                switch (sub.period) {
+                    case 'week':
+                        // Preserve the original 30-day estimate.
+                        return total +
+                            sub.amount * 30 / (7 * sub.periodCount);
+
+                    case 'month':
+                        return total +
+                            sub.amount / sub.periodCount;
+
+                    case 'year':
+                        return total +
+                            sub.amount / (12 * sub.periodCount);
+
+                    default:
+                        return total;
+                }
+            }, 0);
+        }
+
+        function updateSummary() {
+            const monthly = calculateMonthlyTotal();
+
+            document.getElementById(
+                'totalMonthlyAmount'
+            ).textContent =
+                moneyFormatter.format(monthly) + ' ' + TEXT.ruble;
+
+            document.getElementById(
+                'totalYearlyAmount'
+            ).textContent =
+                moneyFormatter.format(monthly * 12) + ' ' + TEXT.ruble;
+        }
+
+        function getDaysWord(days) {
+            const abs = Math.abs(days);
+
+            if (abs % 100 >= 11 && abs % 100 <= 14) {
+                return TEXT.daysMany;
+            }
+
+            if (abs % 10 === 1) {
+                return TEXT.day;
+            }
+
+            if (abs % 10 >= 2 && abs % 10 <= 4) {
+                return TEXT.daysFew;
+            }
+
+            return TEXT.daysMany;
+        }
+
+        function formatDays(days) {
+            if (days === 0) {
+                return TEXT.today;
+            }
+
+            if (days === 1) {
+                return TEXT.tomorrow;
+            }
+
+            return days + ' ' + getDaysWord(days);
+        }
+
+        function createElement(tag, className, text) {
+            const element = document.createElement(tag);
+
+            if (className) {
+                element.className = className;
+            }
+
+            if (text !== undefined) {
+                element.textContent = text;
+            }
+
+            return element;
+        }
+
+        function renderCards() {
+            const today = todayDate();
+            refreshOverdueSubscriptions(today);
+
+            const sorted = [...subscriptions].sort(
+                (a, b) => a.nextPayment.localeCompare(b.nextPayment)
+            );
+
+            const fragment = document.createDocumentFragment();
+
+            for (const sub of sorted) {
+                const days = daysUntil(sub.nextPayment, today);
+                const dateText = dateFormatter.format(
+                    parseDate(sub.nextPayment)
+                );
+
+                let periodText = TEXT[sub.period];
+
+                if (sub.periodCount > 1) {
+                    periodText = sub.periodCount + ' ' + periodText;
+                }
+
+                const card = createElement('div', 'card');
+                card.dataset.id = sub.id;
+
+                card.append(
+                    createElement(
+                        'div',
+                        'card-title',
+                        sub.name || TEXT.unnamed
+                    ),
+                    createElement(
+                        'div',
+                        'card-amount',
+                        moneyFormatter.format(sub.amount) +
+                            ' ' + TEXT.ruble +
+                            ' / ' + periodText
+                    ),
+                    createElement(
+                        'div',
+                        'card-date',
+                        TEXT.calendar + ' ' + dateText
+                    ),
+                    createElement(
+                        'div',
+                        'card-days' + (days <= 3 ? ' urgent' : ''),
+                        formatDays(days)
+                    )
+                );
+
+                const buttons = createElement('div', 'card-buttons');
+
+                const editButton = createElement(
+                    'button',
+                    'btn btn-edit',
+                    TEXT.edit
+                );
+                editButton.type = 'button';
+                editButton.dataset.action = 'edit';
+
+                const deleteButton = createElement(
+                    'button',
+                    'btn btn-delete',
+                    TEXT.remove
+                );
+                deleteButton.type = 'button';
+                deleteButton.dataset.action = 'delete';
+
+                buttons.append(editButton, deleteButton);
+                card.append(buttons);
+                fragment.append(card);
+            }
+
+            cards.replaceChildren(fragment);
+            updateSummary();
+        }
+
+        cards.addEventListener('click', event => {
+            const card = event.target.closest('.card');
+
+            if (!card || !cards.contains(card)) {
+                return;
+            }
+
+            const button = event.target.closest(
+                'button[data-action]'
+            );
+
+            if (button?.dataset.action === 'delete') {
+                window.deleteSubscription(card.dataset.id);
+            } else {
+                window.openModal(card.dataset.id);
+            }
+        });
+
+        // Supports BOM, commas/semicolons, escaped quotes,
+        // quoted separators and multiline values.
+        function parseCSV(text) {
+            text = String(text).replace(/^\uFEFF/, '');
+
+            const firstLine = text.split(/\r\n|\n|\r/, 1)[0];
+            let quoted = false;
+            let commas = 0;
+            let semicolons = 0;
+
+            for (let i = 0; i < firstLine.length; i++) {
+                const char = firstLine[i];
+
+                if (char === '"') {
+                    if (quoted && firstLine[i + 1] === '"') {
+                        i++;
+                    } else {
+                        quoted = !quoted;
+                    }
+                } else if (!quoted) {
+                    if (char === ',') commas++;
+                    if (char === ';') semicolons++;
+                }
+            }
+
+            const delimiter = semicolons > commas ? ';' : ',';
+            const rows = [];
+            let row = [];
+            let cell = '';
+            let inQuotes = false;
+
+            function finishRow() {
+                row.push(cell);
+
+                if (row.some(value => value.trim() !== '')) {
+                    rows.push(row);
+                }
+
+                row = [];
+                cell = '';
+            }
+
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+
+                if (char === '"') {
+                    if (inQuotes && text[i + 1] === '"') {
+                        cell += '"';
+                        i++;
+                    } else {
+                        inQuotes = !inQuotes;
+                    }
+                } else if (!inQuotes && char === delimiter) {
+                    row.push(cell);
+                    cell = '';
+                } else if (
+                    !inQuotes &&
+                    (char === '\n' || char === '\r')
+                ) {
+                    if (char === '\r' && text[i + 1] === '\n') {
+                        i++;
+                    }
+
+                    finishRow();
+                } else {
+                    cell += char;
+                }
+            }
+
+            if (inQuotes) {
+                throw new Error(TEXT.importError);
+            }
+
+            finishRow();
+
+            if (rows.length < 2) {
+                return [];
+            }
+
+            const headers = rows.shift().map(value => value.trim());
+            const required = [
+                'name',
+                'amount',
+                'period',
+                'nextPayment'
+            ];
+
+            if (
+                new Set(headers).size !== headers.length ||
+                !required.every(key => headers.includes(key))
+            ) {
+                throw new Error(TEXT.importError);
+            }
+
+            const imported = rows.map(values => {
+                if (values.length !== headers.length) {
+                    throw new Error(TEXT.importError);
+                }
+
+                const record = Object.create(null);
+
+                headers.forEach((header, index) => {
+                    record[header] = values[index].trim();
+                });
+
+                return record;
+            });
+
+            return normalizeList(imported);
+        }
+
+        window.exportData = function() {
+            renderCards();
+
+            const headers = [
+                'id',
+                'name',
+                'amount',
+                'period',
+                'periodCount',
+                'nextPayment',
+                'renewalAnchor'
+            ];
+
+            const rows = subscriptions.map(sub =>
+                headers.map(key => sub[key])
+            );
+
+            const csvContent = [headers, ...rows]
+                .map(row =>
+                    row.map(value =>
+                        '"' +
+                        String(value ?? '').replace(/"/g, '""') +
+                        '"'
+                    ).join(',')
+                )
+                .join('\r\n');
+
+            const blob = new Blob(
+                ['\uFEFF', csvContent],
+                { type: 'text/csv;charset=utf-8;' }
+            );
+
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+
+            link.href = url;
+            link.download = 'subscriptions_' + todayDate() + '.csv';
+
+            document.body.append(link);
+            link.click();
+            link.remove();
+
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+            window.closeMenuModal();
+        };
+
+        window.triggerImport = function() {
+            importInput.value = '';
+            importInput.click();
+            window.closeMenuModal();
+        };
+
+        importInput.addEventListener('change', async event => {
+            const file = event.target.files[0];
+
+            if (!file) {
+                return;
+            }
+
+            try {
+                const buffer = await file.arrayBuffer();
+                let text;
+
+                try {
+                    text = new TextDecoder(
+                        'utf-8',
+                        { fatal: true }
+                    ).decode(buffer);
+                } catch {
+                    // Legacy Russian Excel CSV encoding.
+                    text = new TextDecoder(
+                        'windows-1251',
+                        { fatal: true }
+                    ).decode(buffer);
+                }
+
+                const imported = parseCSV(text);
+
+                if (imported.length === 0) {
+                    alert(TEXT.emptyFile);
+                    return;
+                }
+
+                const question =
+                    TEXT.replaceQuestion +
+                    ' (' + subscriptions.length + ') ' +
+                    TEXT.fromFile +
+                    ' (' + imported.length + ')?';
+
+                if (confirm(question) && saveToStorage(imported)) {
+                    subscriptions = imported;
+                    renderCards();
+                }
+            } catch (error) {
+                console.error(error);
+                alert(TEXT.importError + ' ' + error.message);
+            } finally {
+                importInput.value = '';
+            }
+        });
+
+        window.openMenuModal = function() {
+            document.getElementById('menuModal')
+                .classList.add('active');
+        };
+
+        window.closeMenuModal = function() {
+            document.getElementById('menuModal')
+                .classList.remove('active');
+        };
+
+        window.openModal = function(id = null) {
+            const sub = id === null
+                ? null
+                : subscriptions.find(item => item.id === id);
+
+            if (id !== null && !sub) {
+                return;
+            }
+
+            editingId = id;
+
+            if (sub) {
+                document.getElementById('name').value = sub.name;
+                document.getElementById('amount').value = sub.amount;
+                document.getElementById('period').value = sub.period;
+
+                document.getElementById('period-count').value =
+                    sub.periodCount;
+
+                document.getElementById('next-payment').value =
+                    sub.nextPayment;
+
+                document.getElementById('modal-title').textContent =
+                    TEXT.editSubscription;
+            } else {
+                form.reset();
+
+                document.getElementById('period-count').value = 1;
+
+                const tomorrow = parseDate(todayDate());
+                tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
+
+                document.getElementById('next-payment').value =
+                    formatDate(tomorrow);
+
+                document.getElementById('modal-title').textContent =
+                    TEXT.newSubscription;
+            }
+
+            document.getElementById('modal').classList.add('active');
+        };
+
+        window.closeModal = function() {
+            document.getElementById('modal')
+                .classList.remove('active');
+            editingId = null;
+        };
+
+        window.editSubscription = function(id) {
+            window.openModal(id);
+        };
+
+        form.addEventListener('submit', event => {
+            event.preventDefault();
+
+            try {
+                const name = document.getElementById('name')
+                    .value.trim();
+                const amount = document.getElementById('amount').value;
+                const period = document.getElementById('period').value;
+                const periodCount = validCount(
+                    document.getElementById('period-count').value
+                );
+                const nextPayment = document.getElementById(
+                    'next-payment'
+                ).value;
+
+                const previous = subscriptions.find(
+                    sub => sub.id === editingId
+                );
+
+                // Changing the date or recurrence resets the anchor.
+                // Changing only the name/price preserves it.
+                const keepAnchor =
+                    previous &&
+                    previous.nextPayment === nextPayment &&
+                    previous.period === period &&
+                    previous.periodCount === periodCount;
+
+                const data = normalizeSubscription({
+                    id: editingId ?? makeId(),
+                    name,
+                    amount,
+                    period,
+                    periodCount,
+                    nextPayment,
+                    renewalAnchor: keepAnchor
+                        ? previous.renewalAnchor
+                        : nextPayment
+                });
+
+                const updated = [...subscriptions];
+
+                if (editingId !== null) {
+                    const index = updated.findIndex(
+                        sub => sub.id === editingId
+                    );
+
+                    if (index < 0) {
+                        return;
+                    }
+
+                    updated[index] = data;
+                } else {
+                    updated.push(data);
+                }
+
+                if (!saveToStorage(updated)) {
+                    return;
+                }
+
+                subscriptions = updated;
+                window.closeModal();
+                renderCards();
+            } catch (error) {
+                alert(error.message);
+            }
+        });
+
+        window.deleteSubscription = function(id) {
+            if (!confirm(TEXT.removeQuestion)) {
+                return;
+            }
+
+            const updated = subscriptions.filter(
+                sub => sub.id !== id
+            );
+
+            if (saveToStorage(updated)) {
+                subscriptions = updated;
+                renderCards();
+            }
+        };
+
+        renderCards();
+
+        // Check the date while open and immediately after resuming.
+        setInterval(renderCards, 60000);
+
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                renderCards();
+            }
+        });
+
+        window.addEventListener('pageshow', renderCards);
+    })();
+    </script>
+</body>
+</html>
